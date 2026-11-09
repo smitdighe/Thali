@@ -25,6 +25,8 @@ class Settings(BaseSettings):
     llm_timeout_ms: int = 3000
     llm_rpm: int = 6
     llm_cache_size: int = 256
+    session_max_entries: int = 1000
+    session_ttl_s: float = 900.0
     mock_slow_ms: int = 800
     mock_timeout_sleep_ms: int = 5000
     enable_fault_api: bool = True

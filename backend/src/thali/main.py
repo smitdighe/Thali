@@ -19,6 +19,7 @@ lazy from thali.providers.bitebox import BiteboxAdapter
 lazy from thali.providers.breaker import CircuitBreaker
 lazy from thali.providers.khaana import KhaanaAdapter
 lazy from thali.providers.tiffinly import TiffinlyAdapter
+lazy from thali.sessions import SessionStore
 
 logger = logging.getLogger(__name__)
 
@@ -75,6 +76,9 @@ def create_app(
                 for adapter in adapters
             },
             llm=LlmParser(llm_client, settings) if llm_client is not None else None,
+            sessions=SessionStore(
+                max_entries=settings.session_max_entries, ttl_s=settings.session_ttl_s
+            ),
         )
         try:
             yield

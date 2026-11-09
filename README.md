@@ -230,6 +230,7 @@ Output for the main query (asserted in `test_explain.py`):
 |---|---|---|---|
 | POST | `/api/v1/recommend` | `{"query": "..."}` (1-500 characters after trimming) | 200 `RecommendResponse`, 422 invalid input |
 | POST | `/api/v1/recommend/stream` | same body as `/recommend` | `text/event-stream` with events `parsed`, `provider` (one per source, as each finishes), `done`, or `error` |
+| POST | `/api/v1/refine` | `{"request_id": "...", "action": "cheaper" \| "faster" \| "better_rated"}` or `{"drop": "<field>"}` or `{"text": "..."}` (exactly one) | `RecommendResponse` for the adjusted request; 404 unknown or expired id, 409 no pick to refine, 422 bad input |
 | GET | `/api/v1/health` | none | `llm_enabled`, `llm_model`, breaker state per provider |
 | GET | `/mock/_faults` | none | current fault mode per provider |
 | PUT | `/mock/_faults` | partial map, for example `{"tiffinly": "timeout"}` | updated fault state |
@@ -338,6 +339,7 @@ Tests that involve time use short mock delays (a 600 ms fetch deadline against a
 
 - **Live pipeline:** `POST /api/v1/recommend/stream` sends the parsed request, each source's report as it finishes (with per-attempt timings) and the final answer as server-sent events, so the UI can show how the answer was made while it is being made.
 - **Why not, and what would change the pick:** every option other than the pick gets a `why_not` sentence built from the same score breakdown, and `what_if` re-runs the ranking with one stated value changed (budget, time limit, minimum rating, or a dropped preference) to show how far the pick holds.
+- **Refinement:** `POST /api/v1/refine` adjusts the last request (cheaper, faster, better rated, drop one requirement, or a follow-up such as "make it vegan") and reports which values were kept and which changed. Requests are kept in memory for 15 minutes.
 - **Fuller menu:** about 40 more mock items across every dish, cuisine and area the parser knows, so queries beyond biryani return real comparisons.
 
 ## Limitations and next steps

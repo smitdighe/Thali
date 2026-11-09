@@ -28,6 +28,7 @@ lazy from thali.pipeline.rank import rank
 lazy from thali.pipeline.whatif import what_ifs
 lazy from thali.providers.base import ProviderAdapter, fetch_all
 lazy from thali.providers.breaker import CircuitBreaker
+lazy from thali.sessions import SessionStore
 lazy from thali.text import AREAS
 
 CLARIFY_PROMPT = "What would you like to eat? For example: “veg biryani under ₹300 in 30 minutes”."
@@ -40,6 +41,7 @@ class EngineDeps:
     adapters: list[ProviderAdapter]
     breakers: dict[str, CircuitBreaker]
     llm: LlmParser | None
+    sessions: SessionStore
 
 
 def elapsed_ms(started: float) -> float:
@@ -213,6 +215,7 @@ async def run_pipeline(
         trace = Trace(parse_ms=rounded_ms(parse_ms), total_ms=rounded_ms(elapsed_ms(started)))
         final = clarification_response(query, parsed, fallback, deps, request_id, trace)
         yield "parsed", StreamParsed(parsed=parsed, clarification=final.clarification)
+        deps.sessions.put(request_id, parsed, None)
         yield "done", final
         return
 
@@ -239,6 +242,7 @@ async def run_pipeline(
     what_if = what_ifs(groups, parsed, pick)
     what_if_ms = elapsed_ms(what_if_started)
     log_event("rank.done", ranked=len(outcome.ranked), excluded=len(outcome.excluded))
+    deps.sessions.put(request_id, parsed, pick)
 
     yield (
         "done",
