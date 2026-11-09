@@ -1,0 +1,81 @@
+DISHES = {
+    "biryani": ("biryani", "biriyani", "briyani", "biriani"),
+    "pizza": ("pizza",),
+    "burger": ("burger",),
+    "dosa": ("masala dosa", "dosa", "dosai"),
+    "idli": ("idli",),
+    "thali": ("thali",),
+    "paneer tikka": ("paneer tikka",),
+    "butter chicken": ("butter chicken",),
+    "momos": ("momos", "momo"),
+    "noodles": ("hakka noodles", "noodles", "chowmein", "chow mein"),
+    "fried rice": ("fried rice",),
+    "pav bhaji": ("pav bhaji",),
+    "vada pav": ("vada pav",),
+    "sandwich": ("sandwich",),
+    "rolls": ("kathi roll", "rolls", "roll", "frankie"),
+    "pasta": ("pasta",),
+    "salad": ("salad",),
+    "khichdi": ("khichdi",),
+    "pulao": ("pulao",),
+    "kebab": ("kebab", "kabab"),
+}
+CUISINES = {
+    "north indian": ("north indian",),
+    "south indian": ("south indian",),
+    "hyderabadi": ("hyderabadi",),
+    "mughlai": ("mughlai",),
+    "awadhi": ("awadhi",),
+    "chinese": ("indo-chinese", "indo chinese", "chinese"),
+    "italian": ("italian",),
+    "gujarati": ("gujarati",),
+    "punjabi": ("punjabi",),
+    "continental": ("continental",),
+    "street food": ("street food",),
+    "mexican": ("mexican",),
+    "thai": ("thai",),
+}
+INGREDIENTS = ("paneer", "chicken", "mutton", "egg", "fish", "prawn", "mushroom")
+DIETS = {
+    "non_veg": ("non-veg", "non veg", "nonveg", "non-vegetarian", "non vegetarian"),
+    "vegan": ("vegan",),
+    "egg": ("eggetarian",),
+    "veg": ("pure veg", "vegetarian", "veggie", "veg"),
+}
+JAIN = "jain"
+PRICE_LOW = (
+    "cheap",
+    "cheapest",
+    "affordable",
+    "budget-friendly",
+    "budget friendly",
+    "inexpensive",
+    "pocket-friendly",
+    "pocket friendly",
+    "economical",
+)
+SPEED_FAST = ("fast", "fastest", "quick", "quickly", "asap", "urgent", "hurry")
+RATING_HIGH = (
+    "highly rated",
+    "highly-rated",
+    "high rated",
+    "top rated",
+    "top-rated",
+    "best rated",
+    "well rated",
+    "good rating",
+    "good ratings",
+)
+OTHER_PREFERENCES = (
+    "not spicy",
+    "less spicy",
+    "extra spicy",
+    "mild",
+    "spicy",
+    "no onion",
+    "no garlic",
+    "jain",
+    "healthy",
+    "combo",
+    "family pack",
+)
