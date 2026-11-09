@@ -229,6 +229,7 @@ Output for the main query (asserted in `test_explain.py`):
 | Method | Path | Body | Returns |
 |---|---|---|---|
 | POST | `/api/v1/recommend` | `{"query": "..."}` (1-500 characters after trimming) | 200 `RecommendResponse`, 422 invalid input |
+| POST | `/api/v1/recommend/stream` | same body as `/recommend` | `text/event-stream` with events `parsed`, `provider` (one per source, as each finishes), `done`, or `error` |
 | GET | `/api/v1/health` | none | `llm_enabled`, `llm_model`, breaker state per provider |
 | GET | `/mock/_faults` | none | current fault mode per provider |
 | PUT | `/mock/_faults` | partial map, for example `{"tiffinly": "timeout"}` | updated fault state |
@@ -332,6 +333,11 @@ Tests that involve time use short mock delays (a 600 ms fetch deadline against a
   - Failures are never cached.
   - Sizing, based on Groq's published free-plan limits for gpt-oss models at the time I planned this (roughly 30 requests per minute, 1,000 requests per day, 8,000 tokens per minute and 200,000 tokens per day; check the Groq console under Settings, Limits for current numbers): one parse costs about 900-1,000 tokens, so tokens per minute is the binding limit at roughly 8 requests per minute. That is why the default is 6 per minute, which keeps about 200 parses a day within the daily token limit. Beyond that the rules parser takes over.
 - **Python 3.15 lazy imports (PEP 810).** Module-level imports are written as `lazy import x` or `lazy from x import y` unless the name is needed while the module itself is being imported. Those stay eager: base classes (`BaseModel`, `BaseSettings`), `Literal` and `Annotated` used in model fields, objects built at module level (`APIRouter()`, compiled regular expressions, `ContextVar`, loggers), and decorators applied at import (`lru_cache`). Ruff's `TID255` rule is enabled to flag lazy imports that resolve immediately. To measure import time: `uv run python -X importtime -c "import thali.main" 2> importtime.txt` (the output file is not committed).
+
+## Beyond the brief
+
+- **Live pipeline:** `POST /api/v1/recommend/stream` sends the parsed request, each source's report as it finishes (with per-attempt timings) and the final answer as server-sent events, so the UI can show how the answer was made while it is being made.
+- **Fuller menu:** about 40 more mock items across every dish, cuisine and area the parser knows, so queries beyond biryani return real comparisons.
 
 ## Limitations and next steps
 

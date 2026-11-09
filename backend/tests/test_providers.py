@@ -5,7 +5,7 @@ import httpx
 import pytest
 
 from thali.config import Settings
-from thali.models import ProviderSearch
+from thali.models import ProviderResult, ProviderSearch
 from thali.providers.base import call_provider, fetch_all
 from thali.providers.bitebox import BiteboxAdapter
 from thali.providers.breaker import CircuitBreaker
@@ -101,6 +101,7 @@ async def run(handler, settings, breaker=None, adapter=None, deadline=None):
             breaker or new_breaker(),
             settings,
             deadline or deadline_in(),
+            time.monotonic(),
         )
 
 
@@ -243,6 +244,16 @@ async def test_no_retry_when_deadline_cannot_cover_backoff(settings):
     assert len(script.requests) == 1
 
 
+async def collect(adapters, client, breakers, settings):
+    results = [result async for result in fetch_all(adapters, client, SEARCH, breakers, settings)]
+    order = [adapter.name for adapter in adapters]
+
+    def position(result: ProviderResult) -> int:
+        return order.index(result.report.name)
+
+    return sorted(results, key=position)
+
+
 async def test_fetch_all_runs_providers_concurrently(settings):
     async def handler(request: httpx.Request) -> httpx.Response:
         path = request.url.path
@@ -257,7 +268,7 @@ async def test_fetch_all_runs_providers_concurrently(settings):
     breakers = {adapter.name: new_breaker() for adapter in adapters}
     started = time.monotonic()
     async with client_for(handler) as client:
-        results = await fetch_all(adapters, client, SEARCH, breakers, settings)
+        results = await collect(adapters, client, breakers, settings)
     assert time.monotonic() - started < 1.0
     assert [r.report.name for r in results] == ["bitebox", "tiffinly", "khaana"]
     assert [r.report.status for r in results] == ["ok", "timeout", "ok"]
@@ -270,7 +281,7 @@ async def test_fetch_all_tiffinly_ok(settings):
     script = Script(httpx.Response(200, json=TIFFINLY_OK))
     adapters = [TiffinlyAdapter()]
     async with client_for(script) as client:
-        results = await fetch_all(adapters, client, SEARCH, {"tiffinly": new_breaker()}, settings)
+        results = await collect(adapters, client, {"tiffinly": new_breaker()}, settings)
     assert results[0].report.status == "ok"
     assert results[0].listings[0].area == "Bandra West"
     assert script.requests[0].method == "POST"

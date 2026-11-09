@@ -1,4 +1,5 @@
 import logging
+from collections.abc import AsyncIterator
 from typing import Protocol
 lazy import asyncio
 lazy import random
@@ -9,7 +10,14 @@ lazy import httpx
 
 from thali.models import DroppedRecord, Listing
 lazy from thali.config import Settings
-lazy from thali.models import ProviderReport, ProviderResult, ProviderSearch, ProviderStatus
+lazy from thali.models import (
+    Attempt,
+    AttemptOutcome,
+    ProviderReport,
+    ProviderResult,
+    ProviderSearch,
+    ProviderStatus,
+)
 lazy from thali.pipeline.normalize import effective_price, missing_fields
 lazy from thali.providers.breaker import CircuitBreaker
 
@@ -57,11 +65,13 @@ class _Failure(Exception):
         self,
         status: ProviderStatus,
         message: str,
+        outcome: AttemptOutcome,
         http_status: int | None = None,
         retryable: bool = False,
     ) -> None:
         super().__init__(message)
         self.status = status
+        self.outcome = outcome
         self.message = message
         self.http_status = http_status
         self.retryable = retryable
@@ -70,16 +80,18 @@ class _Failure(Exception):
 def _classify(adapter: ProviderAdapter, response: httpx.Response) -> NormalizedBatch:
     code = response.status_code
     if code >= 500:
-        raise _Failure("error", f"HTTP {code}", code, retryable=True)
+        raise _Failure("error", f"HTTP {code}", "http_error", code, retryable=True)
     if not 200 <= code < 300:
-        raise _Failure("error", f"HTTP {code}", code)
+        raise _Failure("error", f"HTTP {code}", "http_error", code)
     try:
         return adapter.normalize(response)
     except MalformedPayload as exc:
-        raise _Failure("malformed", str(exc), code) from exc
+        raise _Failure("malformed", str(exc), "malformed", code) from exc
     except Exception as exc:
         logger.exception("%s normalize crashed", adapter.name)
-        raise _Failure("malformed", f"unreadable payload: {type(exc).__name__}", code) from exc
+        raise _Failure(
+            "malformed", f"unreadable payload: {type(exc).__name__}", "malformed", code
+        ) from exc
 
 
 async def _attempt(
@@ -92,17 +104,47 @@ async def _attempt(
         async with asyncio.timeout(timeout_s):
             response = await adapter.fetch(client, search)
     except TimeoutError as exc:
-        raise _Failure("timeout", f"no response within {timeout_s * 1000:.0f} ms") from exc
+        raise _Failure(
+            "timeout", f"no response within {timeout_s * 1000:.0f} ms", "timeout"
+        ) from exc
     except httpx.TransportError as exc:
-        raise _Failure("error", f"connection failed: {type(exc).__name__}", retryable=True) from exc
+        raise _Failure(
+            "error",
+            f"connection failed: {type(exc).__name__}",
+            "connection_error",
+            retryable=True,
+        ) from exc
     except Exception as exc:
         logger.exception("%s fetch crashed", adapter.name)
-        raise _Failure("error", f"request failed: {type(exc).__name__}") from exc
+        raise _Failure(
+            "error", f"request failed: {type(exc).__name__}", "connection_error"
+        ) from exc
     return _classify(adapter, response), response.status_code
 
 
 def _elapsed_ms(started: float) -> int:
     return round((time.monotonic() - started) * 1000)
+
+
+def _since_ms(origin: float, moment: float) -> float:
+    return round((moment - origin) * 1000, 1)
+
+
+def _log_attempt(
+    report: ProviderReport,
+    origin: float,
+    started: float,
+    outcome: AttemptOutcome,
+    http_status: int | None,
+) -> None:
+    report.attempt_log.append(
+        Attempt(
+            start_ms=_since_ms(origin, started),
+            duration_ms=round((time.monotonic() - started) * 1000, 1),
+            outcome=outcome,
+            http_status=http_status,
+        )
+    )
 
 
 async def call_provider(
@@ -112,10 +154,19 @@ async def call_provider(
     breaker: CircuitBreaker,
     settings: Settings,
     deadline: float,
+    origin: float,
 ) -> ProviderResult:
     started = time.monotonic()
     report = ProviderReport(name=adapter.name, label=adapter.label, status="ok")
     if not breaker.allow():
+        report.attempt_log.append(
+            Attempt(
+                start_ms=_since_ms(origin, started),
+                duration_ms=0.0,
+                outcome="skipped",
+                http_status=None,
+            )
+        )
         report.status = "circuit_open"
         report.message = (
             f"skipped after {breaker.failures} consecutive failures; "
@@ -129,17 +180,20 @@ async def call_provider(
     for attempt in range(1, MAX_ATTEMPTS + 1):
         remaining = deadline - time.monotonic()
         if remaining <= 0:
-            failure = _Failure("timeout", "fetch deadline reached")
+            failure = _Failure("timeout", "fetch deadline reached", "timeout")
             break
         report.attempts = attempt
+        attempt_started = time.monotonic()
         try:
             batch, http_status = await _attempt(
                 adapter, client, search, min(settings.provider_timeout_ms / 1000, remaining)
             )
+            _log_attempt(report, origin, attempt_started, "ok", http_status)
             failure = None
             break
         except _Failure as exc:
             failure = exc
+            _log_attempt(report, origin, attempt_started, exc.outcome, exc.http_status)
         if not failure.retryable or attempt == MAX_ATTEMPTS:
             break
         pause = random.uniform(settings.retry_backoff_min_ms, settings.retry_backoff_max_ms) / 1000
@@ -173,13 +227,21 @@ async def fetch_all(
     search: ProviderSearch,
     breakers: dict[str, CircuitBreaker],
     settings: Settings,
-) -> list[ProviderResult]:
-    deadline = time.monotonic() + settings.fetch_deadline_ms / 1000
-    return list(
-        await asyncio.gather(
-            *(
-                call_provider(adapter, client, search, breakers[adapter.name], settings, deadline)
-                for adapter in adapters
+) -> AsyncIterator[ProviderResult]:
+    origin = time.monotonic()
+    deadline = origin + settings.fetch_deadline_ms / 1000
+    tasks = [
+        asyncio.create_task(
+            call_provider(
+                adapter, client, search, breakers[adapter.name], settings, deadline, origin
             )
         )
-    )
+        for adapter in adapters
+    ]
+    try:
+        for finished in asyncio.as_completed(tasks):
+            yield await finished
+    finally:
+        for task in tasks:
+            if not task.done():
+                task.cancel()

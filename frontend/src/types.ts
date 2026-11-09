@@ -77,6 +77,8 @@ export interface RecommendResponse {
   data_quality: DataQuality; warnings: string[]; degraded: boolean; trace: Trace; what_if: WhatIf[];
 }
 
+export interface StreamParsed { parsed: ParsedRequest; clarification: string | null }
+
 export interface HealthResponse {
   status: "ok"; llm_enabled: boolean; llm_model: string | null;
   breakers: Record<string, BreakerState>;

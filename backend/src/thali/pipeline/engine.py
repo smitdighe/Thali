@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 lazy import time
+lazy from collections.abc import AsyncIterator
 
 lazy import httpx
+lazy from pydantic import BaseModel
 
 lazy from thali.config import Settings
 lazy from thali.models import (
@@ -15,6 +17,7 @@ lazy from thali.models import (
     ProviderSearch,
     RankOutcome,
     RecommendResponse,
+    StreamParsed,
     Trace,
 )
 lazy from thali.observability import log_event
@@ -54,9 +57,15 @@ def clarification_text(parsed: ParsedRequest) -> str:
     return " ".join([*map(sentence, parsed.notes), CLARIFY_PROMPT])
 
 
-def search_for(parsed: ParsedRequest) -> ProviderSearch:
+@dataclass
+class PipelineContext:
+    parsed: ParsedRequest | None = None
+    session: str | None = None
+
+
+def search_for(parsed: ParsedRequest, session: str | None = None) -> ProviderSearch:
     area = parsed.location if parsed.location in AREAS else None
-    return ProviderSearch(query=parsed.dish or parsed.cuisine or "", area=area)
+    return ProviderSearch(query=parsed.dish or parsed.cuisine or "", area=area, session=session)
 
 
 def provider_warning(report: ProviderReport, deps: EngineDeps) -> str | None:
@@ -163,24 +172,59 @@ def clarification_response(
     )
 
 
-async def recommend(query: str, deps: EngineDeps, request_id: str) -> RecommendResponse:
+async def parse_for(
+    query: str, deps: EngineDeps, context: PipelineContext | None
+) -> tuple[ParsedRequest, str | None]:
+    if context is not None and context.parsed is not None:
+        return context.parsed, None
+    return await parse_request(query, deps.llm)
+
+
+async def collect_results(
+    deps: EngineDeps, search: ProviderSearch, results: list[ProviderResult]
+) -> AsyncIterator[ProviderReport]:
+    async for result in fetch_all(
+        deps.adapters, deps.provider_client, search, deps.breakers, deps.settings
+    ):
+        results.append(result)
+        log_provider(result.report)
+        yield result.report
+
+
+def in_adapter_order(results: list[ProviderResult], deps: EngineDeps) -> list[ProviderResult]:
+    order = [adapter.name for adapter in deps.adapters]
+
+    def position(result: ProviderResult) -> int:
+        return order.index(result.report.name)
+
+    return sorted(results, key=position)
+
+
+async def run_pipeline(
+    query: str, deps: EngineDeps, request_id: str, context: PipelineContext | None = None
+) -> AsyncIterator[tuple[str, BaseModel]]:
     started = time.perf_counter()
-    parsed, fallback = await parse_request(query, deps.llm)
+    parsed, fallback = await parse_for(query, deps, context)
     parse_ms = elapsed_ms(started)
     log_event("parse.done", parser=parsed.parser, fallback=fallback, ms=rounded_ms(parse_ms))
 
     if parsed.intent == "clarification":
         trace = Trace(parse_ms=rounded_ms(parse_ms), total_ms=rounded_ms(elapsed_ms(started)))
-        return clarification_response(query, parsed, fallback, deps, request_id, trace)
+        final = clarification_response(query, parsed, fallback, deps, request_id, trace)
+        yield "parsed", StreamParsed(parsed=parsed, clarification=final.clarification)
+        yield "done", final
+        return
+
+    yield "parsed", StreamParsed(parsed=parsed)
 
     fetch_started = time.perf_counter()
-    results: list[ProviderResult] = await fetch_all(
-        deps.adapters, deps.provider_client, search_for(parsed), deps.breakers, deps.settings
-    )
+    session = context.session if context is not None else None
+    collected: list[ProviderResult] = []
+    async for report in collect_results(deps, search_for(parsed, session), collected):
+        yield "provider", report
     fetch_ms = elapsed_ms(fetch_started)
+    results = in_adapter_order(collected, deps)
     reports = [result.report for result in results]
-    for report in reports:
-        log_provider(report)
 
     rank_started = time.perf_counter()
     listings = [listing for result in results for listing in result.listings]
@@ -191,24 +235,39 @@ async def recommend(query: str, deps: EngineDeps, request_id: str) -> RecommendR
     rank_ms = elapsed_ms(rank_started)
     log_event("rank.done", ranked=len(outcome.ranked), excluded=len(outcome.excluded))
 
-    return RecommendResponse(
-        request_id=request_id,
-        query=query,
-        parsed=parsed,
-        recommendation=recommendation,
-        ranked=outcome.ranked,
-        excluded=outcome.excluded,
-        closest=outcome.closest,
-        providers=reports,
-        dropped=dropped,
-        data_quality=data_quality_for(reports, dropped, listings, stats),
-        warnings=build_warnings(parsed, reports, listings, outcome, fallback, deps),
-        degraded=any(report.status != "ok" for report in reports)
-        or (deps.llm is not None and fallback is not None),
-        trace=Trace(
-            parse_ms=rounded_ms(parse_ms),
-            fetch_ms=rounded_ms(fetch_ms),
-            rank_ms=rounded_ms(rank_ms),
-            total_ms=rounded_ms(elapsed_ms(started)),
+    yield (
+        "done",
+        RecommendResponse(
+            request_id=request_id,
+            query=query,
+            parsed=parsed,
+            recommendation=recommendation,
+            ranked=outcome.ranked,
+            excluded=outcome.excluded,
+            closest=outcome.closest,
+            providers=reports,
+            dropped=dropped,
+            data_quality=data_quality_for(reports, dropped, listings, stats),
+            warnings=build_warnings(parsed, reports, listings, outcome, fallback, deps),
+            degraded=any(report.status != "ok" for report in reports)
+            or (deps.llm is not None and fallback is not None),
+            trace=Trace(
+                parse_ms=rounded_ms(parse_ms),
+                fetch_ms=rounded_ms(fetch_ms),
+                rank_ms=rounded_ms(rank_ms),
+                total_ms=rounded_ms(elapsed_ms(started)),
+            ),
         ),
     )
+
+
+async def recommend(
+    query: str, deps: EngineDeps, request_id: str, context: PipelineContext | None = None
+) -> RecommendResponse:
+    final: RecommendResponse | None = None
+    async for _name, payload in run_pipeline(query, deps, request_id, context):
+        if isinstance(payload, RecommendResponse):
+            final = payload
+    if final is None:
+        raise RuntimeError("pipeline finished without a response")
+    return final

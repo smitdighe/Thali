@@ -207,6 +207,11 @@ class RefineRequest(BaseModel):
         return self
 
 
+class StreamParsed(BaseModel):
+    parsed: ParsedRequest
+    clarification: str | None = None
+
+
 class HealthResponse(BaseModel):
     status: Literal["ok"] = "ok"
     llm_enabled: bool
