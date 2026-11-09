@@ -1,0 +1,9 @@
+listing_ref,eatery,neighbourhood,item,veg_flag,price,avg_rating,num_ratings,cuisines
+A-1,Biryani Junction,Powai,Veg Biryani,Y,₹ 175,3.5,380,Biryani|Mughlai
+A-2,Annapurna Bhojanalay,Dadar,Gujarati Thali,Y,₹ 280,4.5,1200,Gujarati|Thali
+A-3,Udupi Corner,Dadar,Masala Dosa,Y,120,4.3,2100,South Indian
+A-4,Udupi Corner,Dadar,Mysore Masala Dosa,,140,4.3,2100,South Indian
+A-5,Bombay Tiffin Co,Bandra West,"Veg Biryani, Large",Y,N/A,4.0,90,Biryani
+A-6,Chaat Corner,Dadar,Pani Puri,Y,60,4.1,300,Street Food,extra,column
+A-7,Biryani Darbar,Andheri West,Hyderabadi Veg Biriyani,Y,230,4.4,640,Hyderabadi|Biryani
+A-8,Salad Studio,Bandra West,Vegan Quinoa Salad,VG,299,4.2,180,Healthy|Salads

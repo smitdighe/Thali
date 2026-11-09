@@ -1,0 +1,27 @@
+{
+  "meta": {"schema": "tiffinly.v3", "generated_at": "2026-11-09T10:00:00Z"},
+  "data": {"outlets": [
+    {"outletId": "T-88", "outletName": "Dum Pukht House", "locality": "Andheri (W)", "score": "9.2/10", "votes": "1.8k", "deliveryTime": "20-30 mins", "menu": [
+      {"sku": "T-88-4", "title": "Veg Dum Biryani (Serves 1)", "pricePaise": 27900, "tags": ["VEG", "BESTSELLER"], "promo": {"kind": "FLAT", "valuePaise": 5000, "minOrderPaise": 24900}},
+      {"sku": "T-88-7", "title": "Chicken Dum Biryani (Serves 1)", "pricePaise": 33900, "tags": ["NON_VEG"], "promo": null}]},
+    {"outletId": "T-12", "outletName": "Lucknowi Degh", "locality": "Bandra (W)", "score": "9.4/10", "votes": "620", "deliveryTime": "25-35 mins", "menu": [
+      {"sku": "T-12-1", "title": "Subz Dum Biryani", "pricePaise": 32000, "tags": ["VEG"], "promo": {"kind": "PERCENT", "percent": 15, "maxDiscountPaise": 6000}}]},
+    {"outletId": "T-40", "outletName": "Tandoor Tales", "locality": "Powai", "score": "8.2/10", "votes": "2.3k", "deliveryTime": "15-25 mins", "menu": [
+      {"sku": "T-40-2", "title": "Veg Biryani Bowl", "pricePaise": 21000, "tags": ["VEG"], "promo": null},
+      {"sku": "T-40-5", "title": "Paneer Tikka", "pricePaise": 26000, "tags": ["VEG"], "promo": null}]},
+    {"outletId": "T-55", "outletName": "Mirchi Mahal", "locality": "Dadar", "score": null, "votes": null, "deliveryTime": null, "menu": [
+      {"sku": "T-55-1", "title": "Veg Hyderabadi Biryani", "pricePaise": 25000, "tags": ["VEG"], "promo": null},
+      {"sku": "T-55-2", "title": "Veg Pulao", "pricePaise": "abc", "tags": ["VEG"], "promo": null},
+      {"sku": "T-55-3", "title": "", "pricePaise": 15000, "tags": [], "promo": null}]},
+    {"outletId": "T-70", "outletName": "Thali Ghar", "locality": "Dadar", "score": "8.8/10", "votes": "980", "deliveryTime": "30-40 mins", "menu": [
+      {"sku": "T-70-1", "title": "Jain Thali", "pricePaise": 26000, "tags": ["VEG", "JAIN"], "promo": null},
+      {"sku": "T-70-2", "title": "Gujarati Thali", "pricePaise": 30000, "tags": ["VEG"], "promo": {"kind": "BOGO"}}]},
+    {"outletId": "T-31", "outletName": "Momo Mia", "locality": "Powai", "score": "8.4/10", "votes": "1.1k", "deliveryTime": "15-20 mins", "menu": [
+      {"sku": "T-31-1", "title": "Veg Steamed Momos", "pricePaise": 13900, "tags": ["VEG"], "promo": null}]},
+    {"outletId": "T-64", "outletName": "Wok Express", "locality": "Lower Parel", "score": "8.0/10", "votes": "540", "deliveryTime": "25-30 mins", "menu": [
+      {"sku": "T-64-1", "title": "Veg Hakka Noodles", "pricePaise": 17000, "tags": ["VEG"], "promo": null},
+      {"sku": "T-64-2", "title": "Chicken Fried Rice", "pricePaise": 21000, "tags": ["NON_VEG"], "promo": null}]},
+    {"outletId": "T-19", "outletName": "Egg Station", "locality": "Andheri (W)", "score": "7.9/10", "votes": "310", "deliveryTime": "20-25 mins", "menu": [
+      {"sku": "T-19-1", "title": "Egg Curry Rice", "pricePaise": 16000, "tags": ["EGG"], "promo": null}]}
+  ]}
+}

@@ -1,0 +1,22 @@
+{
+  "api_version": "2.1",
+  "results": [
+    {"id": "bb_101", "restaurant": {"id": "rb_1", "name": "Dum Pukht House", "area": "Andheri West"}, "dish": "Veg Dum Biryani", "price": 289.0, "rating": 4.6, "ratings_count": 2140, "eta_minutes": 24, "is_veg": true, "cuisine": ["Hyderabadi", "Biryani"], "offer": "10% OFF up to ₹40"},
+    {"id": "bb_102", "restaurant": {"id": "rb_1", "name": "Dum Pukht House", "area": "Andheri West"}, "dish": "Chicken Dum Biryani", "price": 349.0, "rating": 4.6, "ratings_count": 2140, "eta_minutes": 26, "is_veg": false, "cuisine": ["Hyderabadi", "Biryani"], "offer": null},
+    {"id": "bb_103", "restaurant": {"id": "rb_2", "name": "Biryani Junction", "area": "Powai"}, "dish": "Veg Biryani", "price": 180.0, "rating": 3.4, "ratings_count": 410, "eta_minutes": 28, "is_veg": true, "cuisine": ["Biryani"], "offer": null},
+    {"id": "bb_104", "restaurant": {"id": "rb_2", "name": "Biryani Junction", "area": "Powai"}, "dish": "Veg Biryani", "price": 180.0, "rating": 3.4, "ratings_count": 410, "eta_minutes": 28, "is_veg": true, "cuisine": ["Biryani"], "offer": null},
+    {"id": "bb_105", "restaurant": {"id": "rb_3", "name": "Lucknowi Degh", "area": "Bandra West"}, "dish": "Subz Dum Biryani", "price": 285.0, "rating": 4.8, "ratings_count": 950, "eta_minutes": 22, "is_veg": true, "cuisine": ["Awadhi", "Biryani"], "offer": "20% OFF up to ₹50"},
+    {"id": "bb_106", "restaurant": {"id": "rb_4", "name": "Spice Route Kitchen", "area": "Andheri West"}, "dish": "Paneer Biryani", "price": 260.0, "rating": null, "ratings_count": null, "eta_minutes": 25, "is_veg": true, "cuisine": ["North Indian", "Biryani"], "offer": null},
+    {"id": "bb_107", "restaurant": {"id": "rb_5", "name": "Hyderabad House", "area": "Andheri West"}, "dish": "Veg Biryani", "price": 240.0, "rating": 4.1, "ratings_count": 300, "eta_minutes": null, "is_veg": true, "cuisine": ["Hyderabadi", "Biryani"], "offer": null},
+    {"id": "bb_108", "restaurant": {"id": "rb_6", "name": "Hyderabad House", "area": "Dadar"}, "dish": "Veg Biryani", "price": 240.0, "rating": 4.0, "ratings_count": 520, "eta_minutes": 31, "is_veg": true, "cuisine": ["Hyderabadi", "Biryani"], "offer": null},
+    {"id": "bb_109", "restaurant": {"id": "rb_7", "name": "Green Leaf Cafe", "area": "Lower Parel"}, "dish": "Veg Biryani", "price": null, "rating": 4.2, "ratings_count": 150, "eta_minutes": 20, "is_veg": true, "cuisine": ["Biryani"], "offer": null},
+    {"id": "bb_201", "restaurant": {"id": "rb_8", "name": "Momo Mia", "area": "Powai"}, "dish": "Veg Steamed Momos", "price": 149.0, "rating": 4.3, "ratings_count": 870, "eta_minutes": 18, "is_veg": true, "cuisine": ["Tibetan", "Momos"], "offer": "FLAT ₹30 OFF above ₹149"},
+    {"id": "bb_202", "restaurant": {"id": "rb_9", "name": "Dumpling Den", "area": "Powai"}, "dish": "Paneer Momos", "price": 189.0, "rating": 3.9, "ratings_count": 210, "eta_minutes": 25, "is_veg": true, "cuisine": ["Momos"], "offer": null},
+    {"id": "bb_203", "restaurant": {"id": "rb_10", "name": "Udupi Corner", "area": "Dadar"}, "dish": "Masala Dosa", "price": 130.0, "rating": 4.2, "ratings_count": 1500, "eta_minutes": 20, "is_veg": true, "cuisine": ["South Indian"], "offer": null},
+    {"id": "bb_204", "restaurant": {"id": "rb_11", "name": "Forno Bandra", "area": "Bandra West"}, "dish": "Margherita Pizza", "price": 349.0, "rating": 4.5, "ratings_count": 2600, "eta_minutes": 30, "is_veg": true, "cuisine": ["Italian", "Pizza"], "offer": "Free garlic bread"},
+    {"id": "bb_205", "restaurant": {"id": "rb_12", "name": "Grill Street", "area": "Andheri West"}, "dish": "Chicken Burger", "price": 199.0, "rating": 4.0, "ratings_count": 700, "eta_minutes": 22, "is_veg": false, "cuisine": ["American", "Burgers"], "offer": null},
+    {"id": "bb_206", "restaurant": {"id": "rb_7", "name": "Green Leaf Cafe", "area": "Lower Parel"}, "dish": "Buddha Bowl", "price": 329.0, "rating": 4.4, "ratings_count": 410, "eta_minutes": 28, "is_veg": true, "is_vegan": true, "cuisine": ["Healthy", "Salads"], "offer": null},
+    {"id": "bb_207", "restaurant": {"id": "rb_13", "name": "Wok Express", "area": "Lower Parel"}, "dish": "Hakka Noodles", "price": 179.0, "rating": 4.1, "ratings_count": 990, "eta_minutes": 26, "is_veg": true, "cuisine": ["Chinese"], "offer": null},
+    {"id": "bb_208", "restaurant": {"id": "rb_14", "name": "Juhu Bhaji Co", "area": "Andheri West"}, "dish": "Pav Bhaji", "price": 139.0, "rating": 4.2, "ratings_count": 1200, "eta_minutes": 24, "is_veg": true, "cuisine": ["Street Food"], "offer": null}
+  ]
+}
