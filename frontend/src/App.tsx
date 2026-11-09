@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ApiError, getHealth, recommend } from "./api";
-import type { HealthResponse, RecommendResponse } from "./types";
+import { ApiError, getHealth, recommendStream } from "./api";
+import type { HealthResponse, ProviderReport, RecommendResponse } from "./types";
 import Header from "./components/Header";
 import QueryForm from "./components/QueryForm";
+import PipelinePanel from "./components/PipelinePanel";
 import SourcesStrip from "./components/SourcesStrip";
 import UnderstoodPanel from "./components/UnderstoodPanel";
 import RecommendationCard from "./components/RecommendationCard";
@@ -12,6 +13,12 @@ import Footer from "./components/Footer";
 import DemoControls from "./components/DemoControls";
 
 type Phase = "idle" | "loading" | "done" | "error";
+
+interface LiveState {
+  startedAt: number;
+  parsedSeen: boolean;
+  providers: ProviderReport[];
+}
 
 interface FailureInfo {
   message: string;
@@ -34,6 +41,7 @@ export default function App() {
   const [error, setError] = useState<FailureInfo | null>(null);
   const [lastQuery, setLastQuery] = useState("");
   const [health, setHealth] = useState<HealthResponse | null>(null);
+  const [live, setLive] = useState<LiveState | null>(null);
   const controller = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -58,7 +66,16 @@ export default function App() {
     setLastQuery(query);
     setPhase("loading");
     setError(null);
-    recommend(query, next.signal)
+    setLive({ startedAt: performance.now(), parsedSeen: false, providers: [] });
+    const current = () => controller.current === next;
+    recommendStream(query, next.signal, {
+      onParsed: () => {
+        if (current()) setLive((state) => (state ? { ...state, parsedSeen: true } : state));
+      },
+      onProvider: (report) => {
+        if (current()) setLive((state) => (state ? { ...state, providers: [...state.providers, report] } : state));
+      },
+    })
       .then((result) => {
         if (controller.current !== next) return;
         setResponse(result);
@@ -80,6 +97,15 @@ export default function App() {
       <QueryForm loading={loading} onSubmit={submit} />
       <div className="results" aria-live="polite">
         {loading ? <p className="loading-line">Reading your request · asking 3 sources…</p> : null}
+        {live && (loading || (phase === "done" && response)) ? (
+          <PipelinePanel
+            loading={loading}
+            startedAt={live.startedAt}
+            parsedSeen={live.parsedSeen}
+            liveProviders={live.providers}
+            response={loading ? null : response}
+          />
+        ) : null}
         {phase === "error" && error ? (
           <div className="error-box" role="alert">
             <p>{error.message}</p>

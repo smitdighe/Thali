@@ -626,3 +626,155 @@ details > summary {
   border-style: dashed;
   border-color: #a8a29e;
 }
+
+.pipe-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pipe-row,
+.pipe-axis {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.pipe-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pipe-row > .pipe-label:only-child {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pipe-meta {
+  font-size: 13px;
+}
+
+.pipe-track {
+  position: relative;
+  height: 22px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pipe-axis-track {
+  height: 16px;
+  background: transparent;
+  border: 0;
+  overflow: visible;
+}
+
+.tick-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.tick-label {
+  position: absolute;
+  top: 0;
+  font-size: 11px;
+  color: var(--muted);
+  transform: translateX(-50%);
+}
+
+.tick-label:first-child {
+  transform: none;
+}
+
+.tick-label:last-child {
+  transform: translateX(-100%);
+}
+
+.seg {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  min-width: 3px;
+  border-radius: 2px;
+}
+
+.seg-ok {
+  background: var(--ok);
+}
+
+.seg-fail {
+  background: var(--bad);
+}
+
+.seg-timeout {
+  background: repeating-linear-gradient(135deg, var(--warn) 0 4px, transparent 4px 8px);
+  border: 1px solid var(--warn);
+}
+
+.seg-skipped {
+  top: 2px;
+  bottom: 2px;
+  width: 3px;
+  background: var(--muted);
+}
+
+.pipe-note {
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.pipe-legend {
+  font-size: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+
+.legend-chip {
+  display: inline-block;
+  position: static;
+  width: 14px;
+  height: 8px;
+  min-width: 0;
+  border-radius: 2px;
+}
+
+.legend-chip.seg-skipped {
+  width: 3px;
+  height: 12px;
+}
+
+@media (max-width: 600px) {
+  .pipe-row,
+  .pipe-axis {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .pipe-axis .pipe-label {
+    display: none;
+  }
+
+  .pipe-label {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+  }
+}

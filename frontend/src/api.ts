@@ -1,4 +1,4 @@
-import type { FaultState, HealthResponse, RecommendResponse } from "./types";
+import type { FaultState, HealthResponse, ProviderReport, RecommendResponse, StreamParsed } from "./types";
 
 export class ApiError extends Error {
   status: number;
@@ -62,6 +62,83 @@ export function recommend(query: string, signal: AbortSignal): Promise<Recommend
     body: JSON.stringify({ query }),
     signal,
   });
+}
+
+export interface StreamHandlers {
+  onParsed: (value: StreamParsed) => void;
+  onProvider: (report: ProviderReport) => void;
+}
+
+interface Frame {
+  event: string;
+  data: string;
+}
+
+function parseFrame(raw: string): Frame | null {
+  let event = "message";
+  const data: string[] = [];
+  for (const line of raw.split("\n")) {
+    if (line.startsWith("event:")) event = line.slice(6).trim();
+    else if (line.startsWith("data:")) data.push(line.slice(5).replace(/^ /, ""));
+  }
+  if (data.length === 0) return null;
+  return { event, data: data.join("\n") };
+}
+
+function dispatch(frame: Frame, handlers: StreamHandlers): RecommendResponse | null {
+  let payload: unknown;
+  try {
+    payload = JSON.parse(frame.data);
+  } catch {
+    throw new Error("Malformed stream frame");
+  }
+  if (frame.event === "parsed") handlers.onParsed(payload as StreamParsed);
+  else if (frame.event === "provider") handlers.onProvider(payload as ProviderReport);
+  else if (frame.event === "done") return payload as RecommendResponse;
+  else if (frame.event === "error") throw new Error("Stream reported an error");
+  return null;
+}
+
+async function readStream(query: string, signal: AbortSignal, handlers: StreamHandlers): Promise<RecommendResponse> {
+  const res = await fetch("/api/v1/recommend/stream", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
+    body: JSON.stringify({ query }),
+    signal,
+  });
+  if (!res.ok || res.body === null) throw new Error(`Stream unavailable (${res.status})`);
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  for (;;) {
+    const chunk = await reader.read();
+    if (chunk.done) break;
+    buffer += decoder.decode(chunk.value, { stream: true }).replace(/\r\n/g, "\n");
+    let boundary = buffer.indexOf("\n\n");
+    while (boundary !== -1) {
+      const frame = parseFrame(buffer.slice(0, boundary));
+      buffer = buffer.slice(boundary + 2);
+      if (frame) {
+        const done = dispatch(frame, handlers);
+        if (done) return done;
+      }
+      boundary = buffer.indexOf("\n\n");
+    }
+  }
+  throw new Error("Stream ended before the result");
+}
+
+export async function recommendStream(
+  query: string,
+  signal: AbortSignal,
+  handlers: StreamHandlers,
+): Promise<RecommendResponse> {
+  try {
+    return await readStream(query, signal, handlers);
+  } catch (error) {
+    if (signal.aborted) throw error;
+    return recommend(query, signal);
+  }
 }
 
 export function getHealth(): Promise<HealthResponse> {
