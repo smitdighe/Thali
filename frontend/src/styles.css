@@ -778,3 +778,151 @@ details > summary {
     gap: 8px;
   }
 }
+
+.whatif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.why-not {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.detail-row .why-not {
+  padding-top: 8px;
+}
+
+.chart-card {
+  gap: 8px;
+}
+
+.chart-wrap {
+  position: relative;
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: inherit;
+}
+
+.chart-grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.chart-axis {
+  stroke: var(--muted);
+  stroke-width: 1;
+}
+
+.chart-tick {
+  font-size: 11px;
+  fill: var(--muted);
+}
+
+.chart-label {
+  font-size: 12px;
+  fill: var(--muted);
+}
+
+.chart-budget {
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+
+.dot {
+  cursor: pointer;
+  outline: none;
+}
+
+.dot-hit {
+  fill: transparent;
+}
+
+.dot-mark {
+  stroke-width: 2;
+}
+
+.dot-pick .dot-mark {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.dot-ranked .dot-mark {
+  fill: var(--muted);
+  stroke: var(--muted);
+  fill-opacity: 0.55;
+}
+
+.dot-excluded .dot-mark {
+  fill: none;
+  stroke: var(--muted);
+  stroke-opacity: 0.7;
+}
+
+.dot-active .dot-mark,
+.dot:focus-visible .dot-mark {
+  stroke: var(--text);
+}
+
+.dot-label {
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--accent);
+}
+
+.chart-tip {
+  position: absolute;
+  z-index: 3;
+  width: max-content;
+  max-width: min(260px, 100%);
+  pointer-events: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tip-title {
+  font-weight: 600;
+}
+
+.chart-legend {
+  font-size: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--muted);
+}
+
+.legend-pick {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.legend-ranked {
+  background: var(--muted);
+  opacity: 0.55;
+}
+
+.legend-excluded {
+  background: transparent;
+}

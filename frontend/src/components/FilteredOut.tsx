@@ -22,6 +22,7 @@ export default function FilteredOut({ options }: Props) {
               {option.item} · {option.restaurant}
               {option.area ? ` (${option.area})` : ""} · {providersOf(option)}
               {option.best.violations.length > 0 ? ` — ${option.best.violations.join("; ")}` : ""}
+              {option.why_not ? <span className="why-not">Why not: {option.why_not}</span> : null}
             </li>
           ))}
         </ul>

@@ -128,6 +128,7 @@ export default function OptionsTable({ options }: Props) {
                   {open ? (
                     <tr className="detail-row">
                       <td colSpan={7}>
+                        {option.why_not ? <p className="why-not">Why not: {option.why_not}</p> : null}
                         {option.listings.map((scored) => (
                           <ListingDetail key={scored.listing.listing_id} scored={scored} />
                         ))}

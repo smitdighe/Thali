@@ -7,6 +7,8 @@ import PipelinePanel from "./components/PipelinePanel";
 import SourcesStrip from "./components/SourcesStrip";
 import UnderstoodPanel from "./components/UnderstoodPanel";
 import RecommendationCard from "./components/RecommendationCard";
+import TradeoffChart from "./components/TradeoffChart";
+import WhatIfList from "./components/WhatIfList";
 import OptionsTable from "./components/OptionsTable";
 import FilteredOut from "./components/FilteredOut";
 import Footer from "./components/Footer";
@@ -166,6 +168,13 @@ function ResultBody({ response }: { response: RecommendResponse }) {
           ) : null}
         </section>
       ) : null}
+      <WhatIfList items={response.what_if} />
+      <TradeoffChart
+        recommendation={response.recommendation}
+        ranked={response.ranked}
+        excluded={response.excluded}
+        parsed={response.parsed}
+      />
       {response.ranked.length > 0 ? <OptionsTable options={response.ranked} /> : null}
       {response.excluded.length > 0 ? <FilteredOut options={response.excluded} /> : null}
       <Footer response={response} />
