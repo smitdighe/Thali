@@ -35,12 +35,20 @@ CUISINES = {
     "mexican": ("mexican",),
     "thai": ("thai",),
 }
-INGREDIENTS = ("paneer", "chicken", "mutton", "egg", "fish", "prawn", "mushroom")
+INGREDIENTS = {
+    "paneer": ("paneer",),
+    "chicken": ("chicken", "murgh"),
+    "mutton": ("mutton",),
+    "egg": ("egg", "anda"),
+    "fish": ("fish",),
+    "prawn": ("prawn",),
+    "mushroom": ("mushroom",),
+}
 DIETS = {
-    "non_veg": ("non-veg", "non veg", "nonveg", "non-vegetarian", "non vegetarian"),
+    "non_veg": ("non-veg", "non veg", "nonveg", "non-vegetarian", "non vegetarian", "mansahari"),
     "vegan": ("vegan",),
     "egg": ("eggetarian",),
-    "veg": ("pure veg", "vegetarian", "veggie", "veg"),
+    "veg": ("pure veg", "vegetarian", "veggie", "veg", "shakahari"),
 }
 JAIN = "jain"
 PRICE_LOW = (
@@ -53,8 +61,23 @@ PRICE_LOW = (
     "pocket-friendly",
     "pocket friendly",
     "economical",
+    "sasta",
+    "saste",
+    "sasti",
+    "kam daam",
 )
-SPEED_FAST = ("fast", "fastest", "quick", "quickly", "asap", "urgent", "hurry")
+SPEED_FAST = (
+    "fast",
+    "fastest",
+    "quick",
+    "quickly",
+    "asap",
+    "urgent",
+    "hurry",
+    "jaldi",
+    "fatafat",
+    "turant",
+)
 RATING_HIGH = (
     "highly rated",
     "highly-rated",
@@ -65,6 +88,9 @@ RATING_HIGH = (
     "well rated",
     "good rating",
     "good ratings",
+    "achha rated",
+    "acchi rating",
+    "achhi rating",
 )
 OTHER_PREFERENCES = (
     "not spicy",

@@ -26,7 +26,7 @@ _FLAGS = re.IGNORECASE
 _NUM = r"\d+(?:,\d{3})*(?:\.\d+)?"
 _NUM_END = r"(?![.,]?\d)"
 _CURRENCY = r"(?:₹|(?<!\w)rs\.?(?![a-z])|(?<!\w)inr(?![a-z]))"
-_CURRENCY_WORD = r"(?:rupees?|bucks?|rs\.?(?![a-z])|inr(?![a-z]))"
+_CURRENCY_WORD = r"(?:rupees?|rupaye|bucks?|rs\.?(?![a-z])|inr(?![a-z]))"
 _TIME_UNIT = r"(?:minutes?|mins?|hours?|hrs?)"
 _RATING_WORD = r"(?:stars?|ratings?|★)"
 _NOT_TIME_OR_RATING = rf"(?!\s*(?:{_TIME_UNIT}|{_RATING_WORD})(?!\w))"
@@ -34,6 +34,7 @@ _BUDGET_CUE = (
     r"for\s+under|not\s+more\s+than|no\s+more\s+than|less\s+than|budget\s+of|up\s+to|upto"
     r"|under|below|within|maximum|max|budget"
 )
+_BUDGET_SUFFIX = r"(?:tops|maximum|max|ke\s+andar|ke\s+under|se\s+kam|tak)"
 _DELIVERY_CUE = (
     r"(?:(?<!\w)(?:within|inside|under|below|before|less\s+than|upto|up\s+to|maximum|max|in)\s+)?"
 )
@@ -53,7 +54,7 @@ _BUDGET_PATTERNS = (
         "suffixed",
         re.compile(
             rf"(?<![\w.])(?:(?P<cur>{_CURRENCY})\s*)?(?P<num>{_NUM}){_NUM_END}"
-            rf"(?:\s*(?P<tail>{_CURRENCY_WORD}))?\s*(?:tops|maximum|max)(?!\w)",
+            rf"(?:\s*(?P<tail>{_CURRENCY_WORD}))?\s*{_BUDGET_SUFFIX}(?!\w)",
             _FLAGS,
         ),
     ),
@@ -73,9 +74,12 @@ _ONE_HOUR = re.compile(
 )
 _TIMED = re.compile(
     rf"{_DELIVERY_CUE}(?<![\w.₹,])(?P<low>{_NUM}){_NUM_END}\s*"
-    rf"(?:(?:-|–|to)\s*(?P<high>{_NUM}){_NUM_END}\s*)?(?P<unit>{_TIME_UNIT})(?!\w)",
+    rf"(?:(?:-|–|to)\s*(?P<high>{_NUM}){_NUM_END}\s*)?(?P<unit>{_TIME_UNIT})(?!\w)"
+    r"(?:\s+(?:mein|tak)(?!\w))?",
     _FLAGS,
 )
+_GHANTE_MINUTES = {"aadhe": 30, "ek": 60, "1": 60}
+_GHANTE = re.compile(r"(?<![\w.])(?P<count>aadhe|ek|1)\s+ghante(?:\s+mein)?(?!\w)", _FLAGS)
 _UNITLESS_WITHIN = re.compile(
     rf"(?<!\w)within\s+(?P<num>{_NUM}){_NUM_END}"
     rf"(?!\s*(?:{_TIME_UNIT}|{_CURRENCY_WORD}|₹|{_RATING_WORD})(?!\w))",
@@ -97,9 +101,14 @@ _RATING_PATTERNS = (
     ),
 )
 
-_ACTION = re.compile(r"\b(order|book|place an order|add to cart|buy)\b", _FLAGS)
-_INFORMATION = re.compile(r"^\s*(what|what's|whats|how)\b|\b(how much|price of|cost of)\b", _FLAGS)
-_DECISION = re.compile(r"\b(which|better|best|vs|versus|compare|should i|choose|decide)\b", _FLAGS)
+_ACTION = re.compile(r"\b(order|book|place an order|add to cart|buy|bhejo|mangwa\s+do)\b", _FLAGS)
+_INFORMATION = re.compile(
+    r"^\s*(what|what's|whats|how)\b|\b(how much|price of|cost of|kitne\s+ka|kitna)\b", _FLAGS
+)
+_DECISION = re.compile(
+    r"\b(which|better|best|vs|versus|compare|should i|choose|decide|kaunsa|kaunsi|konsa|behtar)\b",
+    _FLAGS,
+)
 
 Range = tuple[int, int]
 
@@ -200,6 +209,9 @@ def _delivery_candidates(text: str) -> list[Extract]:
         found.append(Extract(value=30, start=match.start(), end=match.end()))
     for match in _ONE_HOUR.finditer(text):
         found.append(Extract(value=60, start=match.start(), end=match.end()))
+    for match in _GHANTE.finditer(text):
+        minutes = _GHANTE_MINUTES[match["count"].lower()]
+        found.append(Extract(value=minutes, start=match.start(), end=match.end()))
     for match in _TIMED.finditer(text):
         minutes = _minutes(match["low"], match["high"], match["unit"])
         if minutes > 0:
@@ -367,7 +379,7 @@ def parse_rules(query: str) -> ParsedRequest:
     diet, jain = _diet(draft)
     dish = draft.first("dish", DISHES)
     cuisine = draft.first("cuisine", CUISINES)
-    ingredients = draft.every("ingredients", {name: (name,) for name in INGREDIENTS})
+    ingredients = draft.every("ingredients", INGREDIENTS)
     location = draft.first("location", AREAS)
     max_price = draft.extract("budget", extract_budget)
     max_eta = draft.extract("delivery_time", extract_delivery)

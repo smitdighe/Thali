@@ -15,6 +15,7 @@ lazy from thali.parsing import LlmParser, parse_request, parse_rules
 EVAL_DIR = Path(__file__).resolve().parents[2] / "eval"
 CORE_PATH = EVAL_DIR / "core.jsonl"
 PARAPHRASE_PATH = EVAL_DIR / "paraphrase.jsonl"
+HINGLISH_PATH = EVAL_DIR / "hinglish.jsonl"
 FIELDS = (
     "intent",
     "dish",
@@ -30,7 +31,7 @@ FIELDS = (
     "location",
     "other_preferences",
 )
-ROWS = ("rules/core", "rules/paraphrase", "llm/core", "llm/paraphrase")
+ROWS = ("rules/core", "rules/paraphrase", "rules/hinglish", "llm/core", "llm/paraphrase")
 
 Verdict = Literal["correct", "invented", "missed", "wrong"]
 
@@ -231,6 +232,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     results = {
         "rules/core": evaluate_rules("rules/core", load_cases(CORE_PATH)),
         "rules/paraphrase": evaluate_rules("rules/paraphrase", load_cases(PARAPHRASE_PATH)),
+        "rules/hinglish": evaluate_rules("rules/hinglish", load_cases(HINGLISH_PATH)),
     }
     if args.llm:
         settings = Settings()

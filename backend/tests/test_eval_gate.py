@@ -6,6 +6,7 @@ from thali.config import Settings
 from thali.evaluation import (
     CORE_PATH,
     FIELDS,
+    HINGLISH_PATH,
     PARAPHRASE_PATH,
     EvalCase,
     evaluate_llm,
@@ -18,6 +19,7 @@ from thali.parsing import LlmParser
 from thali.parsing.rules import parse_rules
 
 MIN_FIELD_ACCURACY = 0.95
+MIN_HINGLISH_ACCURACY = 0.90
 
 
 def test_gold_files_load():
@@ -38,6 +40,22 @@ def test_paraphrase_set_is_scored_without_a_gate():
     assert metrics.cases == 5
     assert metrics.total == 5 * len(FIELDS)
     assert metrics.invented == 0
+
+
+def test_rules_parser_meets_hinglish_gate():
+    cases = load_cases(HINGLISH_PATH)
+    assert len(cases) == 12
+    metrics = evaluate_rules("rules/hinglish", cases)
+    failures = [(f.q, f.field, f.expected, f.got) for f in metrics.failures]
+    assert metrics.accuracy() >= MIN_HINGLISH_ACCURACY, failures
+    assert metrics.invented == 0, failures
+
+
+def test_report_includes_hinglish_row():
+    results = {"rules/hinglish": evaluate_rules("rules/hinglish", load_cases(HINGLISH_PATH))}
+    report = render_report(results)
+    assert "| rules/hinglish | 12 |" in report
+    assert "### rules/hinglish" in report
 
 
 def test_score_counts_invented_missed_and_wrong():

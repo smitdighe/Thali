@@ -262,3 +262,70 @@ def test_whole_words_only():
     parsed = parse_rules("top rated south indian breakfast near Dadar")
     assert parsed.speed_preference is None
     assert parsed.cuisine == "south indian"
+
+
+def span_text(parsed, field):
+    return [span.text for span in parsed.spans if span.field == field]
+
+
+@pytest.mark.parametrize(
+    ("query", "amount", "quoted"),
+    [
+        ("veg biryani 300 ke andar", 300, "300 ke andar"),
+        ("paneer tikka 250 se kam mein", 250, "250 se kam"),
+        ("Dadar mein thali, 400 tak", 400, "400 tak"),
+        ("pizza 500 ke under", 500, "500 ke under"),
+        ("biryani 300 rupaye", 300, "300 rupaye"),
+    ],
+)
+def test_hinglish_budget_spans(query, amount, quoted):
+    parsed = parse_rules(query)
+    assert parsed.max_price_inr == amount
+    assert span_text(parsed, "budget") == [quoted]
+
+
+@pytest.mark.parametrize(
+    ("query", "minutes", "quoted"),
+    [
+        ("biryani 30 min mein chahiye", 30, "30 min mein"),
+        ("biryani aadhe ghante mein", 30, "aadhe ghante mein"),
+        ("ek ghante mein biryani", 60, "ek ghante mein"),
+        ("biryani 1 ghante mein", 60, "1 ghante mein"),
+    ],
+)
+def test_hinglish_delivery_spans(query, minutes, quoted):
+    parsed = parse_rules(query)
+    assert parsed.max_eta_min == minutes
+    assert span_text(parsed, "delivery_time") == [quoted]
+
+
+def test_minutes_with_tak_is_time_not_budget():
+    parsed = parse_rules("biryani 30 min tak")
+    assert parsed.max_eta_min == 30
+    assert parsed.max_price_inr is None
+    assert span_text(parsed, "budget") == []
+
+
+def test_hinglish_preferences_diets_and_ingredients():
+    parsed = parse_rules("sasta anda biryani jaldi, shakahari nahi")
+    assert parsed.price_preference == "low"
+    assert parsed.speed_preference == "fast"
+    assert parsed.ingredients == ["egg"]
+    assert parsed.diet == "veg"
+    assert span_text(parsed, "ingredients") == ["anda"]
+    assert parse_rules("mansahari murgh biryani").diet == "non_veg"
+    assert parse_rules("kam daam biryani").price_preference == "low"
+    assert parse_rules("acchi rating wala biryani").rating_preference == "high"
+
+
+@pytest.mark.parametrize(
+    ("query", "intent"),
+    [
+        ("biryani bhejo", "action"),
+        ("biryani mangwa do", "action"),
+        ("biryani kitna", "information"),
+        ("Dadar mein konsa thali behtar", "decision"),
+    ],
+)
+def test_hinglish_intents(query, intent):
+    assert parse_rules(query).intent == intent

@@ -1,0 +1,12 @@
+{"q": "veg biryani 300 ke andar, 30 min mein chahiye", "intent": "discovery", "dish": "biryani", "diet": "veg", "max_price_inr": 300, "max_eta_min": 30}
+{"q": "sasta pizza Powai mein, jaldi", "intent": "discovery", "dish": "pizza", "price_preference": "low", "speed_preference": "fast", "location": "Powai"}
+{"q": "paneer tikka 250 se kam mein mil jayega?", "intent": "discovery", "dish": "paneer tikka", "max_price_inr": 250}
+{"q": "Dadar mein achha rated thali, 400 tak", "intent": "discovery", "dish": "thali", "rating_preference": "high", "location": "Dadar", "max_price_inr": 400}
+{"q": "ek ghante mein non veg biryani bhejo", "intent": "action", "dish": "biryani", "diet": "non_veg", "max_eta_min": 60}
+{"q": "momos kitne ka hai Powai mein?", "intent": "information", "dish": "momos", "location": "Powai"}
+{"q": "Bandra mein kaunsi biryani better hai?", "intent": "decision", "dish": "biryani", "location": "Bandra West"}
+{"q": "aadhe ghante mein kuch veg khana, 200 ke andar", "intent": "discovery", "diet": "veg", "max_eta_min": 30, "max_price_inr": 200}
+{"q": "shakahari thali chahiye Dadar mein", "intent": "discovery", "diet": "veg", "dish": "thali", "location": "Dadar"}
+{"q": "anda biryani 250 tak", "intent": "discovery", "dish": "biryani", "ingredients": ["egg"], "max_price_inr": 250}
+{"q": "4+ rating wala chinese noodles, sasta", "intent": "discovery", "dish": "noodles", "cuisine": "chinese", "min_rating": 4.0, "price_preference": "low"}
+{"q": "order kar do masala dosa Dadar se", "intent": "action", "dish": "dosa", "location": "Dadar"}
