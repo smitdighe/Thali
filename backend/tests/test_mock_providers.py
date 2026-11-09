@@ -53,7 +53,7 @@ def set_mode(client: TestClient, provider: str, mode: str) -> None:
 def test_bitebox_shape(client: TestClient) -> None:
     body = client.get(BITEBOX).json()
     assert body["api_version"] == "2.1"
-    assert len(body["results"]) == 17
+    assert len(body["results"]) == 46
     first = body["results"][0]
     assert first["id"] == "bb_101"
     assert first["restaurant"] == {"id": "rb_1", "name": "Dum Pukht House", "area": "Andheri West"}
@@ -183,7 +183,7 @@ def test_malformed_khaana_is_html(client: TestClient) -> None:
 def test_partial_bitebox_strips_fields(client: TestClient) -> None:
     set_mode(client, "bitebox", "partial")
     results = client.get(BITEBOX).json()["results"]
-    assert len(results) == 17
+    assert len(results) == 46
     for result in results:
         assert not {"rating", "ratings_count", "eta_minutes"} & result.keys()
         assert "price" in result
