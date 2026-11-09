@@ -1,8 +1,9 @@
 from typing import Annotated, Literal
+lazy from typing import Self
 
-from pydantic import BaseModel, Field, StringConstraints
+from pydantic import BaseModel, Field, StringConstraints, model_validator
 
-SCHEMA_VERSION = "1.0"
+SCHEMA_VERSION = "1.1"
 
 Intent = Literal["discovery", "decision", "information", "clarification", "action"]
 Diet = Literal["veg", "vegan", "egg", "non_veg"]
@@ -10,6 +11,9 @@ ProviderStatus = Literal["ok", "timeout", "error", "malformed", "circuit_open"]
 Factor = Literal["rating", "price", "eta"]
 FaultMode = Literal["ok", "slow", "timeout", "error", "malformed", "partial"]
 BreakerState = Literal["closed", "open", "half_open"]
+AttemptOutcome = Literal["ok", "timeout", "http_error", "connection_error", "malformed", "skipped"]
+WhatIfKind = Literal["budget", "delivery", "min_rating", "preference"]
+RefineAction = Literal["cheaper", "faster", "better_rated"]
 
 
 class RecommendRequest(BaseModel):
@@ -42,6 +46,9 @@ class ParsedRequest(BaseModel):
     missing: list[str] = Field(default_factory=list)
     notes: list[str] = Field(default_factory=list)
     parser: Literal["rules", "llm"] = "rules"
+    carried_over: list[str] = Field(default_factory=list)
+    adjusted: list[str] = Field(default_factory=list)
+    refined_from: str | None = None
 
 
 class Offer(BaseModel):
@@ -79,6 +86,13 @@ class DroppedRecord(BaseModel):
     reason: str
 
 
+class Attempt(BaseModel):
+    start_ms: float
+    duration_ms: float
+    outcome: AttemptOutcome
+    http_status: int | None = None
+
+
 class ProviderReport(BaseModel):
     name: str
     label: str
@@ -91,6 +105,7 @@ class ProviderReport(BaseModel):
     records_dropped: int = 0
     schema_seen: str | None = None
     message: str | None = None
+    attempt_log: list[Attempt] = Field(default_factory=list)
 
 
 class FactorScore(BaseModel):
@@ -120,6 +135,7 @@ class OptionResult(BaseModel):
     score: float
     best: ScoredListing
     listings: list[ScoredListing]
+    why_not: str | None = None
 
 
 class Recommendation(BaseModel):
@@ -144,7 +160,15 @@ class Trace(BaseModel):
     parse_ms: float = 0.0
     fetch_ms: float = 0.0
     rank_ms: float = 0.0
+    what_if_ms: float = 0.0
     total_ms: float = 0.0
+
+
+class WhatIf(BaseModel):
+    kind: WhatIfKind
+    statement: str
+    threshold: float | None = None
+    new_pick: str | None = None
 
 
 class RecommendResponse(BaseModel):
@@ -163,6 +187,24 @@ class RecommendResponse(BaseModel):
     warnings: list[str] = Field(default_factory=list)
     degraded: bool = False
     trace: Trace = Field(default_factory=Trace)
+    what_if: list[WhatIf] = Field(default_factory=list)
+
+
+class RefineRequest(BaseModel):
+    request_id: str
+    action: RefineAction | None = None
+    drop: str | None = None
+    text: (
+        Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=200)]
+        | None
+    ) = None
+
+    @model_validator(mode="after")
+    def exactly_one_change(self) -> Self:
+        given = [value for value in (self.action, self.drop, self.text) if value is not None]
+        if len(given) != 1:
+            raise ValueError("give exactly one of action, drop or text")
+        return self
 
 
 class HealthResponse(BaseModel):
@@ -175,6 +217,7 @@ class HealthResponse(BaseModel):
 class ProviderSearch(BaseModel):
     query: str = ""
     area: str | None = None
+    session: str | None = None
 
 
 class ProviderResult(BaseModel):
@@ -200,3 +243,29 @@ class RankOutcome(BaseModel):
     ranked: list[OptionResult] = Field(default_factory=list)
     excluded: list[OptionResult] = Field(default_factory=list)
     closest: list[OptionResult] = Field(default_factory=list)
+
+
+class ParserMetrics(BaseModel):
+    rules: int = 0
+    llm: int = 0
+    fallbacks: int = 0
+
+
+class ProviderMetrics(BaseModel):
+    calls: int = 0
+    ok_rate: float = 0.0
+    p50_ms: float = 0.0
+    p95_ms: float = 0.0
+    timeouts: int = 0
+    errors: int = 0
+    circuit_open: int = 0
+    breaker: BreakerState = "closed"
+
+
+class MetricsResponse(BaseModel):
+    requests: int = 0
+    p50_ms: float = 0.0
+    p95_ms: float = 0.0
+    recent_total_ms: list[float] = Field(default_factory=list)
+    parser: ParserMetrics = Field(default_factory=ParserMetrics)
+    providers: dict[str, ProviderMetrics] = Field(default_factory=dict)
