@@ -310,3 +310,89 @@ def explain(
         also_on=also_on_lines(top),
         caveats=caveats_for(top.best.listing, parsed, outcome.ranked, reports),
     )
+
+
+FACTOR_NAMES: dict[Factor, str] = {"rating": "rating", "price": "price", "eta": "delivery time"}
+
+
+def own_rating(listing: Listing) -> str:
+    if listing.rating is None:
+        return "no rating listed"
+    if listing.rating_count is None:
+        return rating_value(listing.rating)
+    return f"{rating_value(listing.rating)} from {count_text(listing.rating_count)} ratings"
+
+
+def top_rating(listing: Listing) -> str:
+    if listing.rating is None:
+        return "no rating listed"
+    if listing.rating_count is None:
+        return rating_value(listing.rating)
+    return f"{rating_value(listing.rating)} from {count_text(listing.rating_count)}"
+
+
+def deficit_text(factor: Factor, other: Listing, top: Listing) -> str:
+    if factor == "rating":
+        return f"rating ({own_rating(other)} vs {top_rating(top)})"
+    if factor == "price":
+        return f"price ({price_phrase(other)} vs {price_phrase(top)})"
+    return f"delivery time ({eta_phrase(other)} vs {eta_phrase(top)})"
+
+
+def win_text(factor: Factor, other: Listing, top: Listing) -> str | None:
+    if factor == "price":
+        mine, theirs = other.effective_price_paise, top.effective_price_paise
+        if mine is None or theirs is None or mine >= theirs:
+            return None
+        return f"It is {rupees(theirs - mine)} cheaper"
+    if factor == "eta":
+        mine_eta, theirs_eta = other.eta_min_high, top.eta_min_high
+        if mine_eta is None or theirs_eta is None or mine_eta >= theirs_eta:
+            return None
+        return f"It arrives {theirs_eta - mine_eta} min sooner"
+    if other.rating is None or top.rating is None or other.rating <= top.rating:
+        return None
+    return f"It is rated higher ({rating_value(other.rating)} vs {rating_value(top.rating)})"
+
+
+def weight_of(scored: ScoredListing, factor: Factor) -> float:
+    return next(item.weight for item in scored.factors if item.factor == factor)
+
+
+def win_clause(top: ScoredListing, other: ScoredListing, gaps: dict[Factor, float]) -> str:
+    wins = sorted((factor for factor in COMPARED_FACTORS if gaps[factor] < 0), key=gaps.__getitem__)
+    for factor in wins:
+        text = win_text(factor, other.listing, top.listing)
+        if text is not None:
+            share = round(weight_of(other, factor) * 100)
+            return f" {text}, but {FACTOR_NAMES[factor]} carries {share}% of the score here."
+    return ""
+
+
+def feasible_why_not(top: ScoredListing, other: ScoredListing) -> str:
+    gaps = point_gaps(top, other)
+    scores = f"Scores {other.score:.4f} vs {top.score:.4f}"
+    factor = largest_gap(gaps, COMPARED_FACTORS)
+    if gaps[factor] <= 0:
+        return f"{scores}.{win_clause(top, other, gaps)}"
+    deficit = deficit_text(factor, other.listing, top.listing)
+    return f"{scores}: mainly {deficit}.{win_clause(top, other, gaps)}"
+
+
+def why_not_text(option: OptionResult, top: OptionResult | None) -> str:
+    if not option.feasible or top is None:
+        return f"Filtered out: {'; '.join(option.best.violations)}."
+    return feasible_why_not(top.best, option.best)
+
+
+def with_why_not(outcome: RankOutcome) -> RankOutcome:
+    top = outcome.ranked[0] if outcome.ranked else None
+
+    def annotate(option: OptionResult) -> OptionResult:
+        return option.model_copy(update={"why_not": why_not_text(option, top)})
+
+    return RankOutcome(
+        ranked=[*outcome.ranked[:1], *map(annotate, outcome.ranked[1:])],
+        excluded=list(map(annotate, outcome.excluded)),
+        closest=list(map(annotate, outcome.closest)),
+    )

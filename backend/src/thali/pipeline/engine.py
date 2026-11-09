@@ -23,8 +23,9 @@ lazy from thali.models import (
 lazy from thali.observability import log_event
 lazy from thali.parsing import LlmParser, parse_request
 lazy from thali.pipeline.dedupe import group_listings
-lazy from thali.pipeline.explain import explain
+lazy from thali.pipeline.explain import explain, with_why_not
 lazy from thali.pipeline.rank import rank
+lazy from thali.pipeline.whatif import what_ifs
 lazy from thali.providers.base import ProviderAdapter, fetch_all
 lazy from thali.providers.breaker import CircuitBreaker
 lazy from thali.text import AREAS
@@ -230,9 +231,13 @@ async def run_pipeline(
     listings = [listing for result in results for listing in result.listings]
     dropped = [record for result in results for record in result.dropped]
     groups, stats = group_listings(listings)
-    outcome = rank(groups, parsed)
+    outcome = with_why_not(rank(groups, parsed))
     recommendation = explain(outcome, parsed, reports)
     rank_ms = elapsed_ms(rank_started)
+    what_if_started = time.perf_counter()
+    pick = recommendation.option.best.listing if recommendation is not None else None
+    what_if = what_ifs(groups, parsed, pick)
+    what_if_ms = elapsed_ms(what_if_started)
     log_event("rank.done", ranked=len(outcome.ranked), excluded=len(outcome.excluded))
 
     yield (
@@ -255,8 +260,10 @@ async def run_pipeline(
                 parse_ms=rounded_ms(parse_ms),
                 fetch_ms=rounded_ms(fetch_ms),
                 rank_ms=rounded_ms(rank_ms),
+                what_if_ms=rounded_ms(what_if_ms),
                 total_ms=rounded_ms(elapsed_ms(started)),
             ),
+            what_if=what_if,
         ),
     )
 

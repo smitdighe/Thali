@@ -1,9 +1,9 @@
 import logging
-from collections.abc import AsyncIterator
 from typing import Protocol
 lazy import asyncio
 lazy import random
 lazy import time
+lazy from collections.abc import AsyncIterator
 
 from pydantic import BaseModel, Field
 lazy import httpx
