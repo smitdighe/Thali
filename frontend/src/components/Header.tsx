@@ -1,4 +1,5 @@
 import type { HealthResponse } from "../types";
+import ThemeToggle from "./ThemeToggle";
 
 interface Props {
   health: HealthResponse | null;
@@ -17,7 +18,10 @@ export default function Header({ health }: Props) {
         <h1>Thali</h1>
         <p className="muted">Mini FLOUNA decision engine</p>
       </div>
-      <p className="badge">{parsingLabel(health)}</p>
+      <div className="header-side">
+        <p className="badge">{parsingLabel(health)}</p>
+        <ThemeToggle />
+      </div>
     </header>
   );
 }

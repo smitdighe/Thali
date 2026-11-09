@@ -1,19 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ApiError, getHealth, recommendStream, refine } from "./api";
-import type { HealthResponse, ProviderReport, RecommendResponse, RefineAction, RefineRequest } from "./types";
+import type { HealthResponse, ProviderReport, RecommendResponse, RefineRequest } from "./types";
 import { fieldLabel } from "./fields";
 import Header from "./components/Header";
 import QueryForm from "./components/QueryForm";
+import ExampleChips from "./components/ExampleChips";
+import CopyLink from "./components/CopyLink";
 import Breadcrumbs from "./components/Breadcrumbs";
-import RefineRow from "./components/RefineRow";
 import PipelinePanel from "./components/PipelinePanel";
-import SourcesStrip from "./components/SourcesStrip";
-import UnderstoodPanel from "./components/UnderstoodPanel";
-import RecommendationCard from "./components/RecommendationCard";
-import TradeoffChart from "./components/TradeoffChart";
-import WhatIfList from "./components/WhatIfList";
-import OptionsTable from "./components/OptionsTable";
-import FilteredOut from "./components/FilteredOut";
+import ResultBody from "./components/ResultBody";
+import type { RefineControls } from "./components/ResultBody";
 import Footer from "./components/Footer";
 import DemoControls from "./components/DemoControls";
 
@@ -28,14 +24,6 @@ interface LiveState {
 interface HistoryEntry {
   label: string;
   response: RecommendResponse;
-}
-
-interface RefineControls {
-  busy: boolean;
-  error: string | null;
-  onAction: (action: RefineAction, label: string) => void;
-  onText: (text: string) => void;
-  onDrop: (field: string) => void;
 }
 
 interface FailureInfo {
@@ -59,6 +47,21 @@ function isAbort(error: unknown): boolean {
   return error instanceof DOMException && error.name === "AbortError";
 }
 
+function rememberQuery(text: string): void {
+  try {
+    const url = new URL(window.location.href);
+    url.searchParams.set("q", text);
+    window.history.replaceState(null, "", url);
+  } catch {
+    return;
+  }
+}
+
+function isTypingTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  return target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
+}
+
 export default function App() {
   const [phase, setPhase] = useState<Phase>("idle");
   const [history, setHistory] = useState<HistoryEntry[]>([]);
@@ -67,9 +70,11 @@ export default function App() {
   const [refineError, setRefineError] = useState<string | null>(null);
   const [error, setError] = useState<FailureInfo | null>(null);
   const [lastQuery, setLastQuery] = useState("");
+  const [query, setQuery] = useState("");
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [live, setLive] = useState<LiveState | null>(null);
   const controller = useRef<AbortController | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -86,18 +91,20 @@ export default function App() {
     };
   }, []);
 
-  const submit = useCallback((query: string) => {
+  const submit = useCallback((text: string) => {
     controller.current?.abort();
     const next = new AbortController();
     controller.current = next;
-    setLastQuery(query);
+    setQuery(text);
+    setLastQuery(text);
+    rememberQuery(text);
     setPhase("loading");
     setError(null);
     setRefining(false);
     setRefineError(null);
     setLive({ startedAt: performance.now(), parsedSeen: false, providers: [] });
     const current = () => controller.current === next;
-    recommendStream(query, next.signal, {
+    recommendStream(text, next.signal, {
       onParsed: () => {
         if (current()) setLive((state) => (state ? { ...state, parsedSeen: true } : state));
       },
@@ -116,6 +123,22 @@ export default function App() {
         setError(describeFailure(caught));
         setPhase("error");
       });
+  }, []);
+
+  useEffect(() => {
+    const initial = new URLSearchParams(window.location.search).get("q");
+    if (initial && initial.trim().length > 0) submit(initial.trim());
+  }, [submit]);
+
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (event.key !== "/" || event.ctrlKey || event.metaKey || event.altKey) return;
+      if (isTypingTarget(event.target)) return;
+      event.preventDefault();
+      inputRef.current?.focus();
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
   }, []);
 
   const runRefine = useCallback(
@@ -158,16 +181,26 @@ export default function App() {
   return (
     <div className="page">
       <Header health={health} />
-      <QueryForm loading={loading} onSubmit={submit} />
+      <div className="query-bar">
+        <QueryForm
+          value={query}
+          lastQuery={lastQuery}
+          loading={loading}
+          inputRef={inputRef}
+          onChange={setQuery}
+          onSubmit={submit}
+        />
+      </div>
+      <ExampleChips collapsed={showResponse} onPick={submit} />
       <div className="results" aria-live="polite">
         {loading ? <p className="loading-line">Reading your request · asking 3 sources…</p> : null}
-        {live && (loading || (phase === "done" && response)) ? (
+        {live && loading ? (
           <PipelinePanel
-            loading={loading}
+            loading
             startedAt={live.startedAt}
             parsedSeen={live.parsedSeen}
             liveProviders={live.providers}
-            response={loading ? null : response}
+            response={null}
           />
         ) : null}
         {phase === "error" && error ? (
@@ -181,82 +214,23 @@ export default function App() {
         ) : null}
         {showResponse && response ? (
           <div className={loading || refining ? "stale" : undefined}>
-            <Breadcrumbs
-              labels={history.map((entry) => entry.label)}
-              current={viewIndex}
-              onSelect={(index) => {
-                setViewIndex(index);
-                setRefineError(null);
-              }}
-            />
-            <ResultBody response={response} controls={controls} />
+            <div className="trail">
+              <Breadcrumbs
+                labels={history.map((entry) => entry.label)}
+                current={viewIndex}
+                onSelect={(index) => {
+                  setViewIndex(index);
+                  setRefineError(null);
+                }}
+              />
+              <CopyLink />
+            </div>
+            <ResultBody response={response} controls={controls} loading={loading} startedAt={live?.startedAt ?? null} />
           </div>
         ) : null}
       </div>
       <DemoControls />
+      <Footer response={showResponse ? response : null} />
     </div>
-  );
-}
-
-function ResultBody({ response, controls }: { response: RecommendResponse; controls: RefineControls }) {
-  const nothingFits = response.recommendation === null && response.clarification === null;
-  return (
-    <>
-      {response.warnings.length > 0 ? (
-        <div className="warnings">
-          {response.warnings.map((warning, index) => (
-            <p key={index}>{warning}</p>
-          ))}
-        </div>
-      ) : null}
-      <SourcesStrip providers={response.providers} />
-      <UnderstoodPanel query={response.query} parsed={response.parsed} busy={controls.busy} onDrop={controls.onDrop} />
-      {response.clarification ? (
-        <section className="card clarification">
-          <p className="card-label">Need one more detail</p>
-          <p>{response.clarification}</p>
-        </section>
-      ) : null}
-      {response.recommendation ? <RecommendationCard recommendation={response.recommendation} /> : null}
-      {nothingFits ? (
-        <section className="card nothing-fits">
-          <p className="card-label">No match</p>
-          <p>Nothing fits all of your requirements.</p>
-          {response.closest.length > 0 ? (
-            <>
-              <h3 className="sub-title">Closest options</h3>
-              <ul>
-                {response.closest.map((option) => (
-                  <li key={option.option_id}>
-                    {option.item} · {option.restaurant}
-                    {option.area ? ` (${option.area})` : ""}
-                    {option.best.violations.length > 0 ? ` — ${option.best.violations.join("; ")}` : ""}
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : null}
-        </section>
-      ) : null}
-      {response.request_id && response.clarification === null ? (
-        <RefineRow
-          hasPick={response.recommendation !== null}
-          busy={controls.busy}
-          error={controls.error}
-          onAction={controls.onAction}
-          onText={controls.onText}
-        />
-      ) : null}
-      <WhatIfList items={response.what_if} />
-      <TradeoffChart
-        recommendation={response.recommendation}
-        ranked={response.ranked}
-        excluded={response.excluded}
-        parsed={response.parsed}
-      />
-      {response.ranked.length > 0 ? <OptionsTable options={response.ranked} /> : null}
-      {response.excluded.length > 0 ? <FilteredOut options={response.excluded} /> : null}
-      <Footer response={response} />
-    </>
   );
 }

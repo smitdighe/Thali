@@ -15,26 +15,28 @@ function ListingDetail({ scored }: { scored: ScoredListing }) {
         {scored.feasible ? "" : " · not feasible"}
       </h3>
       {scored.factors.length > 0 ? (
-        <table className="factors">
-          <thead>
-            <tr>
-              <th scope="col">Factor</th>
-              <th scope="col">Value</th>
-              <th scope="col">Weight</th>
-              <th scope="col">Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            {scored.factors.map((factor) => (
-              <tr key={factor.factor}>
-                <td>{factor.factor}</td>
-                <td>{factor.value.toFixed(4)}</td>
-                <td>{factor.weight.toFixed(4)}</td>
-                <td>{factor.points.toFixed(4)}</td>
+        <div className="table-wrap">
+          <table className="factors">
+            <thead>
+              <tr>
+                <th scope="col">Factor</th>
+                <th scope="col">Value</th>
+                <th scope="col">Weight</th>
+                <th scope="col">Points</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {scored.factors.map((factor) => (
+                <tr key={factor.factor}>
+                  <td>{factor.factor}</td>
+                  <td>{factor.value.toFixed(4)}</td>
+                  <td>{factor.weight.toFixed(4)}</td>
+                  <td>{factor.points.toFixed(4)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <p className="muted">Not scored.</p>
       )}
@@ -88,7 +90,7 @@ export default function OptionsTable({ options }: Props) {
               return (
                 <Fragment key={option.option_id}>
                   <tr className="option-row" onClick={() => toggle(option.option_id)}>
-                    <td>{option.rank ?? ""}</td>
+                    <td data-label="Rank">{option.rank ?? ""}</td>
                     <td>
                       <button type="button" className="row-toggle" aria-expanded={open}>
                         <DietMark diet={listing.diet} /> <strong>{option.item}</strong>
@@ -97,7 +99,7 @@ export default function OptionsTable({ options }: Props) {
                         {option.area ? `${option.restaurant} (${option.area})` : option.restaurant}
                       </div>
                     </td>
-                    <td>
+                    <td data-label="Sources">
                       <span className="source-badges">
                         {option.listings.map((scored) => (
                           <span
@@ -110,13 +112,19 @@ export default function OptionsTable({ options }: Props) {
                         ))}
                       </span>
                     </td>
-                    <td>
-                      {discounted ? <span className="struck">{rupees(listing.price_paise)}</span> : null}{" "}
-                      {rupees(listing.effective_price_paise ?? listing.price_paise)}
+                    <td data-label="Price">
+                      <span>
+                        {discounted ? <span className="struck">{rupees(listing.price_paise)}</span> : null}{" "}
+                        {rupees(listing.effective_price_paise ?? listing.price_paise)}
+                      </span>
                     </td>
-                    <td>{ratingText(listing.rating, listing.rating_count)}</td>
-                    <td>{etaText(listing.eta_min_low, listing.eta_min_high)}</td>
-                    <td>
+                    <td data-label="Rating">
+                      <span>{ratingText(listing.rating, listing.rating_count)}</span>
+                    </td>
+                    <td data-label="ETA">
+                      <span>{etaText(listing.eta_min_low, listing.eta_min_high)}</span>
+                    </td>
+                    <td data-label="Score">
                       <div className="score-cell">
                         <span className="score-track">
                           <span className="score-bar" style={{ width: `${width}%` }} />
