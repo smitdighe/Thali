@@ -5,7 +5,13 @@ lazy from collections.abc import AsyncIterator
 from fastapi import APIRouter, Request, Response
 lazy from fastapi.responses import JSONResponse, StreamingResponse
 
-from thali.models import HealthResponse, RecommendRequest, RecommendResponse, RefineRequest
+from thali.models import (
+    HealthResponse,
+    MetricsResponse,
+    RecommendRequest,
+    RecommendResponse,
+    RefineRequest,
+)
 lazy from thali.models import ParsedRequest, Trace
 lazy from thali.observability import request_id_var
 lazy from thali.parsing import parse_request
@@ -146,3 +152,9 @@ async def get_health(request: Request) -> HealthResponse:
         llm_model=deps.settings.llm_model if enabled else None,
         breakers={name: breaker.state for name, breaker in deps.breakers.items()},
     )
+
+
+@router.get("/metrics")
+async def get_metrics(request: Request) -> MetricsResponse:
+    deps = deps_of(request)
+    return deps.metrics.snapshot(deps.breakers)

@@ -13,6 +13,7 @@ from thali import api
 from thali.config import Settings, get_settings
 from thali.mock.app import create_mock_app
 from thali.observability import RequestContextMiddleware, configure_logging, request_id_var
+lazy from thali.metrics import Metrics
 lazy from thali.parsing import LlmParser
 lazy from thali.pipeline.engine import EngineDeps
 lazy from thali.providers.bitebox import BiteboxAdapter
@@ -79,6 +80,7 @@ def create_app(
             sessions=SessionStore(
                 max_entries=settings.session_max_entries, ttl_s=settings.session_ttl_s
             ),
+            metrics=Metrics(),
         )
         try:
             yield

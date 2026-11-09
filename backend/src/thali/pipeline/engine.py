@@ -6,6 +6,7 @@ lazy import httpx
 lazy from pydantic import BaseModel
 
 lazy from thali.config import Settings
+lazy from thali.metrics import Metrics
 lazy from thali.models import (
     DataQuality,
     DedupeStats,
@@ -42,6 +43,7 @@ class EngineDeps:
     breakers: dict[str, CircuitBreaker]
     llm: LlmParser | None
     sessions: SessionStore
+    metrics: Metrics
 
 
 def elapsed_ms(started: float) -> float:
@@ -190,6 +192,7 @@ async def collect_results(
         deps.adapters, deps.provider_client, search, deps.breakers, deps.settings
     ):
         results.append(result)
+        deps.metrics.record_call(result.report)
         log_provider(result.report)
         yield result.report
 
@@ -216,6 +219,7 @@ async def run_pipeline(
         final = clarification_response(query, parsed, fallback, deps, request_id, trace)
         yield "parsed", StreamParsed(parsed=parsed, clarification=final.clarification)
         deps.sessions.put(request_id, parsed, None)
+        deps.metrics.record_request(trace.total_ms, parsed.parser, fallback is not None)
         yield "done", final
         return
 
@@ -244,32 +248,31 @@ async def run_pipeline(
     log_event("rank.done", ranked=len(outcome.ranked), excluded=len(outcome.excluded))
     deps.sessions.put(request_id, parsed, pick)
 
-    yield (
-        "done",
-        RecommendResponse(
-            request_id=request_id,
-            query=query,
-            parsed=parsed,
-            recommendation=recommendation,
-            ranked=outcome.ranked,
-            excluded=outcome.excluded,
-            closest=outcome.closest,
-            providers=reports,
-            dropped=dropped,
-            data_quality=data_quality_for(reports, dropped, listings, stats),
-            warnings=build_warnings(parsed, reports, listings, outcome, fallback, deps),
-            degraded=any(report.status != "ok" for report in reports)
-            or (deps.llm is not None and fallback is not None),
-            trace=Trace(
-                parse_ms=rounded_ms(parse_ms),
-                fetch_ms=rounded_ms(fetch_ms),
-                rank_ms=rounded_ms(rank_ms),
-                what_if_ms=rounded_ms(what_if_ms),
-                total_ms=rounded_ms(elapsed_ms(started)),
-            ),
-            what_if=what_if,
+    response = RecommendResponse(
+        request_id=request_id,
+        query=query,
+        parsed=parsed,
+        recommendation=recommendation,
+        ranked=outcome.ranked,
+        excluded=outcome.excluded,
+        closest=outcome.closest,
+        providers=reports,
+        dropped=dropped,
+        data_quality=data_quality_for(reports, dropped, listings, stats),
+        warnings=build_warnings(parsed, reports, listings, outcome, fallback, deps),
+        degraded=any(report.status != "ok" for report in reports)
+        or (deps.llm is not None and fallback is not None),
+        trace=Trace(
+            parse_ms=rounded_ms(parse_ms),
+            fetch_ms=rounded_ms(fetch_ms),
+            rank_ms=rounded_ms(rank_ms),
+            what_if_ms=rounded_ms(what_if_ms),
+            total_ms=rounded_ms(elapsed_ms(started)),
         ),
+        what_if=what_if,
     )
+    deps.metrics.record_request(response.trace.total_ms, parsed.parser, fallback is not None)
+    yield "done", response
 
 
 async def recommend(
