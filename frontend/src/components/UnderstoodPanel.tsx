@@ -1,9 +1,19 @@
 import type { ParsedRequest, Span } from "../types";
 import { rupeesInr } from "../format";
+import { fieldLabel } from "../fields";
 
 interface Props {
   query: string;
   parsed: ParsedRequest;
+  busy?: boolean;
+  onDrop?: (field: string) => void;
+}
+
+interface Row {
+  label: string;
+  fields: string[];
+  drop: string;
+  value: string | null;
 }
 
 interface Segment {
@@ -45,20 +55,48 @@ function joined(values: string[]): string | null {
   return values.length > 0 ? values.join(", ") : null;
 }
 
-export default function UnderstoodPanel({ query, parsed }: Props) {
+function tagFor(parsed: ParsedRequest, row: Row): "kept" | "changed" | null {
+  if (parsed.refined_from === null || row.value === null) return null;
+  if (row.fields.some((field) => parsed.adjusted.includes(field))) return "changed";
+  if (row.fields.some((field) => parsed.carried_over.includes(field))) return "kept";
+  return null;
+}
+
+export default function UnderstoodPanel({ query, parsed, busy = false, onDrop }: Props) {
   const segments = buildSegments(query, parsed.spans);
-  const rows: Array<[string, string | null]> = [
-    ["Dish", parsed.dish],
-    ["Cuisine", parsed.cuisine],
-    ["Ingredients", joined(parsed.ingredients)],
-    ["Diet", dietValue(parsed)],
-    ["Budget", parsed.max_price_inr === null ? null : `Up to ${rupeesInr(parsed.max_price_inr)}`],
-    ["Delivery", parsed.max_eta_min === null ? null : `Within ${parsed.max_eta_min} min`],
-    ["Rating", ratingValue(parsed)],
-    ["Location", parsed.location],
-    ["Price preference", parsed.price_preference === "low" ? "Prefers lower price" : null],
-    ["Speed preference", parsed.speed_preference === "fast" ? "Prefers fast delivery" : null],
-    ["Other", joined(parsed.other_preferences)],
+  const ratingField = parsed.min_rating !== null ? "min_rating" : "rating_preference";
+  const rows: Row[] = [
+    { label: "Dish", fields: ["dish"], drop: "dish", value: parsed.dish },
+    { label: "Cuisine", fields: ["cuisine"], drop: "cuisine", value: parsed.cuisine },
+    { label: "Ingredients", fields: ["ingredients"], drop: "ingredients", value: joined(parsed.ingredients) },
+    { label: "Diet", fields: ["diet"], drop: "diet", value: dietValue(parsed) },
+    {
+      label: "Budget",
+      fields: ["budget"],
+      drop: "budget",
+      value: parsed.max_price_inr === null ? null : `Up to ${rupeesInr(parsed.max_price_inr)}`,
+    },
+    {
+      label: "Delivery",
+      fields: ["delivery_time"],
+      drop: "delivery_time",
+      value: parsed.max_eta_min === null ? null : `Within ${parsed.max_eta_min} min`,
+    },
+    { label: "Rating", fields: ["min_rating", "rating_preference"], drop: ratingField, value: ratingValue(parsed) },
+    { label: "Location", fields: ["location"], drop: "location", value: parsed.location },
+    {
+      label: "Price preference",
+      fields: ["price_preference"],
+      drop: "price_preference",
+      value: parsed.price_preference === "low" ? "Prefers lower price" : null,
+    },
+    {
+      label: "Speed preference",
+      fields: ["speed_preference"],
+      drop: "speed_preference",
+      value: parsed.speed_preference === "fast" ? "Prefers fast delivery" : null,
+    },
+    { label: "Other", fields: ["other_preferences"], drop: "other_preferences", value: joined(parsed.other_preferences) },
   ];
 
   return (
@@ -81,12 +119,30 @@ export default function UnderstoodPanel({ query, parsed }: Props) {
         )}
       </p>
       <dl className="grid">
-        {rows.map(([label, value]) => (
-          <div key={label} className="grid-item">
-            <dt>{label}</dt>
-            <dd className={value === null ? "muted" : undefined}>{value ?? "not specified"}</dd>
-          </div>
-        ))}
+        {rows.map((row) => {
+          const tag = tagFor(parsed, row);
+          return (
+            <div key={row.label} className="grid-item">
+              <dt>{row.label}</dt>
+              <dd className={row.value === null ? "muted" : "value-line"}>
+                <span>{row.value ?? "not specified"}</span>
+                {tag ? <span className={`tag tag-${tag}`}>{tag}</span> : null}
+                {row.value !== null && onDrop ? (
+                  <button
+                    type="button"
+                    className="drop-btn"
+                    aria-label={`Remove ${fieldLabel(row.drop)}`}
+                    title={`Remove ${fieldLabel(row.drop)}`}
+                    disabled={busy}
+                    onClick={() => onDrop(row.drop)}
+                  >
+                    ×
+                  </button>
+                ) : null}
+              </dd>
+            </div>
+          );
+        })}
       </dl>
       {parsed.missing.includes("food") ? (
         <p className="muted">No dish or cuisine given, so every dish is considered.</p>

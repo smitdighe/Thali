@@ -926,3 +926,85 @@ details > summary {
 .legend-excluded {
   background: transparent;
 }
+
+.crumbs ol {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.crumbs li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.crumb-sep {
+  color: var(--muted);
+}
+
+.crumb {
+  background: transparent;
+  color: var(--accent);
+  border: 0;
+  padding: 2px 4px;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.crumb[aria-current="step"] {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.refine .query-row button {
+  white-space: nowrap;
+}
+
+.value-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.tag-changed {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.drop-btn {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.drop-btn:hover:not(:disabled) {
+  color: var(--bad);
+  border-color: var(--bad);
+}

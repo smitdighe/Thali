@@ -1,4 +1,4 @@
-import type { FaultState, HealthResponse, ProviderReport, RecommendResponse, StreamParsed } from "./types";
+import type { FaultState, HealthResponse, ProviderReport, RecommendResponse, RefineRequest, StreamParsed } from "./types";
 
 export class ApiError extends Error {
   status: number;
@@ -60,6 +60,15 @@ export function recommend(query: string, signal: AbortSignal): Promise<Recommend
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query }),
+    signal,
+  });
+}
+
+export function refine(body: RefineRequest, signal: AbortSignal): Promise<RecommendResponse> {
+  return request<RecommendResponse>("/api/v1/refine", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
     signal,
   });
 }
