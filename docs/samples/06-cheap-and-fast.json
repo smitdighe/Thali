@@ -1,0 +1,1428 @@
+{
+  "schema_version": "1.0",
+  "request_id": "06-cheap-and-fast",
+  "query": "cheap veg momos in Powai asap",
+  "parsed": {
+    "intent": "discovery",
+    "dish": "momos",
+    "cuisine": null,
+    "ingredients": [],
+    "diet": "veg",
+    "max_price_inr": null,
+    "max_eta_min": null,
+    "min_rating": null,
+    "rating_preference": null,
+    "price_preference": "low",
+    "speed_preference": "fast",
+    "location": "Powai",
+    "other_preferences": [],
+    "spans": [
+      {
+        "field": "price_preference",
+        "text": "cheap",
+        "start": 0,
+        "end": 5,
+        "source": "rules"
+      },
+      {
+        "field": "diet",
+        "text": "veg",
+        "start": 6,
+        "end": 9,
+        "source": "rules"
+      },
+      {
+        "field": "dish",
+        "text": "momos",
+        "start": 10,
+        "end": 15,
+        "source": "rules"
+      },
+      {
+        "field": "location",
+        "text": "Powai",
+        "start": 19,
+        "end": 24,
+        "source": "rules"
+      },
+      {
+        "field": "speed_preference",
+        "text": "asap",
+        "start": 25,
+        "end": 29,
+        "source": "rules"
+      }
+    ],
+    "missing": [
+      "budget",
+      "delivery_time",
+      "rating"
+    ],
+    "notes": [],
+    "parser": "rules"
+  },
+  "clarification": null,
+  "recommendation": {
+    "option": {
+      "option_id": "momos mia|powai|momos steamed veg",
+      "restaurant": "Momo Mia",
+      "area": "Powai",
+      "item": "Veg Steamed Momos",
+      "feasible": true,
+      "rank": 1,
+      "score": 0.9086,
+      "best": {
+        "listing": {
+          "listing_id": "bitebox:bb_201",
+          "provider": "bitebox",
+          "provider_label": "Bitebox",
+          "restaurant": "Momo Mia",
+          "area": "Powai",
+          "item": "Veg Steamed Momos",
+          "cuisines": [
+            "Tibetan",
+            "Momos"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": 14900,
+          "offer": {
+            "label": "FLAT ₹30 OFF above ₹149",
+            "kind": "flat",
+            "percent": null,
+            "amount_paise": 3000,
+            "max_discount_paise": null,
+            "min_order_paise": 14900
+          },
+          "effective_price_paise": 11900,
+          "rating": 4.3,
+          "rating_count": 870,
+          "eta_min_low": 18,
+          "eta_min_high": 18,
+          "missing_fields": []
+        },
+        "feasible": true,
+        "violations": [],
+        "score": 0.9086,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.6345,
+            "weight": 0.25,
+            "points": 0.1586
+          },
+          {
+            "factor": "price",
+            "value": 1.0,
+            "weight": 0.375,
+            "points": 0.375
+          },
+          {
+            "factor": "eta",
+            "value": 1.0,
+            "weight": 0.375,
+            "points": 0.375
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "bitebox:bb_201",
+            "provider": "bitebox",
+            "provider_label": "Bitebox",
+            "restaurant": "Momo Mia",
+            "area": "Powai",
+            "item": "Veg Steamed Momos",
+            "cuisines": [
+              "Tibetan",
+              "Momos"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": 14900,
+            "offer": {
+              "label": "FLAT ₹30 OFF above ₹149",
+              "kind": "flat",
+              "percent": null,
+              "amount_paise": 3000,
+              "max_discount_paise": null,
+              "min_order_paise": 14900
+            },
+            "effective_price_paise": 11900,
+            "rating": 4.3,
+            "rating_count": 870,
+            "eta_min_low": 18,
+            "eta_min_high": 18,
+            "missing_fields": []
+          },
+          "feasible": true,
+          "violations": [],
+          "score": 0.9086,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.6345,
+              "weight": 0.25,
+              "points": 0.1586
+            },
+            {
+              "factor": "price",
+              "value": 1.0,
+              "weight": 0.375,
+              "points": 0.375
+            },
+            {
+              "factor": "eta",
+              "value": 1.0,
+              "weight": 0.375,
+              "points": 0.375
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        },
+        {
+          "listing": {
+            "listing_id": "tiffinly:T-31-1",
+            "provider": "tiffinly",
+            "provider_label": "Tiffinly",
+            "restaurant": "Momo Mia",
+            "area": "Powai",
+            "item": "Veg Steamed Momos",
+            "cuisines": [],
+            "tags": [
+              "veg"
+            ],
+            "diet": "veg",
+            "price_paise": 13900,
+            "offer": null,
+            "effective_price_paise": 13900,
+            "rating": 4.2,
+            "rating_count": 1100,
+            "eta_min_low": 15,
+            "eta_min_high": 20,
+            "missing_fields": []
+          },
+          "feasible": true,
+          "violations": [],
+          "score": 0.6836,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.5917,
+              "weight": 0.25,
+              "points": 0.1479
+            },
+            {
+              "factor": "price",
+              "value": 0.7143,
+              "weight": 0.375,
+              "points": 0.2679
+            },
+            {
+              "factor": "eta",
+              "value": 0.7143,
+              "weight": 0.375,
+              "points": 0.2679
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    "summary": "Recommended because it matches your vegetarian requirement, is in Powai, has a 4.3 rating from 870 ratings, costs ₹119, and has an estimated delivery time of 18 minutes.",
+    "reasons": [
+      "Vegetarian (marked veg by Bitebox)",
+      "Veg Steamed Momos matches “momos”",
+      "Rated 4.3 from 870 ratings — the highest rating among options that fit",
+      "In Powai, as requested"
+    ],
+    "comparison": "Ranked above Paneer Momos at Dumpling Den (Bitebox) mainly on price: ₹119 vs ₹189.",
+    "cheaper_alternative": null,
+    "also_on": [
+      "Also on Tiffinly for ₹139, 15–20 min."
+    ],
+    "caveats": []
+  },
+  "ranked": [
+    {
+      "option_id": "momos mia|powai|momos steamed veg",
+      "restaurant": "Momo Mia",
+      "area": "Powai",
+      "item": "Veg Steamed Momos",
+      "feasible": true,
+      "rank": 1,
+      "score": 0.9086,
+      "best": {
+        "listing": {
+          "listing_id": "bitebox:bb_201",
+          "provider": "bitebox",
+          "provider_label": "Bitebox",
+          "restaurant": "Momo Mia",
+          "area": "Powai",
+          "item": "Veg Steamed Momos",
+          "cuisines": [
+            "Tibetan",
+            "Momos"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": 14900,
+          "offer": {
+            "label": "FLAT ₹30 OFF above ₹149",
+            "kind": "flat",
+            "percent": null,
+            "amount_paise": 3000,
+            "max_discount_paise": null,
+            "min_order_paise": 14900
+          },
+          "effective_price_paise": 11900,
+          "rating": 4.3,
+          "rating_count": 870,
+          "eta_min_low": 18,
+          "eta_min_high": 18,
+          "missing_fields": []
+        },
+        "feasible": true,
+        "violations": [],
+        "score": 0.9086,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.6345,
+            "weight": 0.25,
+            "points": 0.1586
+          },
+          {
+            "factor": "price",
+            "value": 1.0,
+            "weight": 0.375,
+            "points": 0.375
+          },
+          {
+            "factor": "eta",
+            "value": 1.0,
+            "weight": 0.375,
+            "points": 0.375
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "bitebox:bb_201",
+            "provider": "bitebox",
+            "provider_label": "Bitebox",
+            "restaurant": "Momo Mia",
+            "area": "Powai",
+            "item": "Veg Steamed Momos",
+            "cuisines": [
+              "Tibetan",
+              "Momos"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": 14900,
+            "offer": {
+              "label": "FLAT ₹30 OFF above ₹149",
+              "kind": "flat",
+              "percent": null,
+              "amount_paise": 3000,
+              "max_discount_paise": null,
+              "min_order_paise": 14900
+            },
+            "effective_price_paise": 11900,
+            "rating": 4.3,
+            "rating_count": 870,
+            "eta_min_low": 18,
+            "eta_min_high": 18,
+            "missing_fields": []
+          },
+          "feasible": true,
+          "violations": [],
+          "score": 0.9086,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.6345,
+              "weight": 0.25,
+              "points": 0.1586
+            },
+            {
+              "factor": "price",
+              "value": 1.0,
+              "weight": 0.375,
+              "points": 0.375
+            },
+            {
+              "factor": "eta",
+              "value": 1.0,
+              "weight": 0.375,
+              "points": 0.375
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        },
+        {
+          "listing": {
+            "listing_id": "tiffinly:T-31-1",
+            "provider": "tiffinly",
+            "provider_label": "Tiffinly",
+            "restaurant": "Momo Mia",
+            "area": "Powai",
+            "item": "Veg Steamed Momos",
+            "cuisines": [],
+            "tags": [
+              "veg"
+            ],
+            "diet": "veg",
+            "price_paise": 13900,
+            "offer": null,
+            "effective_price_paise": 13900,
+            "rating": 4.2,
+            "rating_count": 1100,
+            "eta_min_low": 15,
+            "eta_min_high": 20,
+            "missing_fields": []
+          },
+          "feasible": true,
+          "violations": [],
+          "score": 0.6836,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.5917,
+              "weight": 0.25,
+              "points": 0.1479
+            },
+            {
+              "factor": "price",
+              "value": 0.7143,
+              "weight": 0.375,
+              "points": 0.2679
+            },
+            {
+              "factor": "eta",
+              "value": 0.7143,
+              "weight": 0.375,
+              "points": 0.2679
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "dumpling den|powai|momos paneer",
+      "restaurant": "Dumpling Den",
+      "area": "Powai",
+      "item": "Paneer Momos",
+      "feasible": true,
+      "rank": 2,
+      "score": 0.1165,
+      "best": {
+        "listing": {
+          "listing_id": "bitebox:bb_202",
+          "provider": "bitebox",
+          "provider_label": "Bitebox",
+          "restaurant": "Dumpling Den",
+          "area": "Powai",
+          "item": "Paneer Momos",
+          "cuisines": [
+            "Momos"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": 18900,
+          "offer": null,
+          "effective_price_paise": 18900,
+          "rating": 3.9,
+          "rating_count": 210,
+          "eta_min_low": 25,
+          "eta_min_high": 25,
+          "missing_fields": []
+        },
+        "feasible": true,
+        "violations": [],
+        "score": 0.1165,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.4661,
+            "weight": 0.25,
+            "points": 0.1165
+          },
+          {
+            "factor": "price",
+            "value": 0.0,
+            "weight": 0.375,
+            "points": 0.0
+          },
+          {
+            "factor": "eta",
+            "value": 0.0,
+            "weight": 0.375,
+            "points": 0.0
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "bitebox:bb_202",
+            "provider": "bitebox",
+            "provider_label": "Bitebox",
+            "restaurant": "Dumpling Den",
+            "area": "Powai",
+            "item": "Paneer Momos",
+            "cuisines": [
+              "Momos"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": 18900,
+            "offer": null,
+            "effective_price_paise": 18900,
+            "rating": 3.9,
+            "rating_count": 210,
+            "eta_min_low": 25,
+            "eta_min_high": 25,
+            "missing_fields": []
+          },
+          "feasible": true,
+          "violations": [],
+          "score": 0.1165,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.4661,
+              "weight": 0.25,
+              "points": 0.1165
+            },
+            {
+              "factor": "price",
+              "value": 0.0,
+              "weight": 0.375,
+              "points": 0.0
+            },
+            {
+              "factor": "eta",
+              "value": 0.0,
+              "weight": 0.375,
+              "points": 0.0
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "option_id": "biryani junction|powai|biryani veg",
+      "restaurant": "Biryani Junction",
+      "area": "Powai",
+      "item": "Veg Biryani",
+      "feasible": false,
+      "rank": null,
+      "score": 0.338,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-1",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Biryani Junction",
+          "area": "Powai",
+          "item": "Veg Biryani",
+          "cuisines": [
+            "Biryani",
+            "Mughlai"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": 17500,
+          "offer": null,
+          "effective_price_paise": 17500,
+          "rating": 3.5,
+          "rating_count": 380,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a momos"
+        ],
+        "score": 0.338,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.3021,
+            "weight": 0.25,
+            "points": 0.0755
+          },
+          {
+            "factor": "price",
+            "value": 0.2,
+            "weight": 0.375,
+            "points": 0.075
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.375,
+            "points": 0.1875
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-1",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Biryani Junction",
+            "area": "Powai",
+            "item": "Veg Biryani",
+            "cuisines": [
+              "Biryani",
+              "Mughlai"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": 17500,
+            "offer": null,
+            "effective_price_paise": 17500,
+            "rating": 3.5,
+            "rating_count": 380,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a momos"
+          ],
+          "score": 0.338,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.3021,
+              "weight": 0.25,
+              "points": 0.0755
+            },
+            {
+              "factor": "price",
+              "value": 0.2,
+              "weight": 0.375,
+              "points": 0.075
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.375,
+              "points": 0.1875
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "udupi corner|dadar|dosa masala",
+      "restaurant": "Udupi Corner",
+      "area": "Dadar",
+      "item": "Masala Dosa",
+      "feasible": false,
+      "rank": null,
+      "score": 0.7179,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-3",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Udupi Corner",
+          "area": "Dadar",
+          "item": "Masala Dosa",
+          "cuisines": [
+            "South Indian"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": 12000,
+          "offer": null,
+          "effective_price_paise": 12000,
+          "rating": 4.3,
+          "rating_count": 2100,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a momos",
+          "in Dadar, not Powai"
+        ],
+        "score": 0.7179,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.6432,
+            "weight": 0.25,
+            "points": 0.1608
+          },
+          {
+            "factor": "price",
+            "value": 0.9857,
+            "weight": 0.375,
+            "points": 0.3696
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.375,
+            "points": 0.1875
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-3",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Udupi Corner",
+            "area": "Dadar",
+            "item": "Masala Dosa",
+            "cuisines": [
+              "South Indian"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": 12000,
+            "offer": null,
+            "effective_price_paise": 12000,
+            "rating": 4.3,
+            "rating_count": 2100,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a momos",
+            "in Dadar, not Powai"
+          ],
+          "score": 0.7179,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.6432,
+              "weight": 0.25,
+              "points": 0.1608
+            },
+            {
+              "factor": "price",
+              "value": 0.9857,
+              "weight": 0.375,
+              "points": 0.3696
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.375,
+              "points": 0.1875
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "bombay tiffin co|bandra west|biryani large veg",
+      "restaurant": "Bombay Tiffin Co",
+      "area": "Bandra West",
+      "item": "Veg Biryani, Large",
+      "feasible": false,
+      "rank": null,
+      "score": 0.5,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-5",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Bombay Tiffin Co",
+          "area": "Bandra West",
+          "item": "Veg Biryani, Large",
+          "cuisines": [
+            "Biryani"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": null,
+          "offer": null,
+          "effective_price_paise": null,
+          "rating": 4.0,
+          "rating_count": 90,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "price",
+            "eta"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a momos",
+          "in Bandra West, not Powai"
+        ],
+        "score": 0.5,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.5,
+            "weight": 0.25,
+            "points": 0.125
+          },
+          {
+            "factor": "price",
+            "value": 0.5,
+            "weight": 0.375,
+            "points": 0.1875
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.375,
+            "points": 0.1875
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-5",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Bombay Tiffin Co",
+            "area": "Bandra West",
+            "item": "Veg Biryani, Large",
+            "cuisines": [
+              "Biryani"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": null,
+            "offer": null,
+            "effective_price_paise": null,
+            "rating": 4.0,
+            "rating_count": 90,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "price",
+              "eta"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a momos",
+            "in Bandra West, not Powai"
+          ],
+          "score": 0.5,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.5,
+              "weight": 0.25,
+              "points": 0.125
+            },
+            {
+              "factor": "price",
+              "value": 0.5,
+              "weight": 0.375,
+              "points": 0.1875
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.375,
+              "points": 0.1875
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "annapurna bhojanalay|dadar|gujarati thali",
+      "restaurant": "Annapurna Bhojanalay",
+      "area": "Dadar",
+      "item": "Gujarati Thali",
+      "feasible": false,
+      "rank": null,
+      "score": 0.3702,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-2",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Annapurna Bhojanalay",
+          "area": "Dadar",
+          "item": "Gujarati Thali",
+          "cuisines": [
+            "Gujarati",
+            "Thali"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": 28000,
+          "offer": null,
+          "effective_price_paise": 28000,
+          "rating": 4.5,
+          "rating_count": 1200,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a momos",
+          "in Dadar, not Powai"
+        ],
+        "score": 0.3702,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.7308,
+            "weight": 0.25,
+            "points": 0.1827
+          },
+          {
+            "factor": "price",
+            "value": 0.0,
+            "weight": 0.375,
+            "points": 0.0
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.375,
+            "points": 0.1875
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-2",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Annapurna Bhojanalay",
+            "area": "Dadar",
+            "item": "Gujarati Thali",
+            "cuisines": [
+              "Gujarati",
+              "Thali"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": 28000,
+            "offer": null,
+            "effective_price_paise": 28000,
+            "rating": 4.5,
+            "rating_count": 1200,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a momos",
+            "in Dadar, not Powai"
+          ],
+          "score": 0.3702,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.7308,
+              "weight": 0.25,
+              "points": 0.1827
+            },
+            {
+              "factor": "price",
+              "value": 0.0,
+              "weight": 0.375,
+              "points": 0.0
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.375,
+              "points": 0.1875
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "biryani darbar|andheri west|biryani hyderabadi veg",
+      "restaurant": "Biryani Darbar",
+      "area": "Andheri West",
+      "item": "Hyderabadi Veg Biriyani",
+      "feasible": false,
+      "rank": null,
+      "score": 0.3557,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-7",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Biryani Darbar",
+          "area": "Andheri West",
+          "item": "Hyderabadi Veg Biriyani",
+          "cuisines": [
+            "Hyderabadi",
+            "Biryani"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": 23000,
+          "offer": null,
+          "effective_price_paise": 23000,
+          "rating": 4.4,
+          "rating_count": 640,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a momos",
+          "in Andheri West, not Powai"
+        ],
+        "score": 0.3557,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.673,
+            "weight": 0.25,
+            "points": 0.1682
+          },
+          {
+            "factor": "price",
+            "value": 0.0,
+            "weight": 0.375,
+            "points": 0.0
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.375,
+            "points": 0.1875
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-7",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Biryani Darbar",
+            "area": "Andheri West",
+            "item": "Hyderabadi Veg Biriyani",
+            "cuisines": [
+              "Hyderabadi",
+              "Biryani"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": 23000,
+            "offer": null,
+            "effective_price_paise": 23000,
+            "rating": 4.4,
+            "rating_count": 640,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a momos",
+            "in Andheri West, not Powai"
+          ],
+          "score": 0.3557,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.673,
+              "weight": 0.25,
+              "points": 0.1682
+            },
+            {
+              "factor": "price",
+              "value": 0.0,
+              "weight": 0.375,
+              "points": 0.0
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.375,
+              "points": 0.1875
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "salad studio|bandra west|quinoa salad vegan",
+      "restaurant": "Salad Studio",
+      "area": "Bandra West",
+      "item": "Vegan Quinoa Salad",
+      "feasible": false,
+      "rank": null,
+      "score": 0.3286,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-8",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Salad Studio",
+          "area": "Bandra West",
+          "item": "Vegan Quinoa Salad",
+          "cuisines": [
+            "Healthy",
+            "Salads"
+          ],
+          "tags": [],
+          "diet": "vegan",
+          "price_paise": 29900,
+          "offer": null,
+          "effective_price_paise": 29900,
+          "rating": 4.2,
+          "rating_count": 180,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a momos",
+          "in Bandra West, not Powai"
+        ],
+        "score": 0.3286,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.5643,
+            "weight": 0.25,
+            "points": 0.1411
+          },
+          {
+            "factor": "price",
+            "value": 0.0,
+            "weight": 0.375,
+            "points": 0.0
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.375,
+            "points": 0.1875
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-8",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Salad Studio",
+            "area": "Bandra West",
+            "item": "Vegan Quinoa Salad",
+            "cuisines": [
+              "Healthy",
+              "Salads"
+            ],
+            "tags": [],
+            "diet": "vegan",
+            "price_paise": 29900,
+            "offer": null,
+            "effective_price_paise": 29900,
+            "rating": 4.2,
+            "rating_count": 180,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a momos",
+            "in Bandra West, not Powai"
+          ],
+          "score": 0.3286,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.5643,
+              "weight": 0.25,
+              "points": 0.1411
+            },
+            {
+              "factor": "price",
+              "value": 0.0,
+              "weight": 0.375,
+              "points": 0.0
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.375,
+              "points": 0.1875
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "udupi corner|dadar|dosa masala mysore",
+      "restaurant": "Udupi Corner",
+      "area": "Dadar",
+      "item": "Mysore Masala Dosa",
+      "feasible": false,
+      "rank": null,
+      "score": 0.6108,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-4",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Udupi Corner",
+          "area": "Dadar",
+          "item": "Mysore Masala Dosa",
+          "cuisines": [
+            "South Indian"
+          ],
+          "tags": [],
+          "diet": null,
+          "price_paise": 14000,
+          "offer": null,
+          "effective_price_paise": 14000,
+          "rating": 4.3,
+          "rating_count": 2100,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta",
+            "diet"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a momos",
+          "vegetarian status not listed by Khaana Open Data",
+          "in Dadar, not Powai"
+        ],
+        "score": 0.6108,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.6432,
+            "weight": 0.25,
+            "points": 0.1608
+          },
+          {
+            "factor": "price",
+            "value": 0.7,
+            "weight": 0.375,
+            "points": 0.2625
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.375,
+            "points": 0.1875
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-4",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Udupi Corner",
+            "area": "Dadar",
+            "item": "Mysore Masala Dosa",
+            "cuisines": [
+              "South Indian"
+            ],
+            "tags": [],
+            "diet": null,
+            "price_paise": 14000,
+            "offer": null,
+            "effective_price_paise": 14000,
+            "rating": 4.3,
+            "rating_count": 2100,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta",
+              "diet"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a momos",
+            "vegetarian status not listed by Khaana Open Data",
+            "in Dadar, not Powai"
+          ],
+          "score": 0.6108,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.6432,
+              "weight": 0.25,
+              "points": 0.1608
+            },
+            {
+              "factor": "price",
+              "value": 0.7,
+              "weight": 0.375,
+              "points": 0.2625
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.375,
+              "points": 0.1875
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    }
+  ],
+  "closest": [],
+  "providers": [
+    {
+      "name": "bitebox",
+      "label": "Bitebox",
+      "status": "ok",
+      "http_status": 200,
+      "latency_ms": 3,
+      "attempts": 1,
+      "records_received": 2,
+      "records_used": 2,
+      "records_dropped": 0,
+      "schema_seen": "bitebox 2.1",
+      "message": null
+    },
+    {
+      "name": "tiffinly",
+      "label": "Tiffinly",
+      "status": "ok",
+      "http_status": 200,
+      "latency_ms": 2,
+      "attempts": 1,
+      "records_received": 1,
+      "records_used": 1,
+      "records_dropped": 0,
+      "schema_seen": "tiffinly.v3",
+      "message": null
+    },
+    {
+      "name": "khaana",
+      "label": "Khaana Open Data",
+      "status": "ok",
+      "http_status": 200,
+      "latency_ms": 3,
+      "attempts": 1,
+      "records_received": 8,
+      "records_used": 7,
+      "records_dropped": 1,
+      "schema_seen": "khaana csv v1",
+      "message": null
+    }
+  ],
+  "dropped": [
+    {
+      "provider": "khaana",
+      "record_ref": "A-6",
+      "reason": "malformed CSV row: expected 9 fields, got 11"
+    }
+  ],
+  "data_quality": {
+    "records_received": 11,
+    "records_dropped": 1,
+    "duplicates_removed": 0,
+    "merged_options": 1,
+    "listings_with_missing_fields": 7
+  },
+  "warnings": [],
+  "degraded": false,
+  "trace": {
+    "parse_ms": 1.0,
+    "fetch_ms": 7.9,
+    "rank_ms": 7.6,
+    "total_ms": 17.3
+  }
+}

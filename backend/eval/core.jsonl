@@ -1,0 +1,20 @@
+{"q": "Find me a vegetarian biryani under ₹300 that can arrive within 30 minutes. I prefer highly rated restaurants.", "intent": "discovery", "dish": "biryani", "diet": "veg", "max_price_inr": 300, "max_eta_min": 30, "rating_preference": "high"}
+{"q": "suggest some biryani", "intent": "discovery", "dish": "biryani"}
+{"q": "cheap pizza in Powai, fast please", "intent": "discovery", "dish": "pizza", "price_preference": "low", "speed_preference": "fast", "location": "Powai"}
+{"q": "Which biryani place is better in Bandra, under 350?", "intent": "decision", "dish": "biryani", "location": "Bandra West", "max_price_inr": 350}
+{"q": "I want vegan food within 45 mins", "intent": "discovery", "diet": "vegan", "max_eta_min": 45}
+{"q": "non-veg biryani with chicken, 4+ stars, below rs 400", "intent": "discovery", "dish": "biryani", "ingredients": ["chicken"], "diet": "non_veg", "min_rating": 4.0, "max_price_inr": 400}
+{"q": "order a masala dosa from Dadar", "intent": "action", "dish": "dosa", "location": "Dadar"}
+{"q": "how much does a gujarati thali cost in Dadar?", "intent": "information", "dish": "thali", "cuisine": "gujarati", "location": "Dadar"}
+{"q": "hi", "intent": "clarification"}
+{"q": "something under 200 in 20 mins", "intent": "discovery", "max_price_inr": 200, "max_eta_min": 20}
+{"q": "Jain food, not spicy, in Andheri West", "intent": "discovery", "diet": "veg", "other_preferences": ["jain", "not spicy"], "location": "Andheri West"}
+{"q": "top rated south indian breakfast near Dadar, max ₹150", "intent": "discovery", "cuisine": "south indian", "rating_preference": "high", "location": "Dadar", "max_price_inr": 150}
+{"q": "veg momos asap", "intent": "discovery", "dish": "momos", "diet": "veg", "speed_preference": "fast"}
+{"q": "need dinner within an hour, budget 500", "intent": "discovery", "max_eta_min": 60, "max_price_inr": 500}
+{"q": "egg biryani under 250 in half an hour", "intent": "discovery", "dish": "biryani", "ingredients": ["egg"], "max_price_inr": 250, "max_eta_min": 30}
+{"q": "what's the price of a veg burger in Lower Parel?", "intent": "information", "dish": "burger", "diet": "veg", "location": "Lower Parel"}
+{"q": "within 45", "intent": "clarification"}
+{"q": "biryani for under 300, delivered in 25-35 minutes", "intent": "discovery", "dish": "biryani", "max_price_inr": 300, "max_eta_min": 35}
+{"q": "Hyderabadi biryani in Bandra, rated at least 4.5", "intent": "discovery", "dish": "biryani", "cuisine": "hyderabadi", "location": "Bandra West", "min_rating": 4.5}
+{"q": "affordable chinese noodles, quick", "intent": "discovery", "dish": "noodles", "cuisine": "chinese", "price_preference": "low", "speed_preference": "fast"}

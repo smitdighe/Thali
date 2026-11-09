@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "request_id": "07-clarification",
+  "query": "within 45",
+  "parsed": {
+    "intent": "clarification",
+    "dish": null,
+    "cuisine": null,
+    "ingredients": [],
+    "diet": null,
+    "max_price_inr": null,
+    "max_eta_min": null,
+    "min_rating": null,
+    "rating_preference": null,
+    "price_preference": null,
+    "speed_preference": null,
+    "location": null,
+    "other_preferences": [],
+    "spans": [],
+    "missing": [
+      "food",
+      "diet",
+      "budget",
+      "delivery_time",
+      "rating",
+      "location"
+    ],
+    "notes": [
+      "“within 45” has no unit (₹ or minutes?), so it was ignored"
+    ],
+    "parser": "rules"
+  },
+  "clarification": "“within 45” has no unit (₹ or minutes?), so it was ignored. What would you like to eat? For example: “veg biryani under ₹300 in 30 minutes”.",
+  "recommendation": null,
+  "ranked": [],
+  "excluded": [],
+  "closest": [],
+  "providers": [],
+  "dropped": [],
+  "data_quality": {
+    "records_received": 0,
+    "records_dropped": 0,
+    "duplicates_removed": 0,
+    "merged_options": 0,
+    "listings_with_missing_fields": 0
+  },
+  "warnings": [],
+  "degraded": false,
+  "trace": {
+    "parse_ms": 0.8,
+    "fetch_ms": 0.0,
+    "rank_ms": 0.0,
+    "total_ms": 1.0
+  }
+}

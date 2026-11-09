@@ -1,0 +1,5 @@
+{"q": "nothing with meat please, I'm in Powai and starving", "intent": "discovery", "diet": "veg", "location": "Powai"}
+{"q": "something Hyderabadi that's well reviewed", "intent": "discovery", "cuisine": "hyderabadi", "rating_preference": "high"}
+{"q": "plant-based bowl for under 250", "intent": "discovery", "diet": "vegan", "max_price_inr": 250}
+{"q": "get me dosa delivered before half an hour", "intent": "discovery", "dish": "dosa", "max_eta_min": 30}
+{"q": "any noodles for 200 tops?", "intent": "discovery", "dish": "noodles", "max_price_inr": 200}

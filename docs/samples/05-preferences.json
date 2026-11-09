@@ -1,0 +1,1321 @@
+{
+  "schema_version": "1.0",
+  "request_id": "05-preferences",
+  "query": "Jain thali in Dadar under ₹300",
+  "parsed": {
+    "intent": "discovery",
+    "dish": "thali",
+    "cuisine": null,
+    "ingredients": [],
+    "diet": "veg",
+    "max_price_inr": 300,
+    "max_eta_min": null,
+    "min_rating": null,
+    "rating_preference": null,
+    "price_preference": null,
+    "speed_preference": null,
+    "location": "Dadar",
+    "other_preferences": [
+      "jain"
+    ],
+    "spans": [
+      {
+        "field": "diet",
+        "text": "Jain",
+        "start": 0,
+        "end": 4,
+        "source": "rules"
+      },
+      {
+        "field": "other_preferences",
+        "text": "Jain",
+        "start": 0,
+        "end": 4,
+        "source": "rules"
+      },
+      {
+        "field": "dish",
+        "text": "thali",
+        "start": 5,
+        "end": 10,
+        "source": "rules"
+      },
+      {
+        "field": "location",
+        "text": "Dadar",
+        "start": 14,
+        "end": 19,
+        "source": "rules"
+      },
+      {
+        "field": "budget",
+        "text": "under ₹300",
+        "start": 20,
+        "end": 30,
+        "source": "rules"
+      }
+    ],
+    "missing": [
+      "delivery_time",
+      "rating"
+    ],
+    "notes": [],
+    "parser": "rules"
+  },
+  "clarification": null,
+  "recommendation": {
+    "option": {
+      "option_id": "thali ghar|dadar|jain thali",
+      "restaurant": "Thali Ghar",
+      "area": "Dadar",
+      "item": "Jain Thali",
+      "feasible": true,
+      "rank": 1,
+      "score": 0.4926,
+      "best": {
+        "listing": {
+          "listing_id": "tiffinly:T-70-1",
+          "provider": "tiffinly",
+          "provider_label": "Tiffinly",
+          "restaurant": "Thali Ghar",
+          "area": "Dadar",
+          "item": "Jain Thali",
+          "cuisines": [],
+          "tags": [
+            "veg",
+            "jain"
+          ],
+          "diet": "veg",
+          "price_paise": 26000,
+          "offer": null,
+          "effective_price_paise": 26000,
+          "rating": 4.4,
+          "rating_count": 980,
+          "eta_min_low": 30,
+          "eta_min_high": 40,
+          "missing_fields": []
+        },
+        "feasible": true,
+        "violations": [],
+        "score": 0.4926,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.6815,
+            "weight": 0.4,
+            "points": 0.2726
+          },
+          {
+            "factor": "price",
+            "value": 0.1333,
+            "weight": 0.3,
+            "points": 0.04
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.3,
+            "points": 0.15
+          }
+        ],
+        "bonus": 0.03,
+        "matched_preferences": [
+          "jain"
+        ]
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "tiffinly:T-70-1",
+            "provider": "tiffinly",
+            "provider_label": "Tiffinly",
+            "restaurant": "Thali Ghar",
+            "area": "Dadar",
+            "item": "Jain Thali",
+            "cuisines": [],
+            "tags": [
+              "veg",
+              "jain"
+            ],
+            "diet": "veg",
+            "price_paise": 26000,
+            "offer": null,
+            "effective_price_paise": 26000,
+            "rating": 4.4,
+            "rating_count": 980,
+            "eta_min_low": 30,
+            "eta_min_high": 40,
+            "missing_fields": []
+          },
+          "feasible": true,
+          "violations": [],
+          "score": 0.4926,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.6815,
+              "weight": 0.4,
+              "points": 0.2726
+            },
+            {
+              "factor": "price",
+              "value": 0.1333,
+              "weight": 0.3,
+              "points": 0.04
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.3,
+              "points": 0.15
+            }
+          ],
+          "bonus": 0.03,
+          "matched_preferences": [
+            "jain"
+          ]
+        }
+      ]
+    },
+    "summary": "Recommended because it matches your vegetarian requirement, is in Dadar, stays within your ₹300 budget at ₹260, has a 4.4 rating from 980 ratings, and has an estimated delivery time of 30–40 minutes.",
+    "reasons": [
+      "Vegetarian (marked veg by Tiffinly)",
+      "Jain Thali matches “thali”",
+      "₹260 — within your ₹300 budget",
+      "Rated 4.4 from 980 ratings",
+      "In Dadar, as requested",
+      "Matches “jain”"
+    ],
+    "comparison": "Ranked above Gujarati Thali at Annapurna Bhojanalay (Khaana Open Data) mainly on price: ₹260 vs ₹280.",
+    "cheaper_alternative": null,
+    "also_on": [],
+    "caveats": []
+  },
+  "ranked": [
+    {
+      "option_id": "thali ghar|dadar|jain thali",
+      "restaurant": "Thali Ghar",
+      "area": "Dadar",
+      "item": "Jain Thali",
+      "feasible": true,
+      "rank": 1,
+      "score": 0.4926,
+      "best": {
+        "listing": {
+          "listing_id": "tiffinly:T-70-1",
+          "provider": "tiffinly",
+          "provider_label": "Tiffinly",
+          "restaurant": "Thali Ghar",
+          "area": "Dadar",
+          "item": "Jain Thali",
+          "cuisines": [],
+          "tags": [
+            "veg",
+            "jain"
+          ],
+          "diet": "veg",
+          "price_paise": 26000,
+          "offer": null,
+          "effective_price_paise": 26000,
+          "rating": 4.4,
+          "rating_count": 980,
+          "eta_min_low": 30,
+          "eta_min_high": 40,
+          "missing_fields": []
+        },
+        "feasible": true,
+        "violations": [],
+        "score": 0.4926,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.6815,
+            "weight": 0.4,
+            "points": 0.2726
+          },
+          {
+            "factor": "price",
+            "value": 0.1333,
+            "weight": 0.3,
+            "points": 0.04
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.3,
+            "points": 0.15
+          }
+        ],
+        "bonus": 0.03,
+        "matched_preferences": [
+          "jain"
+        ]
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "tiffinly:T-70-1",
+            "provider": "tiffinly",
+            "provider_label": "Tiffinly",
+            "restaurant": "Thali Ghar",
+            "area": "Dadar",
+            "item": "Jain Thali",
+            "cuisines": [],
+            "tags": [
+              "veg",
+              "jain"
+            ],
+            "diet": "veg",
+            "price_paise": 26000,
+            "offer": null,
+            "effective_price_paise": 26000,
+            "rating": 4.4,
+            "rating_count": 980,
+            "eta_min_low": 30,
+            "eta_min_high": 40,
+            "missing_fields": []
+          },
+          "feasible": true,
+          "violations": [],
+          "score": 0.4926,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.6815,
+              "weight": 0.4,
+              "points": 0.2726
+            },
+            {
+              "factor": "price",
+              "value": 0.1333,
+              "weight": 0.3,
+              "points": 0.04
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.3,
+              "points": 0.15
+            }
+          ],
+          "bonus": 0.03,
+          "matched_preferences": [
+            "jain"
+          ]
+        }
+      ]
+    },
+    {
+      "option_id": "annapurna bhojanalay|dadar|gujarati thali",
+      "restaurant": "Annapurna Bhojanalay",
+      "area": "Dadar",
+      "item": "Gujarati Thali",
+      "feasible": true,
+      "rank": 2,
+      "score": 0.4623,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-2",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Annapurna Bhojanalay",
+          "area": "Dadar",
+          "item": "Gujarati Thali",
+          "cuisines": [
+            "Gujarati",
+            "Thali"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": 28000,
+          "offer": null,
+          "effective_price_paise": 28000,
+          "rating": 4.5,
+          "rating_count": 1200,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta"
+          ]
+        },
+        "feasible": true,
+        "violations": [],
+        "score": 0.4623,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.7308,
+            "weight": 0.4,
+            "points": 0.2923
+          },
+          {
+            "factor": "price",
+            "value": 0.0667,
+            "weight": 0.3,
+            "points": 0.02
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.3,
+            "points": 0.15
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-2",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Annapurna Bhojanalay",
+            "area": "Dadar",
+            "item": "Gujarati Thali",
+            "cuisines": [
+              "Gujarati",
+              "Thali"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": 28000,
+            "offer": null,
+            "effective_price_paise": 28000,
+            "rating": 4.5,
+            "rating_count": 1200,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta"
+            ]
+          },
+          "feasible": true,
+          "violations": [],
+          "score": 0.4623,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.7308,
+              "weight": 0.4,
+              "points": 0.2923
+            },
+            {
+              "factor": "price",
+              "value": 0.0667,
+              "weight": 0.3,
+              "points": 0.02
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.3,
+              "points": 0.15
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "thali ghar|dadar|gujarati thali",
+      "restaurant": "Thali Ghar",
+      "area": "Dadar",
+      "item": "Gujarati Thali",
+      "feasible": true,
+      "rank": 3,
+      "score": 0.4226,
+      "best": {
+        "listing": {
+          "listing_id": "tiffinly:T-70-2",
+          "provider": "tiffinly",
+          "provider_label": "Tiffinly",
+          "restaurant": "Thali Ghar",
+          "area": "Dadar",
+          "item": "Gujarati Thali",
+          "cuisines": [],
+          "tags": [
+            "veg"
+          ],
+          "diet": "veg",
+          "price_paise": 30000,
+          "offer": {
+            "label": "BOGO offer",
+            "kind": "unknown",
+            "percent": null,
+            "amount_paise": null,
+            "max_discount_paise": null,
+            "min_order_paise": null
+          },
+          "effective_price_paise": 30000,
+          "rating": 4.4,
+          "rating_count": 980,
+          "eta_min_low": 30,
+          "eta_min_high": 40,
+          "missing_fields": []
+        },
+        "feasible": true,
+        "violations": [],
+        "score": 0.4226,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.6815,
+            "weight": 0.4,
+            "points": 0.2726
+          },
+          {
+            "factor": "price",
+            "value": 0.0,
+            "weight": 0.3,
+            "points": 0.0
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.3,
+            "points": 0.15
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "tiffinly:T-70-2",
+            "provider": "tiffinly",
+            "provider_label": "Tiffinly",
+            "restaurant": "Thali Ghar",
+            "area": "Dadar",
+            "item": "Gujarati Thali",
+            "cuisines": [],
+            "tags": [
+              "veg"
+            ],
+            "diet": "veg",
+            "price_paise": 30000,
+            "offer": {
+              "label": "BOGO offer",
+              "kind": "unknown",
+              "percent": null,
+              "amount_paise": null,
+              "max_discount_paise": null,
+              "min_order_paise": null
+            },
+            "effective_price_paise": 30000,
+            "rating": 4.4,
+            "rating_count": 980,
+            "eta_min_low": 30,
+            "eta_min_high": 40,
+            "missing_fields": []
+          },
+          "feasible": true,
+          "violations": [],
+          "score": 0.4226,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.6815,
+              "weight": 0.4,
+              "points": 0.2726
+            },
+            {
+              "factor": "price",
+              "value": 0.0,
+              "weight": 0.3,
+              "points": 0.0
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.3,
+              "points": 0.15
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "option_id": "udupi corner|dadar|dosa masala",
+      "restaurant": "Udupi Corner",
+      "area": "Dadar",
+      "item": "Masala Dosa",
+      "feasible": false,
+      "rank": null,
+      "score": 0.5873,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-3",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Udupi Corner",
+          "area": "Dadar",
+          "item": "Masala Dosa",
+          "cuisines": [
+            "South Indian"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": 12000,
+          "offer": null,
+          "effective_price_paise": 12000,
+          "rating": 4.3,
+          "rating_count": 2100,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a thali"
+        ],
+        "score": 0.5873,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.6432,
+            "weight": 0.4,
+            "points": 0.2573
+          },
+          {
+            "factor": "price",
+            "value": 0.6,
+            "weight": 0.3,
+            "points": 0.18
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.3,
+            "points": 0.15
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-3",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Udupi Corner",
+            "area": "Dadar",
+            "item": "Masala Dosa",
+            "cuisines": [
+              "South Indian"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": 12000,
+            "offer": null,
+            "effective_price_paise": 12000,
+            "rating": 4.3,
+            "rating_count": 2100,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a thali"
+          ],
+          "score": 0.5873,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.6432,
+              "weight": 0.4,
+              "points": 0.2573
+            },
+            {
+              "factor": "price",
+              "value": 0.6,
+              "weight": 0.3,
+              "points": 0.18
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.3,
+              "points": 0.15
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "udupi corner|dadar|dosa masala mysore",
+      "restaurant": "Udupi Corner",
+      "area": "Dadar",
+      "item": "Mysore Masala Dosa",
+      "feasible": false,
+      "rank": null,
+      "score": 0.5673,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-4",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Udupi Corner",
+          "area": "Dadar",
+          "item": "Mysore Masala Dosa",
+          "cuisines": [
+            "South Indian"
+          ],
+          "tags": [],
+          "diet": null,
+          "price_paise": 14000,
+          "offer": null,
+          "effective_price_paise": 14000,
+          "rating": 4.3,
+          "rating_count": 2100,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta",
+            "diet"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a thali",
+          "vegetarian status not listed by Khaana Open Data"
+        ],
+        "score": 0.5673,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.6432,
+            "weight": 0.4,
+            "points": 0.2573
+          },
+          {
+            "factor": "price",
+            "value": 0.5333,
+            "weight": 0.3,
+            "points": 0.16
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.3,
+            "points": 0.15
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-4",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Udupi Corner",
+            "area": "Dadar",
+            "item": "Mysore Masala Dosa",
+            "cuisines": [
+              "South Indian"
+            ],
+            "tags": [],
+            "diet": null,
+            "price_paise": 14000,
+            "offer": null,
+            "effective_price_paise": 14000,
+            "rating": 4.3,
+            "rating_count": 2100,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta",
+              "diet"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a thali",
+            "vegetarian status not listed by Khaana Open Data"
+          ],
+          "score": 0.5673,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.6432,
+              "weight": 0.4,
+              "points": 0.2573
+            },
+            {
+              "factor": "price",
+              "value": 0.5333,
+              "weight": 0.3,
+              "points": 0.16
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.3,
+              "points": 0.15
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "biryani darbar|andheri west|biryani hyderabadi veg",
+      "restaurant": "Biryani Darbar",
+      "area": "Andheri West",
+      "item": "Hyderabadi Veg Biriyani",
+      "feasible": false,
+      "rank": null,
+      "score": 0.4892,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-7",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Biryani Darbar",
+          "area": "Andheri West",
+          "item": "Hyderabadi Veg Biriyani",
+          "cuisines": [
+            "Hyderabadi",
+            "Biryani"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": 23000,
+          "offer": null,
+          "effective_price_paise": 23000,
+          "rating": 4.4,
+          "rating_count": 640,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a thali",
+          "in Andheri West, not Dadar"
+        ],
+        "score": 0.4892,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.673,
+            "weight": 0.4,
+            "points": 0.2692
+          },
+          {
+            "factor": "price",
+            "value": 0.2333,
+            "weight": 0.3,
+            "points": 0.07
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.3,
+            "points": 0.15
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-7",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Biryani Darbar",
+            "area": "Andheri West",
+            "item": "Hyderabadi Veg Biriyani",
+            "cuisines": [
+              "Hyderabadi",
+              "Biryani"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": 23000,
+            "offer": null,
+            "effective_price_paise": 23000,
+            "rating": 4.4,
+            "rating_count": 640,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a thali",
+            "in Andheri West, not Dadar"
+          ],
+          "score": 0.4892,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.673,
+              "weight": 0.4,
+              "points": 0.2692
+            },
+            {
+              "factor": "price",
+              "value": 0.2333,
+              "weight": 0.3,
+              "points": 0.07
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.3,
+              "points": 0.15
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "biryani junction|powai|biryani veg",
+      "restaurant": "Biryani Junction",
+      "area": "Powai",
+      "item": "Veg Biryani",
+      "feasible": false,
+      "rank": null,
+      "score": 0.3958,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-1",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Biryani Junction",
+          "area": "Powai",
+          "item": "Veg Biryani",
+          "cuisines": [
+            "Biryani",
+            "Mughlai"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": 17500,
+          "offer": null,
+          "effective_price_paise": 17500,
+          "rating": 3.5,
+          "rating_count": 380,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a thali",
+          "in Powai, not Dadar"
+        ],
+        "score": 0.3958,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.3021,
+            "weight": 0.4,
+            "points": 0.1208
+          },
+          {
+            "factor": "price",
+            "value": 0.4167,
+            "weight": 0.3,
+            "points": 0.125
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.3,
+            "points": 0.15
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-1",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Biryani Junction",
+            "area": "Powai",
+            "item": "Veg Biryani",
+            "cuisines": [
+              "Biryani",
+              "Mughlai"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": 17500,
+            "offer": null,
+            "effective_price_paise": 17500,
+            "rating": 3.5,
+            "rating_count": 380,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a thali",
+            "in Powai, not Dadar"
+          ],
+          "score": 0.3958,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.3021,
+              "weight": 0.4,
+              "points": 0.1208
+            },
+            {
+              "factor": "price",
+              "value": 0.4167,
+              "weight": 0.3,
+              "points": 0.125
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.3,
+              "points": 0.15
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "salad studio|bandra west|quinoa salad vegan",
+      "restaurant": "Salad Studio",
+      "area": "Bandra West",
+      "item": "Vegan Quinoa Salad",
+      "feasible": false,
+      "rank": null,
+      "score": 0.3767,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-8",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Salad Studio",
+          "area": "Bandra West",
+          "item": "Vegan Quinoa Salad",
+          "cuisines": [
+            "Healthy",
+            "Salads"
+          ],
+          "tags": [],
+          "diet": "vegan",
+          "price_paise": 29900,
+          "offer": null,
+          "effective_price_paise": 29900,
+          "rating": 4.2,
+          "rating_count": 180,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "eta"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a thali",
+          "in Bandra West, not Dadar"
+        ],
+        "score": 0.3767,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.5643,
+            "weight": 0.4,
+            "points": 0.2257
+          },
+          {
+            "factor": "price",
+            "value": 0.0033,
+            "weight": 0.3,
+            "points": 0.001
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.3,
+            "points": 0.15
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-8",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Salad Studio",
+            "area": "Bandra West",
+            "item": "Vegan Quinoa Salad",
+            "cuisines": [
+              "Healthy",
+              "Salads"
+            ],
+            "tags": [],
+            "diet": "vegan",
+            "price_paise": 29900,
+            "offer": null,
+            "effective_price_paise": 29900,
+            "rating": 4.2,
+            "rating_count": 180,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "eta"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a thali",
+            "in Bandra West, not Dadar"
+          ],
+          "score": 0.3767,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.5643,
+              "weight": 0.4,
+              "points": 0.2257
+            },
+            {
+              "factor": "price",
+              "value": 0.0033,
+              "weight": 0.3,
+              "points": 0.001
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.3,
+              "points": 0.15
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    },
+    {
+      "option_id": "bombay tiffin co|bandra west|biryani large veg",
+      "restaurant": "Bombay Tiffin Co",
+      "area": "Bandra West",
+      "item": "Veg Biryani, Large",
+      "feasible": false,
+      "rank": null,
+      "score": 0.35,
+      "best": {
+        "listing": {
+          "listing_id": "khaana:A-5",
+          "provider": "khaana",
+          "provider_label": "Khaana Open Data",
+          "restaurant": "Bombay Tiffin Co",
+          "area": "Bandra West",
+          "item": "Veg Biryani, Large",
+          "cuisines": [
+            "Biryani"
+          ],
+          "tags": [],
+          "diet": "veg",
+          "price_paise": null,
+          "offer": null,
+          "effective_price_paise": null,
+          "rating": 4.0,
+          "rating_count": 90,
+          "eta_min_low": null,
+          "eta_min_high": null,
+          "missing_fields": [
+            "price",
+            "eta"
+          ]
+        },
+        "feasible": false,
+        "violations": [
+          "not a thali",
+          "price not listed by Khaana Open Data",
+          "in Bandra West, not Dadar"
+        ],
+        "score": 0.35,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.5,
+            "weight": 0.4,
+            "points": 0.2
+          },
+          {
+            "factor": "price",
+            "value": 0.0,
+            "weight": 0.3,
+            "points": 0.0
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.3,
+            "points": 0.15
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "khaana:A-5",
+            "provider": "khaana",
+            "provider_label": "Khaana Open Data",
+            "restaurant": "Bombay Tiffin Co",
+            "area": "Bandra West",
+            "item": "Veg Biryani, Large",
+            "cuisines": [
+              "Biryani"
+            ],
+            "tags": [],
+            "diet": "veg",
+            "price_paise": null,
+            "offer": null,
+            "effective_price_paise": null,
+            "rating": 4.0,
+            "rating_count": 90,
+            "eta_min_low": null,
+            "eta_min_high": null,
+            "missing_fields": [
+              "price",
+              "eta"
+            ]
+          },
+          "feasible": false,
+          "violations": [
+            "not a thali",
+            "price not listed by Khaana Open Data",
+            "in Bandra West, not Dadar"
+          ],
+          "score": 0.35,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.5,
+              "weight": 0.4,
+              "points": 0.2
+            },
+            {
+              "factor": "price",
+              "value": 0.0,
+              "weight": 0.3,
+              "points": 0.0
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.3,
+              "points": 0.15
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ]
+    }
+  ],
+  "closest": [],
+  "providers": [
+    {
+      "name": "bitebox",
+      "label": "Bitebox",
+      "status": "ok",
+      "http_status": 200,
+      "latency_ms": 2,
+      "attempts": 1,
+      "records_received": 0,
+      "records_used": 0,
+      "records_dropped": 0,
+      "schema_seen": "bitebox 2.1",
+      "message": null
+    },
+    {
+      "name": "tiffinly",
+      "label": "Tiffinly",
+      "status": "ok",
+      "http_status": 200,
+      "latency_ms": 2,
+      "attempts": 1,
+      "records_received": 2,
+      "records_used": 2,
+      "records_dropped": 0,
+      "schema_seen": "tiffinly.v3",
+      "message": null
+    },
+    {
+      "name": "khaana",
+      "label": "Khaana Open Data",
+      "status": "ok",
+      "http_status": 200,
+      "latency_ms": 2,
+      "attempts": 1,
+      "records_received": 8,
+      "records_used": 7,
+      "records_dropped": 1,
+      "schema_seen": "khaana csv v1",
+      "message": null
+    }
+  ],
+  "dropped": [
+    {
+      "provider": "khaana",
+      "record_ref": "A-6",
+      "reason": "malformed CSV row: expected 9 fields, got 11"
+    }
+  ],
+  "data_quality": {
+    "records_received": 10,
+    "records_dropped": 1,
+    "duplicates_removed": 0,
+    "merged_options": 0,
+    "listings_with_missing_fields": 7
+  },
+  "warnings": [],
+  "degraded": false,
+  "trace": {
+    "parse_ms": 1.0,
+    "fetch_ms": 6.7,
+    "rank_ms": 1.7,
+    "total_ms": 10.0
+  }
+}
