@@ -5,6 +5,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    proxy: { "/api": "http://127.0.0.1:8000", "/mock": "http://127.0.0.1:8000" },
+    proxy: {
+      "/api": "http://127.0.0.1:8000",
+      "/mock": "http://127.0.0.1:8000",
+      "/docs": "http://127.0.0.1:8000",
+      "/openapi.json": "http://127.0.0.1:8000",
+    },
   },
 });

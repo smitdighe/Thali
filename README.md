@@ -340,6 +340,7 @@ Tests that involve time use short mock delays (a 600 ms fetch deadline against a
 - **Live pipeline:** `POST /api/v1/recommend/stream` sends the parsed request, each source's report as it finishes (with per-attempt timings) and the final answer as server-sent events, so the UI can show how the answer was made while it is being made.
 - **Why not, and what would change the pick:** every option other than the pick gets a `why_not` sentence built from the same score breakdown, and `what_if` re-runs the ranking with one stated value changed (budget, time limit, minimum rating, or a dropped preference) to show how far the pick holds.
 - **Refinement:** `POST /api/v1/refine` adjusts the last request (cheaper, faster, better rated, drop one requirement, or a follow-up such as "make it vegan") and reports which values were kept and which changed. Requests are kept in memory for 15 minutes.
+- **Phone-first interface:** the pick on top, then Compare and How it decided tabs; works at 360 px, dark theme, `?q=` share links with a Copy link button, voice input (en-IN) and keyboard shortcuts, because the demo link is most likely opened on a phone.
 - **Fuller menu:** about 40 more mock items across every dish, cuisine and area the parser knows, so queries beyond biryani return real comparisons.
 - **Hinglish:** the rule-based parser also reads common Hinglish phrasing ("300 ke andar", "aadhe ghante mein", "sasta", "shakahari"), checked by a separate 12-query evaluation set.
 
