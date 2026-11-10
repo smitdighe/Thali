@@ -61,7 +61,7 @@ uv run uvicorn thali.main:app --port 8000
 
 ### 3. Frontend (dev mode)
 
-The Vite dev server proxies `/api`, `/mock`, `/docs` and `/openapi.json` to port 8000.
+In a second terminal, from the repo root. The Vite dev server proxies `/api`, `/mock`, `/docs` and `/openapi.json` to port 8000.
 
 ```bash
 cd frontend
