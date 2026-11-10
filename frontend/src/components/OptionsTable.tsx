@@ -65,7 +65,7 @@ export default function OptionsTable({ options }: Props) {
       <h2 id="options-heading" className="section-title">
         Ranked options
       </h2>
-      <div className="table-wrap">
+      <div className="table-wrap options-wrap">
         <table className="options">
           <thead>
             <tr>
