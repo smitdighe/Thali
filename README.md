@@ -68,9 +68,16 @@ flowchart LR
     D --> E[Dedupe and group]
     E --> F[Hard filters]
     F --> G[Score]
-    G --> H[Explain from score breakdown]
+    G --> H[Explain, why not, what if]
     H --> I[UI]
+    B -. parsed .-> I
+    C1 -. provider .-> I
+    C2 -. provider .-> I
+    C3 -. provider .-> I
+    H -. done .-> I
 ```
+
+The dotted lines are the server-sent events of `POST /api/v1/recommend/stream`: `parsed` once the request is read, one `provider` event per source as it finishes, and `done` with the full answer. The UI shows each step as it arrives.
 
 The numbered steps follow the six steps of the assignment:
 
@@ -81,7 +88,7 @@ The numbered steps follow the six steps of the assignment:
 5. **Rank.** Hard filters for every constraint the user stated, then a weighted score. The cheapest option does not win by default.
 6. **Explain.** Templates filled from the score breakdown. No LLM writes any explanation text.
 
-The UI shows each stage: the request with extracted parts highlighted, each provider's status and latency, the pick and its reasons, ranked options with score bars, what was filtered out and why, and a demo panel that injects provider faults.
+The UI shows each stage: the request with extracted parts highlighted, each provider's status and latency, the pick and its reasons, ranked options with score bars, what was filtered out and why, a System tab with live metrics, and a demo panel that injects provider faults.
 
 ## Understanding the request
 
@@ -115,12 +122,13 @@ Parsed result for the main query, `Find me a vegetarian biryani under ₹300 tha
 }
 ```
 
-**Evaluation summary** (copied from `docs/eval.md`; 20 core cases in `backend/eval/core.jsonl`, 5 paraphrase cases in `backend/eval/paraphrase.jsonl`):
+**Evaluation summary** (copied from `docs/eval.md`; 20 core cases in `backend/eval/core.jsonl`, 5 paraphrase cases in `backend/eval/paraphrase.jsonl`, 12 Hinglish cases in `backend/eval/hinglish.jsonl`):
 
 | parser/set | cases | field accuracy | exact match | invented | missed | wrong |
 |---|---|---|---|---|---|---|
 | rules/core | 20 | 1.000 | 1.000 (20/20) | 0 | 0 | 0 |
 | rules/paraphrase | 5 | 0.954 | 0.400 (2/5) | 0 | 3 | 0 |
+| rules/hinglish | 12 | 1.000 | 1.000 (12/12) | 0 | 0 | 0 |
 | llm/core | not run | | | | | |
 | llm/paraphrase | not run | | | | | |
 
@@ -226,6 +234,18 @@ Output for the main query (asserted in `test_explain.py`):
 - Also on: `Also on Tiffinly, but 25–35 min can exceed your 30-minute limit.`
 - Caveats: none.
 
+Every ranked option other than the pick carries a `why_not` sentence from the same breakdown, and every filtered-out option says what failed:
+
+- Dum Pukht House: `Scores 0.5208 vs 0.5961: mainly rating (4.6 from 2,140 ratings vs 4.8 from 950).`
+- Biryani Junction: `Scores 0.2479 vs 0.5961: mainly rating (3.4 from 410 ratings vs 4.8 from 950). It is ₹55 cheaper, but price carries 21% of the score here.`
+- Green Leaf Cafe (filtered out): `Filtered out: price not listed by Bitebox.`
+
+`what_if` re-runs the ranking with one stated value changed and reports how far the pick holds:
+
+- `The pick holds for any budget from ₹235 to ₹600. Under ₹235, it changes to Veg Dum Biryani at Dum Pukht House (Tiffinly, ₹229).`
+- `The pick holds for any time limit from 22 to 60 minutes. Under 22 minutes, nothing fits.`
+- `Without the “highly rated” preference, the pick stays the same.`
+
 ## API
 
 | Method | Path | Body | Returns |
@@ -234,6 +254,7 @@ Output for the main query (asserted in `test_explain.py`):
 | POST | `/api/v1/recommend/stream` | same body as `/recommend` | `text/event-stream` with events `parsed`, `provider` (one per source, as each finishes), `done`, or `error` |
 | POST | `/api/v1/refine` | `{"request_id": "...", "action": "cheaper" \| "faster" \| "better_rated"}` or `{"drop": "<field>"}` or `{"text": "..."}` (exactly one) | `RecommendResponse` for the adjusted request; 404 unknown or expired id, 409 no pick to refine, 422 bad input |
 | GET | `/api/v1/health` | none | `llm_enabled`, `llm_model`, breaker state per provider |
+| GET | `/api/v1/metrics` | none | request count, p50/p95 total time, the last 30 request times, parser counts (rules, LLM, fallbacks), and per provider: calls, ok rate, p50/p95 latency, timeouts, errors, circuit-open skips, breaker state |
 | GET | `/mock/_faults` | none | current fault mode per provider |
 | PUT | `/mock/_faults` | partial map, for example `{"tiffinly": "timeout"}` | updated fault state |
 | POST | `/mock/_faults/reset` | none | fault state with all providers `ok` |
@@ -243,13 +264,15 @@ Output for the main query (asserted in `test_explain.py`):
 
 Fault modes: `ok`, `slow`, `timeout`, `error`, `malformed`, `partial`. The `/mock/_faults` routes exist when `THALI_ENABLE_FAULT_API` is true (the default).
 
+Metrics are kept in memory: `requests` and `calls` count everything since the server started; percentiles and rates use the last 500 requests and the last 500 calls per provider.
+
 `/api/v1/recommend` sets `X-Request-ID` (a client-supplied value is echoed) and `Server-Timing: parse;dur=…, fetch;dur=…, rank;dur=…, total;dur=…`. An unhandled error returns 500 `{"error": "internal_error", "request_id": "…"}`.
 
 Trimmed response for the main query (from `docs/samples/01-normal.json`, which the samples script generates with a fixed request id):
 
 ```json
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "request_id": "01-normal",
   "query": "Find me a vegetarian biryani under ₹300 that can arrive within 30 minutes. I prefer highly rated restaurants.",
   "parsed": { "intent": "discovery", "dish": "biryani", "diet": "veg", "max_price_inr": 300, "max_eta_min": 30, "rating_preference": "high", "missing": ["location"], "parser": "rules" },
@@ -275,7 +298,8 @@ Trimmed response for the main query (from `docs/samples/01-normal.json`, which t
     "caveats": []
   },
   "ranked": ["5 options"],
-  "excluded": ["11 options, each with its violations"],
+  "excluded": ["11 options, each with its violations and why_not"],
+  "what_if": ["3 entries, shown under Explanations"],
   "providers": [
     {"name": "bitebox", "status": "ok", "attempts": 1, "records_received": 9, "records_used": 9, "records_dropped": 0},
     {"name": "tiffinly", "status": "ok", "attempts": 1, "records_received": 5, "records_used": 5, "records_dropped": 0},
@@ -284,7 +308,7 @@ Trimmed response for the main query (from `docs/samples/01-normal.json`, which t
   "dropped": [{"provider": "khaana", "record_ref": "A-6", "reason": "malformed CSV row: expected 9 fields, got 11"}],
   "data_quality": {"records_received": 22, "records_dropped": 1, "duplicates_removed": 1, "merged_options": 4, "listings_with_missing_fields": 11},
   "warnings": [], "degraded": false,
-  "trace": {"parse_ms": 24.3, "fetch_ms": 16.1, "rank_ms": 6.9, "total_ms": 48.3}
+  "trace": {"parse_ms": 23.3, "fetch_ms": 17.5, "rank_ms": 6.1, "what_if_ms": 18.2, "total_ms": 65.9}
 }
 ```
 
@@ -298,15 +322,17 @@ Commands:
 cd backend
 uv run pytest -q
 uv run python -m thali.evaluation            # rules rows only
+uv run python -m thali.evaluation --write ../docs/eval.md   # also writes the report
 uv run python -m thali.evaluation --llm      # adds the LLM rows; needs GROQ_API_KEY
 uv run python -m thali.samples               # regenerates docs/samples
 ```
 
 Results:
 
-- `uv run pytest -q`: 373 passed, 1 warning (a deprecation notice from Starlette's test client about httpx).
+- `uv run pytest -q`: 440 passed, 1 warning (a deprecation notice from Starlette's test client about httpx).
 - Rules parser on the core set: 20 of 20 exact matches, no invented, missed or wrong fields. `test_rules_parser_meets_core_gate` enforces this.
 - Rules parser on the paraphrase set: field accuracy 0.954, 2 of 5 exact matches, 3 missed fields, 0 invented, 0 wrong. This set is scored but not gated.
+- Rules parser on the Hinglish set: 12 of 12 exact matches, no invented, missed or wrong fields. `test_rules_parser_meets_hinglish_gate` enforces this.
 - LLM rows: not run, because no API key was set. The LLM path is covered by tests against a mocked transport (`test_llm_rows_are_scored_through_the_mocked_transport`, `test_success_returns_grounded_llm_parse`, and the grounding tests), not against the live service.
 
 Required cases:
@@ -328,7 +354,7 @@ Tests that involve time use short mock delays (a 600 ms fetch deadline against a
 - **Circuit breaker.** Per provider, in memory. Three consecutive failures (timeout, error or malformed) open it for 30 s. After that one trial request is allowed; success closes it, failure re-opens it for a full cooldown. While open, the provider is skipped with `circuit_open` and the warning says when it will be retried. `/api/v1/health` shows the state of each breaker.
 - **Schema version checks.** Each adapter checks the version marker its provider sends (Bitebox `api_version`, Tiffinly `meta.schema`, Khaana CSV header). A mismatch marks the provider `malformed` instead of guessing at a new shape.
 - **Quarantine versus nulling.** If a record cannot be identified or used (no id, no restaurant name, no item name, wrong CSV field count, not an object), it is dropped and reported with a reason. If only a field is bad (price, rating, ETA, diet), the record is kept, the field is null, and it appears in `missing_fields`.
-- **Observability.** Each request gets a request id (generated, or taken from `X-Request-ID`), which appears in the response header, the body and every log line. Logs are one JSON object per line on stderr with events `request.done`, `parse.done`, `provider.done` and `rank.done`. The response header `Server-Timing` and the body's `trace` give parse, fetch, rank and total milliseconds.
+- **Observability.** Each request gets a request id (generated, or taken from `X-Request-ID`), which appears in the response header, the body and every log line. Logs are one JSON object per line on stderr with events `request.done`, `parse.done`, `provider.done` and `rank.done`. The response header `Server-Timing` and the body's `trace` give parse, fetch, rank and total milliseconds. `GET /api/v1/metrics` adds rolling latency percentiles, provider health and parser usage; the System tab polls it every 5 seconds while it is open.
 - **Quota governance for the LLM.**
   - A token bucket with capacity `THALI_LLM_RPM` (default 6) refilling at `rpm/60` per second. When empty, the parser falls back to rules without any HTTP call.
   - On HTTP 429 the parser stops calling for `Retry-After` seconds (30 if the header is missing).
@@ -339,12 +365,14 @@ Tests that involve time use short mock delays (a 600 ms fetch deadline against a
 
 ## Beyond the brief
 
-- **Live pipeline:** `POST /api/v1/recommend/stream` sends the parsed request, each source's report as it finishes (with per-attempt timings) and the final answer as server-sent events, so the UI can show how the answer was made while it is being made.
-- **Why not, and what would change the pick:** every option other than the pick gets a `why_not` sentence built from the same score breakdown, and `what_if` re-runs the ranking with one stated value changed (budget, time limit, minimum rating, or a dropped preference) to show how far the pick holds.
-- **Refinement:** `POST /api/v1/refine` adjusts the last request (cheaper, faster, better rated, drop one requirement, or a follow-up such as "make it vegan") and reports which values were kept and which changed. Requests are kept in memory for 15 minutes.
-- **Phone-first interface:** the pick on top, then Compare and How it decided tabs; works at 360 px, dark theme, `?q=` share links with a Copy link button, voice input (en-IN) and keyboard shortcuts, because the demo link is most likely opened on a phone.
+- **Live pipeline:** `POST /api/v1/recommend/stream` sends the parsed request, each source's report as it finishes and the final answer as server-sent events, so the UI shows how the answer is being made.
+- **Why not and what if:** each option other than the pick gets a `why_not` sentence from the score breakdown, `what_if` shows how far the pick holds when one value changes, and a price-against-rating chart shows the trade-off.
+- **Refinement:** `POST /api/v1/refine` adjusts the last request (cheaper, faster, better rated, drop one requirement, or a follow-up such as "make it vegan") without retyping it; requests are kept in memory for 15 minutes.
+- **Phone-first interface:** the pick on top and details in tabs, works at 360 px, dark theme, `?q=` share links, voice input (en-IN) and keyboard shortcuts, so it is easy to use on a phone.
 - **Fuller menu:** about 40 more mock items across every dish, cuisine and area the parser knows, so queries beyond biryani return real comparisons.
-- **Hinglish:** the rule-based parser also reads common Hinglish phrasing ("300 ke andar", "aadhe ghante mein", "sasta", "shakahari"), checked by a separate 12-query evaluation set.
+- **Hinglish:** the rules parser reads common Hinglish phrasing ("300 ke andar", "aadhe ghante mein", "sasta", "shakahari"), checked by a separate 12-case evaluation set.
+- **Metrics:** `GET /api/v1/metrics` and the System tab show latency percentiles, provider health and parser usage, so the effect of injected faults is visible.
+- **CI:** a GitHub Actions workflow runs ruff, the test suite and the frontend build on every push and pull request to main.
 
 ## Limitations and next steps
 
@@ -354,7 +382,7 @@ Tests that involve time use short mock delays (a 600 ms fetch deadline against a
 - ETAs are taken at face value. Only the upper end of a range is checked.
 - The rules vocabulary is fixed (dishes, cuisines, diets, areas and phrases for preferences). Phrasing outside it is missed by the rules parser; the optional LLM exists to catch some of it, but those rows have not been evaluated.
 - "Other preferences" (for example "jain") can only be checked when a source tags them. Otherwise they appear as a caveat saying no source describes them.
-- The fault table and circuit breakers are in-process, so this runs as a single instance. Running several instances would need shared state.
+- The fault table, circuit breakers, refine sessions and metrics live in process memory, so this runs as a single process and they reset on restart. Several processes would need shared state.
 - Weights are hand-set. Next: learn them from order and click feedback.
 - The Groq free-tier limits quoted above are from my planning notes and may have changed.
 
