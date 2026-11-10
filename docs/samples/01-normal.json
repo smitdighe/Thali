@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "request_id": "01-normal",
   "query": "Find me a vegetarian biryani under ₹300 that can arrive within 30 minutes. I prefer highly rated restaurants.",
   "parsed": {
@@ -57,7 +57,10 @@
       "location"
     ],
     "notes": [],
-    "parser": "rules"
+    "parser": "rules",
+    "carried_over": [],
+    "adjusted": [],
+    "refined_from": null
   },
   "clarification": null,
   "recommendation": {
@@ -239,7 +242,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": null
     },
     "summary": "Recommended because it matches your vegetarian requirement, stays within your ₹300 budget at ₹235 after the offer, has a 4.8 rating from 950 ratings, and has an estimated delivery time of 22 minutes.",
     "reasons": [
@@ -435,7 +439,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": null
     },
     {
       "option_id": "dum pukht house|andheri west|biryani dum veg",
@@ -614,7 +619,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.5208 vs 0.5961: mainly rating (4.6 from 2,140 ratings vs 4.8 from 950)."
     },
     {
       "option_id": "tandoor tales|powai|biryani bowl veg",
@@ -721,7 +727,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.4131 vs 0.5961: mainly rating (4.1 from 2,300 ratings vs 4.8 from 950). It is ₹25 cheaper, but price carries 21% of the score here."
     },
     {
       "option_id": "spice route kitchen|andheri west|biryani paneer",
@@ -834,7 +841,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.3500 vs 0.5961: mainly rating (no rating listed vs 4.8 from 950)."
     },
     {
       "option_id": "biryani junction|powai|biryani veg",
@@ -994,7 +1002,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.2479 vs 0.5961: mainly rating (3.4 from 410 ratings vs 4.8 from 950). It is ₹55 cheaper, but price carries 21% of the score here."
     }
   ],
   "excluded": [
@@ -1113,7 +1122,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: delivery time not listed by Khaana Open Data."
     },
     {
       "option_id": "green leaf cafe|lower parel|biryani veg",
@@ -1228,7 +1238,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: price not listed by Bitebox."
     },
     {
       "option_id": "hyderabad house|andheri west|biryani veg",
@@ -1345,7 +1356,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: delivery time not listed by Bitebox."
     },
     {
       "option_id": "hyderabad house|dadar|biryani veg",
@@ -1458,7 +1470,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: 31 min is over your 30-minute limit."
     },
     {
       "option_id": "mirchi mahal|dadar|biryani hyderabadi veg",
@@ -1575,7 +1588,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: delivery time not listed by Tiffinly."
     },
     {
       "option_id": "udupi corner|dadar|dosa masala",
@@ -1692,7 +1706,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani; delivery time not listed by Khaana Open Data."
     },
     {
       "option_id": "dum pukht house|andheri west|biryani chicken dum",
@@ -1858,7 +1873,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not vegetarian; ₹349 is over your ₹300 budget."
     },
     {
       "option_id": "annapurna bhojanalay|dadar|gujarati thali",
@@ -1977,7 +1993,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani; delivery time not listed by Khaana Open Data."
     },
     {
       "option_id": "salad studio|bandra west|quinoa salad vegan",
@@ -2096,7 +2113,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani; delivery time not listed by Khaana Open Data."
     },
     {
       "option_id": "bombay tiffin co|bandra west|biryani large veg",
@@ -2215,7 +2233,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: price not listed by Khaana Open Data; delivery time not listed by Khaana Open Data."
     },
     {
       "option_id": "udupi corner|dadar|dosa masala mysore",
@@ -2336,7 +2355,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani; vegetarian status not listed by Khaana Open Data; delivery time not listed by Khaana Open Data."
     }
   ],
   "closest": [],
@@ -2346,13 +2366,21 @@
       "label": "Bitebox",
       "status": "ok",
       "http_status": 200,
-      "latency_ms": 7,
+      "latency_ms": 8,
       "attempts": 1,
       "records_received": 9,
       "records_used": 9,
       "records_dropped": 0,
       "schema_seen": "bitebox 2.1",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 0.4,
+          "duration_ms": 8.0,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     },
     {
       "name": "tiffinly",
@@ -2365,20 +2393,36 @@
       "records_used": 5,
       "records_dropped": 0,
       "schema_seen": "tiffinly.v3",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 8.5,
+          "duration_ms": 3.3,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     },
     {
       "name": "khaana",
       "label": "Khaana Open Data",
       "status": "ok",
       "http_status": 200,
-      "latency_ms": 6,
+      "latency_ms": 5,
       "attempts": 1,
       "records_received": 8,
       "records_used": 7,
       "records_dropped": 1,
       "schema_seen": "khaana csv v1",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 11.9,
+          "duration_ms": 5.0,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     }
   ],
   "dropped": [
@@ -2398,9 +2442,30 @@
   "warnings": [],
   "degraded": false,
   "trace": {
-    "parse_ms": 24.3,
-    "fetch_ms": 16.1,
-    "rank_ms": 6.9,
-    "total_ms": 48.3
-  }
+    "parse_ms": 23.3,
+    "fetch_ms": 17.5,
+    "rank_ms": 6.1,
+    "what_if_ms": 18.2,
+    "total_ms": 65.9
+  },
+  "what_if": [
+    {
+      "kind": "budget",
+      "statement": "The pick holds for any budget from ₹235 to ₹600. Under ₹235, it changes to Veg Dum Biryani at Dum Pukht House (Tiffinly, ₹229).",
+      "threshold": 235.0,
+      "new_pick": "Veg Dum Biryani at Dum Pukht House (Tiffinly, ₹229)"
+    },
+    {
+      "kind": "delivery",
+      "statement": "The pick holds for any time limit from 22 to 60 minutes. Under 22 minutes, nothing fits.",
+      "threshold": 22.0,
+      "new_pick": null
+    },
+    {
+      "kind": "preference",
+      "statement": "Without the “highly rated” preference, the pick stays the same.",
+      "threshold": null,
+      "new_pick": null
+    }
+  ]
 }

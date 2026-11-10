@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "request_id": "04-incomplete-data",
   "query": "Find me a vegetarian biryani under ₹300 that can arrive within 30 minutes. I prefer highly rated restaurants.",
   "parsed": {
@@ -57,7 +57,10 @@
       "location"
     ],
     "notes": [],
-    "parser": "rules"
+    "parser": "rules",
+    "carried_over": [],
+    "adjusted": [],
+    "refined_from": null
   },
   "clarification": null,
   "recommendation": {
@@ -243,7 +246,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": null
     },
     "summary": "Recommended because it matches your vegetarian requirement, stays within your ₹300 budget at ₹229 after the offer, has a 4.6 rating from 1,800 ratings, and has an estimated delivery time of 20–30 minutes.",
     "reasons": [
@@ -445,7 +449,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": null
     },
     {
       "option_id": "tandoor tales|powai|biryani bowl veg",
@@ -552,7 +557,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.4131 vs 0.4988: mainly rating (4.1 from 2,300 ratings vs 4.6 from 1,800). It arrives 5 min sooner, but delivery time carries 21% of the score here."
     }
   ],
   "excluded": [
@@ -740,7 +746,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: 25–35 min can exceed your 30-minute limit."
     },
     {
       "option_id": "biryani darbar|andheri west|biryani hyderabadi veg",
@@ -857,7 +864,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: delivery time not listed by Khaana Open Data."
     },
     {
       "option_id": "biryani junction|powai|biryani veg",
@@ -1027,7 +1035,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: delivery time not listed by Bitebox."
     },
     {
       "option_id": "hyderabad house|andheri west|biryani veg",
@@ -1146,7 +1155,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: delivery time not listed by Bitebox."
     },
     {
       "option_id": "hyderabad house|dadar|biryani veg",
@@ -1265,7 +1275,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: delivery time not listed by Bitebox."
     },
     {
       "option_id": "mirchi mahal|dadar|biryani hyderabadi veg",
@@ -1382,7 +1393,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: delivery time not listed by Tiffinly."
     },
     {
       "option_id": "spice route kitchen|andheri west|biryani paneer",
@@ -1501,7 +1513,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: delivery time not listed by Bitebox."
     },
     {
       "option_id": "udupi corner|dadar|dosa masala",
@@ -1618,7 +1631,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani; delivery time not listed by Khaana Open Data."
     },
     {
       "option_id": "dum pukht house|andheri west|biryani chicken dum",
@@ -1787,7 +1801,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not vegetarian; ₹339 is over your ₹300 budget."
     },
     {
       "option_id": "annapurna bhojanalay|dadar|gujarati thali",
@@ -1906,7 +1921,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani; delivery time not listed by Khaana Open Data."
     },
     {
       "option_id": "salad studio|bandra west|quinoa salad vegan",
@@ -2025,7 +2041,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani; delivery time not listed by Khaana Open Data."
     },
     {
       "option_id": "bombay tiffin co|bandra west|biryani large veg",
@@ -2144,7 +2161,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: price not listed by Khaana Open Data; delivery time not listed by Khaana Open Data."
     },
     {
       "option_id": "green leaf cafe|lower parel|biryani veg",
@@ -2265,7 +2283,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: price not listed by Bitebox; delivery time not listed by Bitebox."
     },
     {
       "option_id": "udupi corner|dadar|dosa masala mysore",
@@ -2386,7 +2405,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani; vegetarian status not listed by Khaana Open Data; delivery time not listed by Khaana Open Data."
     }
   ],
   "closest": [],
@@ -2396,39 +2416,63 @@
       "label": "Bitebox",
       "status": "ok",
       "http_status": 200,
-      "latency_ms": 3,
+      "latency_ms": 4,
       "attempts": 1,
       "records_received": 9,
       "records_used": 9,
       "records_dropped": 0,
       "schema_seen": "bitebox 2.1",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 0.2,
+          "duration_ms": 3.7,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     },
     {
       "name": "tiffinly",
       "label": "Tiffinly",
       "status": "ok",
       "http_status": 200,
-      "latency_ms": 2,
+      "latency_ms": 3,
       "attempts": 1,
       "records_received": 5,
       "records_used": 5,
       "records_dropped": 0,
       "schema_seen": "tiffinly.v3",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 3.9,
+          "duration_ms": 3.3,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     },
     {
       "name": "khaana",
       "label": "Khaana Open Data",
       "status": "ok",
       "http_status": 200,
-      "latency_ms": 2,
+      "latency_ms": 3,
       "attempts": 1,
       "records_received": 8,
       "records_used": 7,
       "records_dropped": 1,
       "schema_seen": "khaana csv v1",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 7.3,
+          "duration_ms": 2.8,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     }
   ],
   "dropped": [
@@ -2448,9 +2492,30 @@
   "warnings": [],
   "degraded": false,
   "trace": {
-    "parse_ms": 1.6,
-    "fetch_ms": 7.3,
-    "rank_ms": 4.6,
-    "total_ms": 14.1
-  }
+    "parse_ms": 2.3,
+    "fetch_ms": 10.6,
+    "rank_ms": 10.8,
+    "what_if_ms": 16.6,
+    "total_ms": 40.7
+  },
+  "what_if": [
+    {
+      "kind": "budget",
+      "statement": "The pick holds for any budget from ₹229 to ₹600. Under ₹229, it changes to Veg Biryani Bowl at Tandoor Tales (Tiffinly, ₹210).",
+      "threshold": 229.0,
+      "new_pick": "Veg Biryani Bowl at Tandoor Tales (Tiffinly, ₹210)"
+    },
+    {
+      "kind": "delivery",
+      "statement": "The pick holds for any time limit from 30 to 60 minutes. Under 30 minutes, it changes to Veg Biryani Bowl at Tandoor Tales (Tiffinly, ₹210).",
+      "threshold": 30.0,
+      "new_pick": "Veg Biryani Bowl at Tandoor Tales (Tiffinly, ₹210)"
+    },
+    {
+      "kind": "preference",
+      "statement": "Without the “highly rated” preference, the pick stays the same.",
+      "threshold": null,
+      "new_pick": null
+    }
+  ]
 }

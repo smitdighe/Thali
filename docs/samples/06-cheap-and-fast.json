@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "request_id": "06-cheap-and-fast",
   "query": "cheap veg momos in Powai asap",
   "parsed": {
@@ -59,7 +59,10 @@
       "rating"
     ],
     "notes": [],
-    "parser": "rules"
+    "parser": "rules",
+    "carried_over": [],
+    "adjusted": [],
+    "refined_from": null
   },
   "clarification": null,
   "recommendation": {
@@ -232,7 +235,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": null
     },
     "summary": "Recommended because it matches your vegetarian requirement, is in Powai, has a 4.3 rating from 870 ratings, costs ₹119, and has an estimated delivery time of 18 minutes.",
     "reasons": [
@@ -418,7 +422,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": null
     },
     {
       "option_id": "dumpling den|powai|momos paneer",
@@ -525,7 +530,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.1165 vs 0.9086: mainly price (₹189 vs ₹119)."
     }
   ],
   "excluded": [
@@ -644,7 +650,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a momos."
     },
     {
       "option_id": "udupi corner|dadar|dosa masala",
@@ -761,7 +768,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a momos; in Dadar, not Powai."
     },
     {
       "option_id": "bombay tiffin co|bandra west|biryani large veg",
@@ -880,7 +888,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a momos; in Bandra West, not Powai."
     },
     {
       "option_id": "annapurna bhojanalay|dadar|gujarati thali",
@@ -999,7 +1008,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a momos; in Dadar, not Powai."
     },
     {
       "option_id": "biryani darbar|andheri west|biryani hyderabadi veg",
@@ -1118,7 +1128,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a momos; in Andheri West, not Powai."
     },
     {
       "option_id": "salad studio|bandra west|quinoa salad vegan",
@@ -1237,7 +1248,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a momos; in Bandra West, not Powai."
     },
     {
       "option_id": "udupi corner|dadar|dosa masala mysore",
@@ -1358,7 +1370,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a momos; vegetarian status not listed by Khaana Open Data; in Dadar, not Powai."
     }
   ],
   "closest": [],
@@ -1374,20 +1387,36 @@
       "records_used": 2,
       "records_dropped": 0,
       "schema_seen": "bitebox 2.1",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 0.2,
+          "duration_ms": 3.3,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     },
     {
       "name": "tiffinly",
       "label": "Tiffinly",
       "status": "ok",
       "http_status": 200,
-      "latency_ms": 2,
+      "latency_ms": 3,
       "attempts": 1,
       "records_received": 1,
       "records_used": 1,
       "records_dropped": 0,
       "schema_seen": "tiffinly.v3",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 3.6,
+          "duration_ms": 2.5,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     },
     {
       "name": "khaana",
@@ -1400,7 +1429,15 @@
       "records_used": 7,
       "records_dropped": 1,
       "schema_seen": "khaana csv v1",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 6.2,
+          "duration_ms": 2.6,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     }
   ],
   "dropped": [
@@ -1420,9 +1457,24 @@
   "warnings": [],
   "degraded": false,
   "trace": {
-    "parse_ms": 1.0,
-    "fetch_ms": 7.9,
-    "rank_ms": 7.6,
-    "total_ms": 17.3
-  }
+    "parse_ms": 1.4,
+    "fetch_ms": 9.3,
+    "rank_ms": 3.2,
+    "what_if_ms": 3.6,
+    "total_ms": 18.0
+  },
+  "what_if": [
+    {
+      "kind": "preference",
+      "statement": "Without the “cheaper” preference, the pick stays the same.",
+      "threshold": null,
+      "new_pick": null
+    },
+    {
+      "kind": "preference",
+      "statement": "Without the “fast delivery” preference, the pick stays the same.",
+      "threshold": null,
+      "new_pick": null
+    }
+  ]
 }

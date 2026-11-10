@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "request_id": "02-missing-info",
   "query": "suggest a biryani",
   "parsed": {
@@ -33,7 +33,10 @@
       "location"
     ],
     "notes": [],
-    "parser": "rules"
+    "parser": "rules",
+    "carried_over": [],
+    "adjusted": [],
+    "refined_from": null
   },
   "clarification": null,
   "recommendation": {
@@ -213,7 +216,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": null
     },
     "summary": "Recommended because it has a 4.8 rating from 950 ratings, costs ₹235, and has an estimated delivery time of 22 minutes.",
     "reasons": [
@@ -404,7 +408,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": null
     },
     {
       "option_id": "dum pukht house|andheri west|biryani dum veg",
@@ -583,7 +588,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.6879 vs 0.8013: mainly price (₹260.10 vs ₹235)."
     },
     {
       "option_id": "green leaf cafe|lower parel|biryani veg",
@@ -694,7 +700,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.6740 vs 0.8013: mainly rating (4.2 from 150 ratings vs 4.8 from 950). It arrives 2 min sooner, but delivery time carries 30% of the score here."
     },
     {
       "option_id": "tandoor tales|powai|biryani bowl veg",
@@ -801,7 +808,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.6588 vs 0.8013: mainly rating (4.1 from 2,300 ratings vs 4.8 from 950). It is ₹25 cheaper, but price carries 30% of the score here."
     },
     {
       "option_id": "biryani darbar|andheri west|biryani hyderabadi veg",
@@ -914,7 +922,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.6244 vs 0.8013: mainly delivery time (no delivery time vs 22 min). It is ₹5 cheaper, but price carries 30% of the score here."
     },
     {
       "option_id": "biryani junction|powai|biryani veg",
@@ -1075,7 +1084,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.5708 vs 0.8013: mainly rating (3.5 from 380 ratings vs 4.8 from 950). It is ₹60 cheaper, but price carries 30% of the score here."
     },
     {
       "option_id": "spice route kitchen|andheri west|biryani paneer",
@@ -1188,7 +1198,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.5534 vs 0.8013: mainly rating (no rating listed vs 4.8 from 950)."
     },
     {
       "option_id": "hyderabad house|andheri west|biryani veg",
@@ -1301,7 +1312,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.5529 vs 0.8013: mainly rating (4.1 from 300 ratings vs 4.8 from 950)."
     },
     {
       "option_id": "mirchi mahal|dadar|biryani hyderabadi veg",
@@ -1414,7 +1426,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.5207 vs 0.8013: mainly rating (no rating listed vs 4.8 from 950)."
     },
     {
       "option_id": "bombay tiffin co|bandra west|biryani large veg",
@@ -1527,7 +1540,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.5000 vs 0.8013: mainly rating (4.0 from 90 ratings vs 4.8 from 950)."
     },
     {
       "option_id": "dum pukht house|andheri west|biryani chicken dum",
@@ -1684,7 +1698,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.4946 vs 0.8013: mainly price (₹349 vs ₹235)."
     },
     {
       "option_id": "hyderabad house|dadar|biryani veg",
@@ -1793,7 +1808,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.4679 vs 0.8013: mainly delivery time (31 min vs 22 min)."
     }
   ],
   "excluded": [
@@ -1910,7 +1926,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani."
     },
     {
       "option_id": "udupi corner|dadar|dosa masala mysore",
@@ -2027,7 +2044,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani."
     },
     {
       "option_id": "annapurna bhojanalay|dadar|gujarati thali",
@@ -2144,7 +2162,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani."
     },
     {
       "option_id": "salad studio|bandra west|quinoa salad vegan",
@@ -2261,7 +2280,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a biryani."
     }
   ],
   "closest": [],
@@ -2277,7 +2297,15 @@
       "records_used": 9,
       "records_dropped": 0,
       "schema_seen": "bitebox 2.1",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 0.2,
+          "duration_ms": 2.6,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     },
     {
       "name": "tiffinly",
@@ -2290,7 +2318,15 @@
       "records_used": 5,
       "records_dropped": 0,
       "schema_seen": "tiffinly.v3",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 2.8,
+          "duration_ms": 1.9,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     },
     {
       "name": "khaana",
@@ -2303,7 +2339,15 @@
       "records_used": 7,
       "records_dropped": 1,
       "schema_seen": "khaana csv v1",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 4.7,
+          "duration_ms": 2.1,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     }
   ],
   "dropped": [
@@ -2323,9 +2367,11 @@
   "warnings": [],
   "degraded": false,
   "trace": {
-    "parse_ms": 0.7,
-    "fetch_ms": 7.0,
-    "rank_ms": 2.6,
-    "total_ms": 10.9
-  }
+    "parse_ms": 0.8,
+    "fetch_ms": 7.3,
+    "rank_ms": 2.9,
+    "what_if_ms": 0.0,
+    "total_ms": 11.4
+  },
+  "what_if": []
 }

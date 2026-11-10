@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "request_id": "07-clarification",
   "query": "within 45",
   "parsed": {
@@ -28,7 +28,10 @@
     "notes": [
       "“within 45” has no unit (₹ or minutes?), so it was ignored"
     ],
-    "parser": "rules"
+    "parser": "rules",
+    "carried_over": [],
+    "adjusted": [],
+    "refined_from": null
   },
   "clarification": "“within 45” has no unit (₹ or minutes?), so it was ignored. What would you like to eat? For example: “veg biryani under ₹300 in 30 minutes”.",
   "recommendation": null,
@@ -47,9 +50,11 @@
   "warnings": [],
   "degraded": false,
   "trace": {
-    "parse_ms": 0.8,
+    "parse_ms": 1.3,
     "fetch_ms": 0.0,
     "rank_ms": 0.0,
-    "total_ms": 1.0
-  }
+    "what_if_ms": 0.0,
+    "total_ms": 1.6
+  },
+  "what_if": []
 }

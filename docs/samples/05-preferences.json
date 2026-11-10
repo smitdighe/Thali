@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "request_id": "05-preferences",
   "query": "Jain thali in Dadar under ₹300",
   "parsed": {
@@ -60,7 +60,10 @@
       "rating"
     ],
     "notes": [],
-    "parser": "rules"
+    "parser": "rules",
+    "carried_over": [],
+    "adjusted": [],
+    "refined_from": null
   },
   "clarification": null,
   "recommendation": {
@@ -175,7 +178,8 @@
             "jain"
           ]
         }
-      ]
+      ],
+      "why_not": null
     },
     "summary": "Recommended because it matches your vegetarian requirement, is in Dadar, stays within your ₹300 budget at ₹260, has a 4.4 rating from 980 ratings, and has an estimated delivery time of 30–40 minutes.",
     "reasons": [
@@ -303,7 +307,8 @@
             "jain"
           ]
         }
-      ]
+      ],
+      "why_not": null
     },
     {
       "option_id": "annapurna bhojanalay|dadar|gujarati thali",
@@ -416,7 +421,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.4623 vs 0.4926: mainly price (₹280 vs ₹260). It is rated higher (4.5 vs 4.4), but rating carries 40% of the score here."
     },
     {
       "option_id": "thali ghar|dadar|gujarati thali",
@@ -537,7 +543,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Scores 0.4226 vs 0.4926: mainly price (₹300 vs ₹260)."
     }
   ],
   "excluded": [
@@ -654,7 +661,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a thali."
     },
     {
       "option_id": "udupi corner|dadar|dosa masala mysore",
@@ -773,7 +781,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a thali; vegetarian status not listed by Khaana Open Data."
     },
     {
       "option_id": "biryani darbar|andheri west|biryani hyderabadi veg",
@@ -892,7 +901,136 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a thali; in Andheri West, not Dadar."
+    },
+    {
+      "option_id": "egg station|andheri west|egg thali",
+      "restaurant": "Egg Station",
+      "area": "Andheri West",
+      "item": "Egg Thali",
+      "feasible": false,
+      "rank": null,
+      "score": 0.4444,
+      "best": {
+        "listing": {
+          "listing_id": "tiffinly:T-19-2",
+          "provider": "tiffinly",
+          "provider_label": "Tiffinly",
+          "restaurant": "Egg Station",
+          "area": "Andheri West",
+          "item": "Egg Thali",
+          "cuisines": [],
+          "tags": [
+            "egg"
+          ],
+          "diet": "egg",
+          "price_paise": 22000,
+          "offer": {
+            "label": "10% off up to ₹30",
+            "kind": "percent",
+            "percent": 10.0,
+            "amount_paise": null,
+            "max_discount_paise": 3000,
+            "min_order_paise": null
+          },
+          "effective_price_paise": 19800,
+          "rating": 3.95,
+          "rating_count": 310,
+          "eta_min_low": 20,
+          "eta_min_high": 25,
+          "missing_fields": []
+        },
+        "feasible": false,
+        "violations": [
+          "not vegetarian",
+          "in Andheri West, not Dadar"
+        ],
+        "score": 0.4444,
+        "factors": [
+          {
+            "factor": "rating",
+            "value": 0.4811,
+            "weight": 0.4,
+            "points": 0.1924
+          },
+          {
+            "factor": "price",
+            "value": 0.34,
+            "weight": 0.3,
+            "points": 0.102
+          },
+          {
+            "factor": "eta",
+            "value": 0.5,
+            "weight": 0.3,
+            "points": 0.15
+          }
+        ],
+        "bonus": 0.0,
+        "matched_preferences": []
+      },
+      "listings": [
+        {
+          "listing": {
+            "listing_id": "tiffinly:T-19-2",
+            "provider": "tiffinly",
+            "provider_label": "Tiffinly",
+            "restaurant": "Egg Station",
+            "area": "Andheri West",
+            "item": "Egg Thali",
+            "cuisines": [],
+            "tags": [
+              "egg"
+            ],
+            "diet": "egg",
+            "price_paise": 22000,
+            "offer": {
+              "label": "10% off up to ₹30",
+              "kind": "percent",
+              "percent": 10.0,
+              "amount_paise": null,
+              "max_discount_paise": 3000,
+              "min_order_paise": null
+            },
+            "effective_price_paise": 19800,
+            "rating": 3.95,
+            "rating_count": 310,
+            "eta_min_low": 20,
+            "eta_min_high": 25,
+            "missing_fields": []
+          },
+          "feasible": false,
+          "violations": [
+            "not vegetarian",
+            "in Andheri West, not Dadar"
+          ],
+          "score": 0.4444,
+          "factors": [
+            {
+              "factor": "rating",
+              "value": 0.4811,
+              "weight": 0.4,
+              "points": 0.1924
+            },
+            {
+              "factor": "price",
+              "value": 0.34,
+              "weight": 0.3,
+              "points": 0.102
+            },
+            {
+              "factor": "eta",
+              "value": 0.5,
+              "weight": 0.3,
+              "points": 0.15
+            }
+          ],
+          "bonus": 0.0,
+          "matched_preferences": []
+        }
+      ],
+      "why_not": "Filtered out: not vegetarian; in Andheri West, not Dadar."
     },
     {
       "option_id": "biryani junction|powai|biryani veg",
@@ -1011,7 +1149,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a thali; in Powai, not Dadar."
     },
     {
       "option_id": "salad studio|bandra west|quinoa salad vegan",
@@ -1130,7 +1269,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a thali; in Bandra West, not Dadar."
     },
     {
       "option_id": "bombay tiffin co|bandra west|biryani large veg",
@@ -1251,7 +1391,8 @@
           "bonus": 0.0,
           "matched_preferences": []
         }
-      ]
+      ],
+      "why_not": "Filtered out: not a thali; price not listed by Khaana Open Data; in Bandra West, not Dadar."
     }
   ],
   "closest": [],
@@ -1261,39 +1402,63 @@
       "label": "Bitebox",
       "status": "ok",
       "http_status": 200,
-      "latency_ms": 2,
+      "latency_ms": 3,
       "attempts": 1,
       "records_received": 0,
       "records_used": 0,
       "records_dropped": 0,
       "schema_seen": "bitebox 2.1",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 0.2,
+          "duration_ms": 2.9,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     },
     {
       "name": "tiffinly",
       "label": "Tiffinly",
       "status": "ok",
       "http_status": 200,
-      "latency_ms": 2,
+      "latency_ms": 3,
       "attempts": 1,
-      "records_received": 2,
-      "records_used": 2,
+      "records_received": 3,
+      "records_used": 3,
       "records_dropped": 0,
       "schema_seen": "tiffinly.v3",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 3.1,
+          "duration_ms": 3.4,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     },
     {
       "name": "khaana",
       "label": "Khaana Open Data",
       "status": "ok",
       "http_status": 200,
-      "latency_ms": 2,
+      "latency_ms": 3,
       "attempts": 1,
       "records_received": 8,
       "records_used": 7,
       "records_dropped": 1,
       "schema_seen": "khaana csv v1",
-      "message": null
+      "message": null,
+      "attempt_log": [
+        {
+          "start_ms": 6.6,
+          "duration_ms": 2.8,
+          "outcome": "ok",
+          "http_status": 200
+        }
+      ]
     }
   ],
   "dropped": [
@@ -1304,7 +1469,7 @@
     }
   ],
   "data_quality": {
-    "records_received": 10,
+    "records_received": 11,
     "records_dropped": 1,
     "duplicates_removed": 0,
     "merged_options": 0,
@@ -1313,9 +1478,18 @@
   "warnings": [],
   "degraded": false,
   "trace": {
-    "parse_ms": 1.0,
-    "fetch_ms": 6.7,
-    "rank_ms": 1.7,
-    "total_ms": 10.0
-  }
+    "parse_ms": 1.5,
+    "fetch_ms": 10.0,
+    "rank_ms": 3.8,
+    "what_if_ms": 12.0,
+    "total_ms": 27.8
+  },
+  "what_if": [
+    {
+      "kind": "budget",
+      "statement": "The pick holds for any budget from ₹260 to ₹600. Under ₹260, nothing fits.",
+      "threshold": 260.0,
+      "new_pick": null
+    }
+  ]
 }
