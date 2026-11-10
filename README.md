@@ -35,6 +35,16 @@ data always give the same answer.
 
 </div>
 
+<div align="center">
+
+<img src="docs/screenshots/desktop-light.png" alt="Thali on a desktop in the light theme: the request with its extracted parts highlighted, and the recommended dish with its reasons" height="600">
+&nbsp;
+<img src="docs/screenshots/phone-dark.png" alt="Thali on a phone in the dark theme, showing the same request and recommendation" height="600">
+
+*The main query on a desktop (light theme) and on a phone (dark theme), with rule-based parsing and no LLM key.*
+
+</div>
+
 ## Run it
 
 ### Prerequisites
@@ -559,4 +569,4 @@ proxies the API to port 8000; after `npm run build` the backend serves `frontend
   - `GET /mock/bitebox/v2/search?q=&area=`
   - `POST /mock/tiffinly/api/v3/outlets/search`
   - `GET /mock/khaana/v1/listings.csv`
-- AI assistants used during development: _(Smit to fill in before submitting)_
+- AI assistants used during development: Claude (Anthropic), through Claude Code. I designed the architecture and made the design decisions (the response contract, the ranking and explanation rules, the mock data and the test plan), written up as a detailed spec; Claude wrote the code, tests and documentation from that spec.
