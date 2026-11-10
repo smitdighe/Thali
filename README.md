@@ -13,7 +13,7 @@
 
 [![CI](https://github.com/smitdighe/Thali/actions/workflows/ci.yml/badge.svg)](https://github.com/smitdighe/Thali/actions/workflows/ci.yml)
 
-Demo video: <link>
+Demo video: [watch on Google Drive](https://drive.google.com/file/d/1Fid_zaNQZvnviQspdfGCEtqknONEj-K_/view?usp=sharing)
 
 Built for Algorithec's FLOUNA technical assignment.
 
