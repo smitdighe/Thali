@@ -1,22 +1,56 @@
-# Thali
+<div align="center">
+
+<pre>
+████████╗ ██╗  ██╗  █████╗  ██╗      ██╗
+╚══██╔══╝ ██║  ██║ ██╔══██╗ ██║      ██║
+   ██║    ███████║ ███████║ ██║      ██║
+   ██║    ██╔══██║ ██╔══██║ ██║      ██║
+   ██║    ██║  ██║ ██║  ██║ ███████╗ ██║
+   ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚══════╝ ╚═╝
+</pre>
+
+*Thali — a small decision engine for food orders: it reads a request, searches three differently-shaped sources, and recommends one option with reasons taken only from the data.*
 
 [![CI](https://github.com/smitdighe/Thali/actions/workflows/ci.yml/badge.svg)](https://github.com/smitdighe/Thali/actions/workflows/ci.yml)
-
-Thali — a small decision engine for food orders: it reads a request, searches three differently-shaped sources, and recommends one option with reasons taken only from the data.
 
 Demo video: <link>
 
 Built for Algorithec's FLOUNA technical assignment.
 
+</div>
+
+<div align="center">
+
+You type something like *veg biryani under ₹300 in 30 minutes, highly rated*. Thali reads it
+with a rules parser (plus an optional LLM that has to quote its evidence), asks three mock food
+platforms over HTTP at the same time, folds their different formats into one listing model,
+merges duplicates, filters on every stated constraint and scores what is left. The answer comes
+with its reasons, the runner-up, what was filtered out and why, and how far the pick holds if
+one value changes.
+
+**The LLM never decides and never writes.** It can only add request fields it can quote from
+the request, and code re-reads every number from that quote. Ranking and every sentence of the
+explanation are plain code over the score breakdown, so the same parsed request and the same
+data always give the same answer.
+
+</div>
+
 ## Run it
 
-Prerequisites:
+### Prerequisites
 
 - [uv](https://docs.astral.sh/uv/)
 - Node 20.19 or newer (Vite 8 requires `^20.19.0 || >=22.12.0`)
 - Python 3.15. `backend/.python-version` pins `3.15` and `requires-python` is `>=3.15`. The build I developed and tested on is the pre-release 3.15.0b3, because the code uses lazy imports (PEP 810). uv fetches the interpreter on `uv sync`.
 
-Backend:
+### 1. Clone
+
+```bash
+git clone https://github.com/smitdighe/Thali.git
+cd Thali
+```
+
+### 2. Backend
 
 ```bash
 cd backend
@@ -25,7 +59,9 @@ cp .env.example .env
 uv run uvicorn thali.main:app --port 8000
 ```
 
-Frontend, dev mode (proxies `/api` and `/mock` to port 8000):
+### 3. Frontend (dev mode)
+
+The Vite dev server proxies `/api`, `/mock`, `/docs` and `/openapi.json` to port 8000.
 
 ```bash
 cd frontend
@@ -35,7 +71,11 @@ npm run dev
 
 Open http://127.0.0.1:5173.
 
-One-process demo: run `npm run build` in `frontend/`, then start uvicorn as above. The backend serves `frontend/dist` at http://127.0.0.1:8000 (and the mock providers under `/mock`).
+### 4. One-process demo
+
+Run `npm run build` in `frontend/`, then start uvicorn as above. The backend serves `frontend/dist` at http://127.0.0.1:8000 (and the mock providers under `/mock`).
+
+### Settings
 
 Optional LLM: set `GROQ_API_KEY` in `backend/.env`. Without it the rule-based parser handles every request, and `/api/v1/health` reports `llm_enabled: false`. Other settings use the `THALI_` prefix (see `backend/src/thali/config.py`):
 
@@ -89,6 +129,16 @@ The numbered steps follow the six steps of the assignment:
 6. **Explain.** Templates filled from the score breakdown. No LLM writes any explanation text.
 
 The UI shows each stage: the request with extracted parts highlighted, each provider's status and latency, the pick and its reasons, ranked options with score bars, what was filtered out and why, a System tab with live metrics, and a demo panel that injects provider faults.
+
+What I care about most is where the guarantees sit. Each provider call has its own timeout inside
+one shared 2000 ms deadline; a 5xx gets one retry and a timeout gets none, so one slow source
+cannot hold up the answer, and three failures in a row open a breaker that skips the source for
+30 s. Each adapter checks its provider's schema marker before reading anything, so a changed format
+becomes a `malformed` source instead of wrong prices. A record that cannot be identified is dropped
+with a reason; a single bad field becomes null and is listed, and a stated constraint on a null
+field excludes the listing instead of guessing. The pick, its reasons and every why-not sentence
+come from the same score breakdown, so the explanation cannot claim something the ranking did not
+use.
 
 ## Understanding the request
 
@@ -365,14 +415,74 @@ Tests that involve time use short mock delays (a 600 ms fetch deadline against a
 
 ## Beyond the brief
 
-- **Live pipeline:** `POST /api/v1/recommend/stream` sends the parsed request, each source's report as it finishes and the final answer as server-sent events, so the UI shows how the answer is being made.
-- **Why not and what if:** each option other than the pick gets a `why_not` sentence from the score breakdown, `what_if` shows how far the pick holds when one value changes, and a price-against-rating chart shows the trade-off.
-- **Refinement:** `POST /api/v1/refine` adjusts the last request (cheaper, faster, better rated, drop one requirement, or a follow-up such as "make it vegan") without retyping it; requests are kept in memory for 15 minutes.
-- **Phone-first interface:** the pick on top and details in tabs, works at 360 px, dark theme, `?q=` share links, voice input (en-IN) and keyboard shortcuts, so it is easy to use on a phone.
-- **Fuller menu:** about 40 more mock items across every dish, cuisine and area the parser knows, so queries beyond biryani return real comparisons.
-- **Hinglish:** the rules parser reads common Hinglish phrasing ("300 ke andar", "aadhe ghante mein", "sasta", "shakahari"), checked by a separate 12-case evaluation set.
-- **Metrics:** `GET /api/v1/metrics` and the System tab show latency percentiles, provider health and parser usage, so the effect of injected faults is visible.
-- **CI:** a GitHub Actions workflow runs ruff, the test suite and the frontend build on every push and pull request to main.
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### Live pipeline
+`POST /api/v1/recommend/stream` sends the parsed request, each source's report as it finishes
+and the final answer as server-sent events, so the UI shows how the answer is being made.
+
+</td>
+<td width="50%" valign="top">
+
+### Why not and what if
+Each option other than the pick gets a `why_not` sentence from the score breakdown, `what_if`
+shows how far the pick holds when one value changes, and a price-against-rating chart shows the
+trade-off.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### Refinement
+`POST /api/v1/refine` adjusts the last request (cheaper, faster, better rated, drop one
+requirement, or a follow-up such as "make it vegan") without retyping it; requests are kept in
+memory for 15 minutes.
+
+</td>
+<td width="50%" valign="top">
+
+### Phone-first interface
+The pick on top and details in tabs, works at 360 px, dark theme, `?q=` share links, voice input
+(en-IN) and keyboard shortcuts, so it is easy to use on a phone.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### Fuller menu
+About 40 more mock items across every dish, cuisine and area the parser knows, so queries beyond
+biryani return real comparisons.
+
+</td>
+<td width="50%" valign="top">
+
+### Hinglish
+The rules parser reads common Hinglish phrasing ("300 ke andar", "aadhe ghante mein", "sasta",
+"shakahari"), checked by a separate 12-case evaluation set.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### Metrics
+`GET /api/v1/metrics` and the System tab show latency percentiles, provider health and parser
+usage, so the effect of injected faults is visible.
+
+</td>
+<td width="50%" valign="top">
+
+### CI
+A GitHub Actions workflow runs ruff, the test suite and the frontend build on every push and
+pull request to main.
+
+</td>
+</tr>
+</table>
 
 ## Limitations and next steps
 
@@ -386,11 +496,65 @@ Tests that involve time use short mock delays (a 600 ms fetch deadline against a
 - Weights are hand-set. Next: learn them from order and click feedback.
 - The Groq free-tier limits quoted above are from my planning notes and may have changed.
 
+## Project structure
+
+```
+Thali/
+├── .github/workflows/ci.yml   # ruff, pytest and the frontend build on push and pull request
+│
+├── backend/                   # Python 3.15, managed with uv
+│   ├── .env.example           # GROQ_API_KEY and THALI_ settings
+│   ├── eval/                  # parser cases: core (20), paraphrase (5), hinglish (12)
+│   ├── src/thali/
+│   │   ├── main.py            # create_app: API, mock providers, built frontend
+│   │   ├── api.py             # /api/v1: recommend, stream, refine, health, metrics
+│   │   ├── config.py          # settings with the THALI_ prefix
+│   │   ├── models.py          # response contract, schema version 1.1
+│   │   ├── text.py            # shared text folding and area names
+│   │   ├── sessions.py        # requests kept for refinement
+│   │   ├── metrics.py         # in-memory request and provider metrics
+│   │   ├── observability.py   # request ids and JSON logs
+│   │   ├── evaluation.py      # parser evaluation, writes docs/eval.md
+│   │   ├── samples.py         # regenerates docs/samples
+│   │   ├── mock/              # the three mock providers, their data, fault injection
+│   │   ├── providers/         # one adapter per provider, call policy, circuit breaker
+│   │   ├── parsing/           # rules parser, lexicon, optional LLM, grounding
+│   │   └── pipeline/          # normalize, dedupe, rank, explain, what-if, refine, engine
+│   └── tests/                 # unit, scenario and API tests
+│
+├── frontend/                  # React + TypeScript, built with Vite
+│   ├── vite.config.ts         # dev proxy for /api, /mock, /docs and /openapi.json
+│   └── src/
+│       ├── App.tsx            # page state, streaming and refinement
+│       ├── api.ts             # typed client and server-sent events reader
+│       ├── types.ts           # mirrors the backend contract
+│       ├── styles.css         # light and dark themes
+│       └── components/        # one file per panel, tab and chart
+│
+└── docs/
+    ├── eval.md                # generated parser evaluation
+    ├── samples.md             # what each sample shows
+    └── samples/               # seven full responses
+```
+
+`backend/` and `frontend/` are separate projects with their own lockfiles. In dev the Vite server
+proxies the API to port 8000; after `npm run build` the backend serves `frontend/dist` itself.
+
 ## Libraries, APIs, data and tools
 
-- Backend: Python 3.15, FastAPI 0.162.2, Pydantic 2.14, pydantic-settings, httpx, uvicorn, pytest, pytest-asyncio, ruff, uv
-- Frontend: React 19, Vite 8, TypeScript 7 (no UI or state libraries)
-- Optional LLM: Groq API, model `openai/gpt-oss-20b`
+| Layer | Technology | Purpose |
+|---|---|---|
+| Language | Python 3.15 | lazy imports (PEP 810) across the backend |
+| API | FastAPI 0.162.2, uvicorn | `/api/v1` routes, server-sent events, serves the built frontend |
+| Models and settings | Pydantic 2.14, pydantic-settings | every boundary: provider payloads, API bodies, LLM output, `THALI_` settings |
+| HTTP client | httpx | provider and LLM calls with per-call timeouts; in-process ASGI transport in tests |
+| Optional LLM | Groq API, model `openai/gpt-oss-20b` | grounded request parsing only |
+| Frontend | React 19, TypeScript 7, Vite 8 | the web interface, with no UI or state libraries |
+| Charts | inline SVG | price-against-rating chart and the System tab sparkline, with no chart library |
+| Tests and lint | pytest, pytest-asyncio, ruff | tests, eval gates, lint and format |
+| Tooling | uv, npm | Python environment and lockfile; frontend build |
+| CI | GitHub Actions | ruff, pytest and the frontend build on every push and pull request to main |
+
 - Data: three mock providers written for this project (fictional restaurants in Mumbai areas), served from `/mock`. No production commerce services are used.
   - `GET /mock/bitebox/v2/search?q=&area=`
   - `POST /mock/tiffinly/api/v3/outlets/search`
