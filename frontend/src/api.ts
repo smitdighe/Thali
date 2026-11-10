@@ -1,4 +1,4 @@
-import type { FaultState, HealthResponse, ProviderReport, RecommendResponse, RefineRequest, StreamParsed } from "./types";
+import type { FaultState, HealthResponse, MetricsResponse, ProviderReport, RecommendResponse, RefineRequest, StreamParsed } from "./types";
 
 export class ApiError extends Error {
   status: number;
@@ -152,6 +152,10 @@ export async function recommendStream(
 
 export function getHealth(): Promise<HealthResponse> {
   return request<HealthResponse>("/api/v1/health");
+}
+
+export function getMetrics(signal: AbortSignal): Promise<MetricsResponse> {
+  return request<MetricsResponse>("/api/v1/metrics", { signal });
 }
 
 export async function getFaults(): Promise<FaultState | null> {

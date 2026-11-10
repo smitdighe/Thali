@@ -1273,3 +1273,49 @@ details > summary {
 .tick-label {
   white-space: nowrap;
 }
+
+.system-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0 0 4px;
+}
+
+.sparkline-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin: 12px 0;
+}
+
+.sparkline {
+  display: block;
+  width: 100%;
+  max-width: 240px;
+  height: 48px;
+}
+
+.sparkline polyline {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.breaker-closed {
+  color: var(--ok);
+}
+
+.breaker-open {
+  color: var(--bad);
+}
+
+.breaker-half_open {
+  color: var(--warn);
+}

@@ -1,6 +1,7 @@
 import type { RecommendResponse, RefineAction } from "../types";
 import PipelinePanel from "./PipelinePanel";
 import SourcesStrip from "./SourcesStrip";
+import SystemPanel from "./SystemPanel";
 import UnderstoodPanel from "./UnderstoodPanel";
 import RecommendationCard from "./RecommendationCard";
 import TradeoffChart from "./TradeoffChart";
@@ -58,6 +59,7 @@ export default function ResultBody({ response, controls, loading, startedAt }: P
   const tabs: TabDef[] = [
     { id: "compare", label: "Compare", content: compare },
     { id: "decided", label: "How it decided", content: decided },
+    { id: "system", label: "System", content: <SystemPanel /> },
   ];
 
   return (
