@@ -1,5 +1,7 @@
 # Thali
 
+[![CI](https://github.com/smitdighe/Thali/actions/workflows/ci.yml/badge.svg)](https://github.com/smitdighe/Thali/actions/workflows/ci.yml)
+
 Thali — a small decision engine for food orders: it reads a request, searches three differently-shaped sources, and recommends one option with reasons taken only from the data.
 
 Demo video: <link>
